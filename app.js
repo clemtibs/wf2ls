@@ -3,15 +3,22 @@ let config = {
   sourceFile: "",
   destDir: ""
 };
+let data = {};
 
 const processArgs = (args) => {
   config.sourceFile = args.i;
   config.destDir = args.d;
 }
 
+const processSrcFile = (fPath) => {
+  const fs = require('fs');
+  const rawData = fs.readFileSync(fPath);
+  data = JSON.parse(rawData);
+}
 const main = () => {
   processArgs(argv);
-  console.log(config.sourceFile, config.destDir);
+  processSrcFile(config.sourceFile);
+  // console.log(data[0].ch);
 }
 
 main();
