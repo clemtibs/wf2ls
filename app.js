@@ -5,19 +5,19 @@ let config = {
 };
 let data = {};
 
-const processArgs = (args) => {
+const loadArgsToConfig = (args) => {
   config.sourceFile = args.i;
   config.destDir = args.d;
 }
 
-const processSrcFile = (fPath) => {
+const loadSrcFile = (fPath) => {
   const fs = require('fs');
   const rawData = fs.readFileSync(fPath);
   data = JSON.parse(rawData);
 }
 const main = () => {
-  processArgs(argv);
-  processSrcFile(config.sourceFile);
+  loadArgsToConfig(argv);
+  loadSrcFile(config.sourceFile);
   // console.log(data[0].ch);
 }
 
