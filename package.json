@@ -11,5 +11,8 @@
     "logseq"
   ],
   "author": "Brian Clements-Tiberio <brian@c-t.dev> (https://brian.c-t.dev/)",
-  "license": "MIT"
+  "license": "MIT",
+  "dependencies": {
+    "minimist": "^1.2.8"
+  }
 }
