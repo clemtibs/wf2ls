@@ -24,12 +24,12 @@ const processNode = (node) => {
   if (!resultIdMap.get(node.id)) resultIdMap.set(node.id, result);
   result.name = node.nm;
   result.id = node.id;
-  if (node.no) result.note = node.no;
-  if (node.cp) result.completed = node.completed;
   if (node.ct) result.created = time.wfTimeToLocalTime(node.ct, time.wfEpochSecondsPst);
-  result.lastModified = node.lastModified;
-  node.mirrorRootItems?.forEach(item => mirrors.set(item.id, node.id));
-  if (node.children) result.children = node.children?.map(child => processNode(child));
+  if (node.no) result.note = node.no;
+  if (node.cp) result.completed = time.wfTimeToLocalTime(node.cp, time.wfEpochSecondsPst);
+  result.lastModified = time.wfTimeToLocalTime(node.lm, time.wfEpochSecondsPst);
+  // node.mirrorRootItems?.forEach(item => mirrors.set(item.id, node.id));
+  if (node.ch) result.children = node.ch?.map(child => processNode(child));
   return result;
 }
 
