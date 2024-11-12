@@ -26,7 +26,7 @@ const processNode = (node) => {
   result.name = node.nm;
   // result.id = node.id;
   // if (node.ct) result.created = time.wfTimeToLocalTime(node.ct, time.wfEpochSecondsPst);
-  // if (node.no) result.note = node.no;
+  if (node.no) result.note = node.no;
   // if (node.cp) result.completed = time.wfTimeToLocalTime(node.cp, time.wfEpochSecondsPst);
   // result.lastModified = time.wfTimeToLocalTime(node.lm, time.wfEpochSecondsPst);
   // node.mirrorRootItems?.forEach(item => mirrors.set(item.id, node.id));
@@ -34,16 +34,16 @@ const processNode = (node) => {
   return result;
 }
 
-const parse2md = (node, spaces, indent) => {
+const parse2md = (node, spaces, indentLvl) => {
   spaces ? spaces : spaces = 2;
-  indent ? indent : indent = 0;
+  indentLvl ? indentLvl : indentLvl = 0;
   let content = [];
   node.forEach(node => {
     if (node.name != "") {
-      let prefix = " ".repeat(spaces * indent) + "- ";
+      let prefix = " ".repeat(spaces * indentLvl) + "- ";
       content.push(node.name = prefix + node.name);
       if (node.children) {
-        content.push(parse2md(node.children, 2, indent + 1));
+        content.push(parse2md(node.children, 2, indentLvl + 1));
       };
     }
   });
@@ -75,8 +75,8 @@ const main = () => {
   loadSrcFile(config.sourceFile);
   let results = data.map(node => processNode(node));
   let output = parse2md(results);
-  // console.log(output);
-  writeMd(output, "file.md", config.destDir);
+  console.log(output);
+  // writeMd(output, "file.md", config.destDir);
   // console.log(resultIdMap);
   // console.log(mirrors);
 }
