@@ -38,12 +38,17 @@ const parse2md = (node, spaces, indentLvl) => {
   spaces ? spaces : spaces = 2;
   indentLvl ? indentLvl : indentLvl = 0;
   let content = [];
-  node.forEach(node => {
-    if (node.name != "") {
-      let prefix = " ".repeat(spaces * indentLvl) + "- ";
-      content.push(node.name = prefix + node.name);
-      if (node.children) {
-        content.push(parse2md(node.children, 2, indentLvl + 1));
+  node.forEach(n => {
+    if (n.name != "") {
+      let firstPrefix = " ".repeat(spaces * indentLvl) + "- ";
+      let restPrefix = " ".repeat(spaces * (indentLvl)) + "  ";
+      let name = n.name;
+      let note = "";
+      if (n.note) note = "\n" + restPrefix + n.note;
+      content.push(n.name = 
+        firstPrefix + name +  note);
+      if (n.children) {
+        content.push(parse2md(n.children, 2, indentLvl + 1));
       };
     }
   });
