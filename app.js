@@ -27,7 +27,8 @@ const processNode = (node) => {
   // result.id = node.id;
   // if (node.ct) result.created = time.wfTimeToLocalTime(node.ct, time.wfEpochSecondsPst);
   if (node.no) result.note = node.no;
-  // if (node.cp) result.completed = time.wfTimeToLocalTime(node.cp, time.wfEpochSecondsPst);
+  if (node.cp) result.completed = time.wfTimeToLocalTime(node.cp, time.wfEpochSecondsPst);
+  if (node.metadata.layoutMode == "todo") result.layoutMode = "todo";
   // result.lastModified = time.wfTimeToLocalTime(node.lm, time.wfEpochSecondsPst);
   // node.mirrorRootItems?.forEach(item => mirrors.set(item.id, node.id));
   if (node.ch) result.children = node.ch.map(child => processNode(child));
@@ -44,9 +45,15 @@ const parse2md = (node, spaces, indentLvl) => {
       let restPrefix = " ".repeat(spaces * (indentLvl)) + "  ";
       let name = n.name;
       let note = "";
+      let completed = "";
+      let marker = "";
       if (n.note) note = "\n" + restPrefix + n.note;
+      if (n.layoutMode == "todo") {
+        marker = "TODO "
+        if (n.completed) completed = "\n" + restPrefix + "completed-on:: " + n.completed;
+      }
       content.push(n.name = 
-        firstPrefix + name +  note);
+        firstPrefix + marker + name + completed + note);
       if (n.children) {
         content.push(parse2md(n.children, 2, indentLvl + 1));
       };
