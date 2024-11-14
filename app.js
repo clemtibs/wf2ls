@@ -49,8 +49,11 @@ const parse2md = (node, spaces, indentLvl) => {
       let marker = "";
       if (n.note) note = "\n" + restPrefix + n.note;
       if (n.layoutMode == "todo") {
-        marker = "TODO "
-        if (n.completed) completed = "\n" + restPrefix + "completed-on:: " + n.completed;
+        marker = "TODO ";
+        if (n.completed) {
+          completed = "\n" + restPrefix + "completed-on:: " + n.completed;
+          marker = "COMPLETED ";
+        }
       }
       content.push(n.name = 
         firstPrefix + marker + name + completed + note);
