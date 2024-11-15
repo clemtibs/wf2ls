@@ -42,12 +42,21 @@ const parse2md = (node, spaces, indentLvl) => {
   node.forEach(n => {
     if (n.name != "") {
       let firstPrefix = " ".repeat(spaces * indentLvl) + "- ";
-      let restPrefix = " ".repeat(spaces * (indentLvl)) + "  ";
+      let restPrefix = " ".repeat(spaces * indentLvl) + "  ";
       let name = n.name;
       let note = "";
       let completed = "";
       let marker = "";
-      if (n.note) note = "\n" + restPrefix + n.note;
+
+      if (n.note) {
+        let lines = n.note.split('\n');
+        let prefixedLines = []
+        lines.forEach(l => {
+          prefixedLines.push(restPrefix + l);
+        });
+        note = prefixedLines.join(`\n`);
+      }
+
       if (n.layoutMode == "todo") {
         marker = "TODO ";
         if (n.completed) {
@@ -55,8 +64,10 @@ const parse2md = (node, spaces, indentLvl) => {
           marker = "COMPLETED ";
         }
       }
+
       content.push(n.name = 
         firstPrefix + marker + name + completed + note);
+
       if (n.children) {
         content.push(parse2md(n.children, 2, indentLvl + 1));
       };
