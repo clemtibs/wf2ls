@@ -1,6 +1,6 @@
 {
   "name": "wf2ls",
-  "version": "0.7.0",
+  "version": "0.8.0",
   "description": "A tool to help convert Workflowy backup JSON into LogSeq friendly markdown files",
   "main": "app.js",
   "scripts": {
@@ -13,6 +13,7 @@
   "author": "Brian Clements-Tiberio <brian@c-t.dev> (https://brian.c-t.dev/)",
   "license": "MIT",
   "dependencies": {
+    "json2md": "^2.0.1",
     "minimist": "^1.2.8"
   }
 }
