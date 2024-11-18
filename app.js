@@ -4,10 +4,12 @@ let argv = require('minimist')(process.argv.slice(2));
 const fs = require('fs');
 let config = {
   sourceFile: "",
-  destDir: ""
+  destDir: "",
+  newPageTag: "#LS-Page",
+  defaultPage: "content"
 };
 let data = {};
-let resultIdMap = new Map();
+let pages = new Map();
 let mirrors = new Map();
 
 const loadArgsToConfig = (args) => {
@@ -35,45 +37,84 @@ const processNode = (node) => {
   return result;
 }
 
-const parse2md = (node, spaces, indentLvl) => {
+const tagInText = (tag, str) => {
+  return (str ?? '').includes(tag);
+}
+
+const stripTag = (tag, str) => {
+  return (str ?? '').replace(tag, '');
+}
+
+const makePageLink = (str) => {
+  return `[[ ${(str ?? 'Orphans')} ]]` 
+}
+
+const processNote = (node, indent) => {
+  let note = "";
+  if (node.note) {
+    let lines = node.note.split('\n');
+    let prefixedLines = []
+    lines.forEach(l => {
+      prefixedLines.push(indent + l);
+    });
+    note = '\n' + prefixedLines.join(`\n`);
+  }
+  return note;
+}
+
+const parse2md = (pageName, node, nNodes, spaces, indentLvl, isNewPage) => {
+  pageName ? pageName : pageName = "content";
   spaces ? spaces : spaces = 2;
   indentLvl ? indentLvl : indentLvl = 0;
-  let content = [];
-  node.forEach(n => {
-    if (n.name != "") {
-      let firstPrefix = " ".repeat(spaces * indentLvl) + "- ";
-      let restPrefix = " ".repeat(spaces * indentLvl) + "  ";
-      let name = n.name;
-      let note = "";
-      let completed = "";
-      let marker = "";
-
-      if (n.note) {
-        let lines = n.note.split('\n');
-        let prefixedLines = []
-        lines.forEach(l => {
-          prefixedLines.push(restPrefix + l);
-        });
-        note = prefixedLines.join(`\n`);
-      }
-
-      if (n.layoutMode == "todo") {
-        marker = "TODO ";
-        if (n.completed) {
-          completed = "\n" + restPrefix + "completed-on:: " + n.completed;
-          marker = "COMPLETED ";
-        }
-      }
-
-      content.push(n.name = 
-        firstPrefix + marker + name + completed + note);
-
-      if (n.children) {
-        content.push(parse2md(n.children, 2, indentLvl + 1));
-      };
+  isNewPage ? isNewPage : isNewPage = false;
+  let pageBlocks = [];
+  for (n of node) {
+    if (n.name === "") continue;
+    let firstPrefix = " ".repeat(spaces * indentLvl) + "- ";
+    let restPrefix = " ".repeat(spaces * indentLvl) + "  ";
+    let name = n.name.trim();
+    let note = "";
+    let completed = "";
+    let marker = "";
+    
+    if (tagInText(config.newPageTag, name) ||
+        tagInText(config.newPageTag, n.note) && !isNewPage) {
+      pName = stripTag(config.newPageTag, name).trim();
+      n.name = pName;
+      name = makePageLink(pName);
+      note = stripTag(config.newPageTag, processNote(n, restPrefix)).trim();
+      n.note = note;
+      pageBlocks.push(firstPrefix + name + '\n' + note);
+      parse2md(pName, [n], n.children.length, 2, 0, true);
     }
-  });
-  return content.join("\n");
+
+    note = processNote(n, restPrefix);
+
+    if (n.layoutMode == "todo") {
+      marker = "TODO ";
+      if (n.completed) {
+        completed = "\n" + restPrefix + "completed-on:: " + n.completed;
+        marker = "COMPLETED ";
+      }
+    }
+
+    pageBlocks.push(n.name = firstPrefix + marker + name + completed + note);
+
+    if (n.children) pageBlocks.push(parse2md(
+      pageName,
+      n.children,
+      n.children.length,
+      2,
+      indentLvl + 1,
+      false));
+
+    nNodes -= 1;
+
+    if (nNodes == 0 && indentLvl > 0) {
+      return pageBlocks.join('\n');
+    }
+  };
+  pages.set(pageName, pageBlocks.join('\n'));
 }
 
 const directoryExists = (path) => {
@@ -99,11 +140,16 @@ const writeMd = (data, file, destDir) => {
 const main = () => {
   loadArgsToConfig(argv);
   loadSrcFile(config.sourceFile);
-  let results = data.map(node => processNode(node));
-  let output = parse2md(results);
-  console.log(output);
-  // writeMd(output, "file.md", config.destDir);
-  // console.log(resultIdMap);
+  let processedData = data.map(node => processNode(node));
+  parse2md(config.defaultPage, processedData, processedData.length);
+
+  // parse2md("Page One", processedData, processedData.length);
+  // console.log(pages);
+
+  for (let [page, content] of pages) {
+    writeMd(content, page + ".md", config.destDir);
+  }
+
   // console.log(mirrors);
 }
 
