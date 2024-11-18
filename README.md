@@ -9,14 +9,14 @@ This tool attempts to take Workflowy backup files (the Dropbox sync files with
 Workflowy and LogSeq have some fundamentally different approaches to storing
 what is essentially pages of lists. Workflowy is one page with everything else
 as a list underneath, and pages are virtually constructed via zoom level. While
-LogSeq utilizers multiple pages with smaller lists contained therein; amongst
+LogSeq utilizes multiple pages with smaller lists contained therein; amongst
 many other things.
 
 So a lot of the conversions require opinionated translations. I've done
 my best to make some core features here configurable, but I understand that not
 everything can be accounted for.
 
-Here is a list of design/philosophy discrepancies and my solutions to them; this
+Here is a list of design and philosophy discrepancies and my solutions to them; this
 is also a bit of a roadmap for myself. 
 
 **Anything suffixed with a __*__ indicates that the option/feature is not
@@ -42,7 +42,7 @@ My solution here is to introduce 3 levels of conversion:
     "recurring", or "unscheduled "in the name, regardless of complete/incomplete status.
 
 I'll admit that "heuristic" is my solution to my own mess, but eventually that
-list can be modified and added to and help others in a similar situation if
+list can be modified and appended to help others in a similar situation if
 needed.
 
 ### Handling of "@" tags *
