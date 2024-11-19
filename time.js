@@ -1,9 +1,11 @@
 // Time Helpers
-// This file is a collection of tools used to figure out how WF computed it's 
-// created and modified times. It seems to be an epoch, in seconds, since 
-// 10/16/2012, 11:11:53 AM PST. Whether this timestamp accounts for Daylight Saving
-// is hard to say. Only thing I'm pretty sure of is that it doesn't seem to be UTC,
-// which is annoying.
+// This file is a collection of date/time computing and formatting tools.
+//
+// Much effort was used to figure out how WF computed it's created and modified
+// times. It seems to be an epoch, in seconds, since 10/16/2012, 11:11:53 AM
+// PST. Whether this timestamp accounts for Daylight Saving is hard to say.
+// Only thing I'm pretty sure of is that it doesn't seem to be UTC, which is
+// annoying.
 const wfEpochSecondsPst = 1350385936;
 
 const dateUtcToSecondsUtc = (dateStr) => {
