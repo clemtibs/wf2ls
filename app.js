@@ -6,7 +6,9 @@ let config = {
   sourceFile: "",
   destDir: "",
   newPageTag: "#LS-Page",
-  defaultPage: "content"
+  indentSpaces: 2,
+  defaultPage: "Page One",
+  debug: false
 };
 let data = {};
 let pages = new Map();
@@ -15,6 +17,7 @@ let mirrors = new Map();
 const loadArgsToConfig = (args) => {
   config.sourceFile = args.i;
   config.destDir = args.d;
+  config.debug = args.debug;
 }
 
 const loadSrcFile = (fPath) => {
@@ -45,76 +48,123 @@ const stripTag = (tag, str) => {
   return (str ?? '').replace(tag, '');
 }
 
-const makePageLink = (str) => {
+const toPageLink = (str) => {
   return `[[ ${(str ?? 'Orphans')} ]]` 
 }
 
-const processNote = (node, indent) => {
+const processNote = (node, indentTxt) => {
   let note = "";
   if (node.note) {
     let lines = node.note.split('\n');
     let prefixedLines = []
     lines.forEach(l => {
-      prefixedLines.push(indent + l);
+      prefixedLines.push(indentTxt + l);
     });
     note = '\n' + prefixedLines.join(`\n`);
   }
+
   return note;
 }
 
-const parse2md = (pageName, node, nNodes, spaces, indentLvl, isNewPage) => {
+const makeBlockPrefix = (indentLvl) => {
+  if (indentLvl < 0) {
+    return ""
+  } else {
+    return " ".repeat(config.indentSpaces * indentLvl) + "- ";
+  }
+}
+
+const makeNotePrefix = (indentLvl) => {
+  if (indentLvl < 0) {
+    return ""
+  } else {
+    return " ".repeat(config.indentSpaces * indentLvl) + "  ";
+  }
+}
+
+const MakeNode = (name, note) => {
+  // let this. = {};
+  // id ? n.id = id : n.id = crypto.randomUUID();
+  // name ? n.name = name : n.id = '';
+  // if (note) n.note = note;
+  // if (completed) n.completed = completed;
+  // if (children) n.children = children;
+  this.id = crypto.randomUUID();
+  name ? this.name = name : this.name = '';
+  if (note) this.note = note;
+  // if (completed) n.completed = completed;
+  // if (children) n.children = children;
+  return this;
+}
+
+const parse2md = (pageName, node, nNodes, indentLvl, isNewPage) => {
   pageName ? pageName : pageName = "content";
-  spaces ? spaces : spaces = 2;
   indentLvl ? indentLvl : indentLvl = 0;
   isNewPage ? isNewPage : isNewPage = false;
   let pageBlocks = [];
+  if (config.debug) console.log("Starting parse2md");
+  if (config.debug) {
+    if (isNewPage) console.log("@@@@@@@@@@@NEW PAGE, indent level: " + indentLvl);
+  }
+  if (config.debug) console.log("Number of children nodes: " + nNodes)
   for (n of node) {
-    if (n.name === "") continue;
-    let firstPrefix = " ".repeat(spaces * indentLvl) + "- ";
-    let restPrefix = " ".repeat(spaces * indentLvl) + "  ";
-    let name = n.name.trim();
-    let note = "";
-    let completed = "";
-    let marker = "";
-    
-    if (tagInText(config.newPageTag, name) ||
-        tagInText(config.newPageTag, n.note) && !isNewPage) {
-      pName = stripTag(config.newPageTag, name).trim();
-      n.name = pName;
-      name = makePageLink(pName);
-      note = stripTag(config.newPageTag, processNote(n, restPrefix)).trim();
-      n.note = note;
-      pageBlocks.push(firstPrefix + name + '\n' + note);
-      parse2md(pName, [n], n.children.length, 2, 0, true);
-    }
+    if (config.debug) console.log(makeNotePrefix(indentLvl) + "Entering child node: " + n.name)
+    if (config.debug) console.log(makeNotePrefix(indentLvl) + "Indent level is: " + indentLvl)
+    if (n.name !== "") {
+      let name = n.name.trim();
+      let note = "";
+      let completed = "";
+      let marker = "";
+      
+      if (tagInText(config.newPageTag, n.name) ||
+          tagInText(config.newPageTag, n.note) &&
+          !isNewPage) {
+            pName = stripTag(config.newPageTag, name).trim();
+            n.name = toPageLink(pName);
+            name = n.name;
+            n.note = stripTag(config.newPageTag, n.note).trim();
+            newNode = n.children;
+            newNode.unshift(MakeNode(
+              processNote( {note: n.note}, makeNotePrefix(0)),
+              ''));
+            if (config.debug) console.log(makeNotePrefix(indentLvl) + "Indent level is: " + indentLvl)
+            parse2md(pName.trim(), newNode, newNode.length, 0, true);
+      }
 
-    note = processNote(n, restPrefix);
+      note = processNote(n, makeNotePrefix(indentLvl));
 
-    if (n.layoutMode == "todo") {
-      marker = "TODO ";
-      if (n.completed) {
-        completed = "\n" + restPrefix + "completed-on:: " + n.completed;
-        marker = "COMPLETED ";
+      if (n.layoutMode === "todo") {
+        marker = "TODO ";
+        if (n.completed) {
+          completed = "\n" + makeNotePrefix(indentLvl) + "completed-on:: " + n.completed;
+          marker = "COMPLETED ";
+        }
+      }
+
+      if (config.debug) console.log(makeNotePrefix(indentLvl) + "pushing blocks on " + pageName)
+      pageBlocks.push(makeBlockPrefix(indentLvl) + marker + name + completed + note);
+
+      if (n.children) {
+        if (config.debug) console.log(makeNotePrefix(indentLvl) + "Indent level just before regular children is: " + indentLvl)
+        pageBlocks.push(parse2md(
+          pageName.trim(),
+          n.children,
+          n.children.length,
+          indentLvl + 1,
+          false));
       }
     }
-
-    pageBlocks.push(n.name = firstPrefix + marker + name + completed + note);
-
-    if (n.children) pageBlocks.push(parse2md(
-      pageName,
-      n.children,
-      n.children.length,
-      2,
-      indentLvl + 1,
-      false));
-
     nNodes -= 1;
-
-    if (nNodes == 0 && indentLvl > 0) {
-      return pageBlocks.join('\n');
-    }
   };
-  pages.set(pageName, pageBlocks.join('\n'));
+
+  if (config.debug) console.log(makeNotePrefix() + "got to just before returning blocks")
+  if (nNodes === 0 && indentLvl > 0) {
+    if (config.debug) console.log(makeNotePrefix() + "WE RETURNED PAGE BLOCKS")
+    return pageBlocks.join('\n');
+  }
+
+  if (config.debug) console.log("~~~~~~writing page: " + pageName + " at indent level " + indentLvl)
+  pages.set(pageName.trim(), pageBlocks.join('\n'));
 }
 
 const directoryExists = (path) => {
@@ -143,8 +193,7 @@ const main = () => {
   let processedData = data.map(node => processNode(node));
   parse2md(config.defaultPage, processedData, processedData.length);
 
-  // parse2md("Page One", processedData, processedData.length);
-  // console.log(pages);
+  if (config.debug) console.log(pages);
 
   for (let [page, content] of pages) {
     writeMd(content, page + ".md", config.destDir);
