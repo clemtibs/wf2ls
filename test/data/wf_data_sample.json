@@ -4,7 +4,7 @@
         "nm": "Note Text",
         "ct": 380010854,
         "metadata": {},
-        "no": "\n\n\n\nNote text\nwith\nnewlines\nand\npurposeful leading space on top.",
+        "no": "\n\n\n\nNote text\nwith\n4 purposeful leading newlines\non top.",
         "lm": 380637749
     },
     {
@@ -476,7 +476,7 @@
         "nm": "A New LogSeq Page #LS-Page",
         "ct": 380636905,
         "metadata": {},
-        "no": "This note should be visible on the link block and on the new page.\nThis is an example of a top level page link.",
+        "no": "This used to be a note on the source block. It should not be visible on the source link block and only as the first note on the new page.\nThis is an example of a top level page link and these are notes for the top block.",
         "lm": 380636924,
         "ch": [
             {
@@ -507,7 +507,7 @@
                 "nm": "A Second New LogSeq Page",
                 "ct": 380636908,
                 "metadata": {},
-                "no": "#LS-Page <---There was a tage right here.\nThis is an example of the tag in the notes. This should also work.\nThis should end up on the second new page.",
+                "no": "#LS-Page <---There was a tag right here.\nThis is an example of the tag in the notes. This should also make a new page.\nThis should end up on the second new page as a note of the first block.",
                 "lm": 380636931,
                 "ch": [
                     {
@@ -522,7 +522,26 @@
                         "nm": "This is also here on the second new page only.",
                         "ct": 380636986,
                         "metadata": {},
-                        "lm": 380637065
+                        "lm": 380637065,
+                        "ch": [
+                            {
+                                "id": "9ae4066d-d257-491f-b778-4ef97a49c4b5",
+                                "nm": "A Third New LogSeq Page",
+                                "ct": 380637095,
+                                "metadata": {},
+                                "no": "This is a third page that is nested under another page.\nThe tag was here: #LS-Page",
+                                "lm": 380637202,
+                                "ch": [
+                                    {
+                                        "id": "d8c57ccb-8847-436e-808b-066d4e0ff041",
+                                        "nm": "This is also here on the third new page only.",
+                                        "ct": 380637033,
+                                        "metadata": {},
+                                        "lm": 380637130
+                                    }
+                                ]
+                            }
+                        ]
                     }
                 ]
             }
