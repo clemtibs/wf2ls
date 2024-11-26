@@ -1,4 +1,5 @@
 const time = require('./time.js');
+const progress = require('./progress.js');
 
 let argv = require('minimist')(process.argv.slice(2));
 const fs = require('fs');
@@ -10,6 +11,8 @@ let config = {
   defaultPage: "Page One",
   debug: false
 };
+let totalNumNodes = 0;
+let jobProgress = 0;
 let data = {};
 let pages = new Map();
 let mirrors = new Map();
@@ -26,6 +29,7 @@ const loadSrcFile = (fPath) => {
 }
 
 const processNode = (node) => {
+  if (!node.metadata.isReferencesRoot) totalNumNodes += 1;
   let result = {};
   // if (!resultIdMap.get(node.id)) resultIdMap.set(node.id, result);
   result.name = node.nm;
@@ -108,6 +112,8 @@ const parse2md = (pageName, node, nNodes, indentLvl, isNewPage) => {
   }
   if (config.debug) console.log("Number of children nodes: " + nNodes)
   for (n of node) {
+    jobProgress++;
+    progress.bar.update(jobProgress);
     if (config.debug) console.log(makeNotePrefix(indentLvl) + "Entering child node: " + n.name)
     if (config.debug) console.log(makeNotePrefix(indentLvl) + "Indent level is: " + indentLvl)
     if (n.name !== "") {
@@ -191,7 +197,9 @@ const main = () => {
   loadArgsToConfig(argv);
   loadSrcFile(config.sourceFile);
   let processedData = data.map(node => processNode(node));
+  progress.bar.start(totalNumNodes, 0);
   parse2md(config.defaultPage, processedData, processedData.length);
+  progress.bar.stop();
 
   if (config.debug) console.log(pages);
 
