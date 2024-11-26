@@ -9,9 +9,12 @@ const {
   makeBlockPrefix: makeBlockPrefix,
   makeNotePrefix: makeNotePrefix
 } = require('./text.js');
+const {
+  loadSrcFile: loadSrcFile,
+  writeFile: writeFile
+} = require('./fs.js');
 
 let argv = require('minimist')(process.argv.slice(2));
-const fs = require('fs');
 let totalNumNodes = 0;
 let jobProgress = 0;
 let pages = new Map();
@@ -20,11 +23,6 @@ let mirrors = new Map();
 const loadArgsToConfig = (args) => {
   config.sourceFile = args.i;
   config.destDir = args.d;
-}
-
-const loadSrcFile = (fPath) => {
-  const rawData = fs.readFileSync(fPath);
-  return JSON.parse(rawData);
 }
 
 const parseData = (data) => {
@@ -129,26 +127,6 @@ const parse2md = (pageName, node, nNodes, indentLvl, isNewPage) => {
   pages.set(pageName.trim(), pageBlocks.join('\n'));
 }
 
-const directoryExists = (path) => {
-  try {
-    return fs.statSync(path).isDirectory();
-  } catch (err) {
-    console.error("Error: Destination directory \"" + path + "\" does not exist.");
-  }
-}
-
-const writeMd = (data, file, destDir) => {
-  let output = ""
-  if (directoryExists(destDir)) {
-    if (destDir.endsWith("/")) {
-      output = destDir + file 
-    } else {
-      output = destDir + "/" + file
-    }
-  fs.writeFileSync(output, data)
-  }
-}
-
 const main = () => {
   loadArgsToConfig(argv);
   const rawData = loadSrcFile(config.sourceFile);
@@ -158,7 +136,7 @@ const main = () => {
   progress.bar.stop();
 
   for (let [page, content] of pages) {
-    writeMd(content, page + ".md", config.destDir);
+    writeFile(content, page + ".md", config.destDir);
   }
 
   // console.log(mirrors);
