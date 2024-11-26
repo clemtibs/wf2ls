@@ -1,5 +1,5 @@
 /** Text tools **/
-const config = require('./config.js');
+const { config } = require('./config.js');
 
 const tagInText = (tag, str) => {
   return (str ?? '').includes(tag);

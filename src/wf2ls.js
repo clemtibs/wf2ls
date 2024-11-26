@@ -1,7 +1,7 @@
 const date = require('./date.js');
 const progress = require('./progress.js');
 const utils = require('./utils.js');
-const config = require('./config.js');
+const { config } = require('./config.js');
 const {
   tagInText: tagInText,
   stripTag: stripTag,
