@@ -64,6 +64,7 @@ const parse2md = (pageName, node, nNodes, indentLvl, isNewPage) => {
   let pageBlocks = [];
   for (n of node) {
     jobProgress++;
+    // console.log(n.name + ": " + jobProgress)
     progress.bar.update(jobProgress);
     if (n.name !== "") {
       let name = n.name.trim();
@@ -81,6 +82,8 @@ const parse2md = (pageName, node, nNodes, indentLvl, isNewPage) => {
             newNode.unshift(utils.makeNode(
               processNote( {note: n.note}, makeNotePrefix(0)),
               ''));
+            totalNumNodes++
+            progress.bar.setTotal(totalNumNodes);
             parse2md(pName.trim(), newNode, newNode.length, 0, true);
       }
 
