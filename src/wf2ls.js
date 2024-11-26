@@ -183,7 +183,6 @@ const main = () => {
   loadSrcFile(config.sourceFile);
   let processedData = data.map(node => processNode(node));
   progress.bar.start(totalNumNodes, 0);
-  debugger;
   parse2md(config.defaultPage, processedData, processedData.length);
   progress.bar.stop();
 
