@@ -27,20 +27,31 @@ const loadSrcFile = (fPath) => {
   return JSON.parse(rawData);
 }
 
-const parseData = (node) => {
-  if (!node.metadata.isReferencesRoot) totalNumNodes += 1;
-  let result = {};
-  // if (!resultIdMap.get(node.id)) resultIdMap.set(node.id, result);
-  result.name = node.nm;
-  // result.id = node.id;
-  // if (node.ct) result.created = date.wfTimeToLocalTime(node.ct, date.wfEpochSecondsPst);
-  if (node.no) result.note = node.no;
-  if (node.cp) result.completed = date.wfTimeToLocalTime(node.cp, date.wfEpochSecondsPst);
-  if (node.metadata.layoutMode == "todo") result.layoutMode = "todo";
-  // result.lastModified = date.wfTimeToLocalTime(node.lm, date.wfEpochSecondsPst);
-  // node.mirrorRootItems?.forEach(item => mirrors.set(item.id, node.id));
-  if (node.ch) result.children = node.ch.map(child => parseData(child));
-  return result;
+const parseData = (data) => {
+  let newData = [];
+  for (node of data) {
+    if (node.nm !== "") {
+      let newNode = {};
+      // if (!node.metadata.isReferencesRoot) totalNumNodes += 1;
+      totalNumNodes++;
+      // console.log(node.nm + ": " + totalNumNodes)
+      // if (!resultIdMap.get(node.id)) resultIdMap.set(node.id, newNode);
+      newNode.name = node.nm;
+      // newNode.id = node.id;
+      // if (node.ct) newNode.created = date.wfTimeToLocalTime(node.ct, date.wfEpochSecondsPst);
+      if (node.no) newNode.note = node.no;
+      if (node.cp) newNode.completed = date.wfTimeToLocalTime(node.cp, date.wfEpochSecondsPst);
+      if (node.metadata.layoutMode == "todo") newNode.layoutMode = "todo";
+      // newNode.lastModified = date.wfTimeToLocalTime(node.lm, date.wfEpochSecondsPst);
+      // node.mirrorRootItems?.forEach(item => mirrors.set(item.id, node.id));
+      // if (node.ch) newNode.children = node.ch.map(child => parseData(child));
+      if (node.ch) newNode.children = parseData(node.ch);
+      newData.push(newNode)
+    } else {
+      continue;
+    }
+  };
+  return newData;
 }
 
 const processNote = (node, indentTxt) => {
@@ -141,9 +152,9 @@ const writeMd = (data, file, destDir) => {
 const main = () => {
   loadArgsToConfig(argv);
   const rawData = loadSrcFile(config.sourceFile);
-  let processedData = rawData.map(node => parseData(node));
+  const parsedData = parseData(rawData);
   progress.bar.start(totalNumNodes, 0);
-  parse2md(config.defaultPage, processedData, processedData.length);
+  parse2md(config.defaultPage, parsedData, parsedData.length);
   progress.bar.stop();
 
   for (let [page, content] of pages) {
