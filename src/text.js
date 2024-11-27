@@ -31,7 +31,7 @@ const makeNotePrefix = (indentLvl) => {
 
 /**
  * This function takes a string as input, removes tags and unused symbols, 
- * and returns a cl*eaner version of the string.
+ * and returns a cleaner version of the string.
  *
  * @param {string} inputStr - The input string to be cleaned.
  * @returns {string} The cleaned string.
