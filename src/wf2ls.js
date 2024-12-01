@@ -3,6 +3,7 @@ const { config } = require('./config.js');
 const { loadSrcFile, writeFile } = require('./fs.js');
 const { parse2md } = require('./md.js');
 const { state } = require('./state.js');
+const { nodeIsBacklink } = require('./node.js');
 
 let argv = require('minimist')(process.argv.slice(2));
 
@@ -10,7 +11,6 @@ const loadArgsToConfig = (args) => {
   config.sourceFile = args.i;
   config.destDir = args.d;
 }
-
 
 /*
  * @params: {JSON}
@@ -21,7 +21,6 @@ const parseData = (data) => {
   for (node of data) {
     if (node.nm !== "") {
       let newNode = {};
-      // if (!node.metadata.isReferencesRoot) state.addJob();
       state.addJob()
       // if (!resultIdMap.get(node.id)) resultIdMap.set(node.id, newNode);
       newNode.name = node.nm.trim();
@@ -32,8 +31,11 @@ const parseData = (data) => {
       if (node.metadata.layoutMode == "todo") newNode.layoutMode = "todo";
       // newNode.lastModified = date.wfTimeToLocalTime(node.lm, date.wfEpochSecondsPst);
       // node.mirrorRootItems?.forEach(item => mirrors.set(item.id, node.id));
-      // if (node.ch) newNode.children = node.ch.map(child => parseData(child));
-      if (node.ch) newNode.children = parseData(node.ch);
+      if (node.ch) {
+        if (!(node.ch.length === 1 && nodeIsBacklink(node.ch[0]))) {
+          newNode.children = parseData(node.ch); 
+        }
+      }
       newData.push(newNode)
     } else {
       continue;
@@ -41,7 +43,6 @@ const parseData = (data) => {
   };
   return newData;
 }
-
 
 const main = () => {
   loadArgsToConfig(argv);

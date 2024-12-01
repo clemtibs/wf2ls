@@ -20,6 +20,15 @@ const processNote = (node, indentTxt) => {
   return note;
 }
 
+const nodeIsBacklink = (node) => {
+  if (node.metadata.isReferencesRoot) {
+    return true;
+  } else {
+    return false;
+  }
+}
+
 module.exports = {
   processNote,
+  nodeIsBacklink
 }
