@@ -1,5 +1,5 @@
 const { config } = require('./config.js');
-const progress = require('./progress.js');
+const { state } = require('./state.js');
 const utils = require('./utils.js');
 const {
   tagInText,
@@ -8,10 +8,6 @@ const {
   makeBlockPrefix,
   makeNotePrefix
 } = require('./text.js');
-
-let jobProgress = 0;
-let pages = new Map();
-let mirrors = new Map();
 
 /*
  * @params: {JSON} single JSON node object
@@ -46,9 +42,7 @@ const parse2md = (pageName, node, nNodes, indentLvl, isNewPage) => {
   isNewPage ? isNewPage : isNewPage = false;
   let pageBlocks = [];
   for (n of node) {
-    jobProgress++;
-    // console.log(n.name + ": " + jobProgress)
-    progress.bar.update(jobProgress);
+    state.incrementJobProgress();
     if (n.name !== "") {
       let name = n.name.trim();
       let note = "";
@@ -65,8 +59,7 @@ const parse2md = (pageName, node, nNodes, indentLvl, isNewPage) => {
             newNode.unshift(utils.makeNode(
               processNote( {note: n.note}, makeNotePrefix(0)),
               ''));
-            progress.totalNumNodes++
-            progress.bar.setTotal(progress.totalNumNodes);
+            state.addJob();
             parse2md(pName.trim(), newNode, newNode.length, 0, true);
       }
 
@@ -98,10 +91,9 @@ const parse2md = (pageName, node, nNodes, indentLvl, isNewPage) => {
     return pageBlocks.join('\n');
   }
 
-  pages.set(pageName.trim(), pageBlocks.join('\n'));
+  state.addPage(pageName.trim(), pageBlocks.join('\n'));
 }
 
 module.exports = {
-  pages,
   parse2md
 }

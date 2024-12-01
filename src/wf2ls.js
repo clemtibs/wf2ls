@@ -1,9 +1,8 @@
 const date = require('./date.js');
-const progress = require('./progress.js');
 const { config } = require('./config.js');
 const { loadSrcFile, writeFile } = require('./fs.js');
-let { pages } = require('./md.js');
 const { parse2md } = require('./md.js');
+const { state } = require('./state.js');
 
 let argv = require('minimist')(process.argv.slice(2));
 
@@ -22,9 +21,8 @@ const parseData = (data) => {
   for (node of data) {
     if (node.nm !== "") {
       let newNode = {};
-      // if (!node.metadata.isReferencesRoot) progress.totalNumNodes += 1;
-      progress.totalNumNodes++;
-      // console.log(node.nm + ": " + progress.totalNumNodes)
+      // if (!node.metadata.isReferencesRoot) state.addJob();
+      state.addJob()
       // if (!resultIdMap.get(node.id)) resultIdMap.set(node.id, newNode);
       newNode.name = node.nm;
       // newNode.id = node.id;
@@ -49,15 +47,14 @@ const main = () => {
   loadArgsToConfig(argv);
   const rawData = loadSrcFile(config.sourceFile);
   const parsedData = parseData(rawData);
-  progress.bar.start(progress.totalNumNodes, 0);
+  state.startProgressBar();
   parse2md(config.defaultPage, parsedData, parsedData.length); // writes to pages map
-  progress.bar.stop();
+  state.stopProgressBar();
 
-  for (let [page, content] of pages) {
+  for (let [page, content] of state.pages) {
     writeFile(content, page + ".md", config.destDir);
   }
 
-  // console.log(mirrors);
 }
 
 main();
