@@ -77,6 +77,10 @@ tag. This the above example, this would be `@286081`. This way, one can at least
 figure out via context who was referenced and then via find/replace text tools,
 convert all the instances.
 
+## Credits
+
+Initial inspiration from [@banjerluke/workflowy-to-logseq](https://github.com/banjerluke/workflowy-to-logseq)
+
 ## License
 
 Released under [MIT](/LICENSE) by [@brianclements](https://github.com/brianclements).
