@@ -67,7 +67,7 @@ const parse2md = (pageName, node, nNodes, indentLvl, isNewPage) => {
           false));
       }
     }
-    nNodes -= 1;
+    nNodes--;
   };
 
   if (nNodes === 0 && indentLvl > 0) {
