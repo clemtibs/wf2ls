@@ -1,16 +1,16 @@
-import { bar as progressBar } from './progress.js';
+import { mainProgressBar } from './progress.js';
 
-class State {
+class AppState {
   #totalNumJobs;
   #jobProgress;
   #progressBar;
 
-  constructor(progressBarObj) {
+  constructor(appProgressBar) {
     this.#totalNumJobs = 0;
     this.#jobProgress = 0;
     this.pages = new Map();
     this.mirrors = new Map();
-    this.#progressBar = progressBarObj;
+    this.#progressBar = appProgressBar;
   }
 
   addJob() {
@@ -36,6 +36,6 @@ class State {
   }
 }
 
-const state = new State(progressBar);
+const mainState = new AppState(mainProgressBar);
 
-export { state };
+export { mainState };

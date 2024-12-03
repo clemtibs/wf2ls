@@ -1,5 +1,3 @@
-import { config } from './config.js';
-import { state } from './state.js';
 import utils from './utils.js';
 import { processNote } from './node.js';
 import {
@@ -12,14 +10,16 @@ import {
 
 /*
  * @params:
+ *   {AppState}, application state object
+ *   {mainConfig}, application config object
  *   <pageName:string>, name of current page being processed
  *   {node:JSON}, current JSON node object
  *   <nNodes:int>, total number of children nodes in {node}
  *   <nNodes:int>, level of indenting for next set of children nodes
  *   <isNewPage:bool>, tell new recursive branch that it's starting a new page
- * @returns: <null>, appends to global "pages" map
+ * @returns: <null>, appends to pages map in {AppState}
  */
-const parse2md = (pageName, node, nNodes, indentLvl, isNewPage) => {
+const parse2md = (state, conf, pageName, node, nNodes, indentLvl, isNewPage) => {
   pageName ? pageName : pageName = "content";
   indentLvl ? indentLvl : indentLvl = 0;
   isNewPage ? isNewPage : isNewPage = false;
@@ -31,38 +31,48 @@ const parse2md = (pageName, node, nNodes, indentLvl, isNewPage) => {
       let note = "";
       let completed = "";
       let marker = "";
-      if (tagInText(config.newPageTag, n.name) ||
-          tagInText(config.newPageTag, n.note) &&
+      if (tagInText(conf.newPageTag, n.name) ||
+          tagInText(conf.newPageTag, n.note) &&
           !isNewPage) {
-            let pName = stripTag(config.newPageTag, name).trim();
+            let pName = stripTag(conf.newPageTag, name).trim();
             n.name = toPageLink(pName);
             name = n.name;
-            n.note = stripTag(config.newPageTag, n.note).trim();
+            n.note = stripTag(conf.newPageTag, n.note).trim();
             let newNode = n.children;
             newNode.unshift(utils.makeNode(
-              processNote( {note: n.note}, makeNotePrefix(0)),
+              processNote( {note: n.note}, makeNotePrefix(conf.indentSpaces, 0)),
               ''));
             state.addJob();
-            pageBlocks.push(makeBlockPrefix(indentLvl) + name);
-            parse2md(pName.trim(), newNode, newNode.length, 0, true);
+            pageBlocks.push(makeBlockPrefix(conf.indentSpaces, indentLvl) + name);
+            parse2md(
+              state,
+              conf,
+              pName.trim(),
+              newNode,
+              newNode.length,
+              0,
+              true
+            );
             nNodes--;
             continue;
       }
 
-      note = processNote(n, makeNotePrefix(indentLvl));
+      note = processNote(n, makeNotePrefix(conf.indentSpaces, indentLvl));
 
       if (n.layoutMode === "todo") {
         marker = "TODO ";
         if (n.completed) {
-          completed = "\n" + makeNotePrefix(indentLvl) + "completed-on:: " + n.completed;
+          completed = "\n" + makeNotePrefix(conf.indentSpaces, indentLvl) + "completed-on:: " + n.completed;
           marker = "COMPLETED ";
         }
       }
 
-      pageBlocks.push(makeBlockPrefix(indentLvl) + marker + name + completed + note);
+      pageBlocks.push(makeBlockPrefix(conf.indentSpaces, indentLvl) + marker + name + completed + note);
 
       if (n.children) {
         pageBlocks.push(parse2md(
+          state,
+          conf,
           pageName.trim(),
           n.children,
           n.children.length,

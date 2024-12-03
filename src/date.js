@@ -6,7 +6,7 @@
 // PST. Whether this timestamp accounts for Daylight Saving is hard to say.
 // Only thing I'm pretty sure of is that it doesn't seem to be UTC, which is
 // annoying.
-const wfEpochSecondsPst = 1350385936;
+const WF_EPOCH_SECONDS_PST = 1350385936;
 
 const dateUtcToSecondsUtc = (dateStr) => {
   const date = new Date(dateStr);
@@ -72,6 +72,6 @@ const wfTimeToLocalTime = (wfSeconds, wfEpochSeconds) => {
 }
 
 export default {
-  wfEpochSecondsPst,
+  WF_EPOCH_SECONDS_PST,
   wfTimeToLocalTime
 };

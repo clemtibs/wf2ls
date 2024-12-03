@@ -1,5 +1,4 @@
 /** Text tools **/
-import { config } from './config.js';
 
 const tagInText = (tag, str) => {
   return (str ?? '').includes(tag);
@@ -13,19 +12,19 @@ const toPageLink = (str) => {
   return `[[ ${(str ?? 'Orphans')} ]]` 
 }
 
-const makeBlockPrefix = (indentLvl) => {
+const makeBlockPrefix = (indentSize, indentLvl) => {
   if (indentLvl < 0) {
     return ""
   } else {
-    return " ".repeat(config.indentSpaces * indentLvl) + "- ";
+    return " ".repeat(indentSize * indentLvl) + "- ";
   }
 }
 
-const makeNotePrefix = (indentLvl) => {
+const makeNotePrefix = (indentSize, indentLvl) => {
   if (indentLvl < 0) {
     return ""
   } else {
-    return " ".repeat(config.indentSpaces * indentLvl) + "  ";
+    return " ".repeat(indentSize * indentLvl) + "  ";
   }
 }
 
@@ -36,12 +35,12 @@ const makeNotePrefix = (indentLvl) => {
  * @param {string} inputStr - The input string to be cleaned.
  * @returns {string} The cleaned string.
  */
-const cleanString = (inputStr) => {
-    let cleanedStr = inputStr.replace(/\([^)]*\)/g, '');
-    cleanedStr = cleanedStr.split('·')[0];
-    cleanedStr = cleanedStr.trim();
-    return cleanedStr;
-}
+// const cleanString = (inputStr) => {
+    // let cleanedStr = inputStr.replace(/\([^)]*\)/g, '');
+    // cleanedStr = cleanedStr.split('·')[0];
+    // cleanedStr = cleanedStr.trim();
+    // return cleanedStr;
+// }
 
 export {
   tagInText,
