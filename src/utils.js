@@ -1,16 +1,16 @@
 const makeNode = (name, note) => {
-  // let this. = {};
+  let newNode = {};
   // id ? n.id = id : n.id = crypto.randomUUID();
   // name ? n.name = name : n.id = '';
   // if (note) n.note = note;
   // if (completed) n.completed = completed;
   // if (children) n.children = children;
-  this.id = crypto.randomUUID();
-  name ? this.name = name : this.name = '';
-  if (note) this.note = note;
+  newNode.id = crypto.randomUUID();
+  name ? newNode.name = name : newNode.name = '';
+  if (note) newNode.note = note;
   // if (completed) n.completed = completed;
   // if (children) n.children = children;
-  return this;
+  return newNode;
 }
 
 export default { makeNode };

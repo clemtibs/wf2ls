@@ -24,7 +24,7 @@ const parse2md = (pageName, node, nNodes, indentLvl, isNewPage) => {
   indentLvl ? indentLvl : indentLvl = 0;
   isNewPage ? isNewPage : isNewPage = false;
   let pageBlocks = [];
-  for (n of node) {
+  for (let n of node) {
     state.incrementJobProgress();
     if (n.name !== "") {
       let name = n.name.trim();
@@ -34,11 +34,11 @@ const parse2md = (pageName, node, nNodes, indentLvl, isNewPage) => {
       if (tagInText(config.newPageTag, n.name) ||
           tagInText(config.newPageTag, n.note) &&
           !isNewPage) {
-            pName = stripTag(config.newPageTag, name).trim();
+            let pName = stripTag(config.newPageTag, name).trim();
             n.name = toPageLink(pName);
             name = n.name;
             n.note = stripTag(config.newPageTag, n.note).trim();
-            newNode = n.children;
+            let newNode = n.children;
             newNode.unshift(utils.makeNode(
               processNote( {note: n.note}, makeNotePrefix(0)),
               ''));

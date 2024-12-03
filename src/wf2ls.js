@@ -19,7 +19,7 @@ const loadArgsToConfig = (args) => {
  */
 const parseData = (data) => {
   let newData = [];
-  for (node of data) {
+  for (let node of data) {
     if (node.nm !== "") {
       let newNode = {};
       state.addJob()
