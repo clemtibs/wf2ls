@@ -43,7 +43,10 @@ const parse2md = (pageName, node, nNodes, indentLvl, isNewPage) => {
               processNote( {note: n.note}, makeNotePrefix(0)),
               ''));
             state.addJob();
+            pageBlocks.push(makeBlockPrefix(indentLvl) + name);
             parse2md(pName.trim(), newNode, newNode.length, 0, true);
+            nNodes--;
+            continue;
       }
 
       note = processNote(n, makeNotePrefix(indentLvl));
