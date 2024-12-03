@@ -1,4 +1,4 @@
-let config = {
+const config = {
   sourceFile: "",
   destDir: "",
   newPageTag: "#LS-Page",
@@ -6,6 +6,4 @@ let config = {
   defaultPage: "Page One"
 };
 
-module.exports = {
-  config
-}
+export { config };

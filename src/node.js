@@ -28,7 +28,7 @@ const nodeIsBacklink = (node) => {
   }
 }
 
-module.exports = {
+export {
   processNote,
   nodeIsBacklink
-}
+};

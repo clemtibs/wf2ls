@@ -1,9 +1,4 @@
-const fs = require('fs');
-
-const loadSrcFile = (fPath) => {
-  const rawData = fs.readFileSync(fPath);
-  return JSON.parse(rawData);
-}
+import fs from 'fs';
 
 const directoryExists = (path) => {
   try {
@@ -11,6 +6,11 @@ const directoryExists = (path) => {
   } catch (err) {
     console.error("Error: Destination directory \"" + path + "\" does not exist.");
   }
+}
+
+const loadSrcFile = (fPath) => {
+  const rawData = fs.readFileSync(fPath);
+  return JSON.parse(rawData);
 }
 
 const writeFile = (data, file, destDir) => {
@@ -25,7 +25,7 @@ const writeFile = (data, file, destDir) => {
   }
 }
 
-module.exports = {
+export { 
   loadSrcFile,
   writeFile
-}
+};

@@ -71,7 +71,7 @@ const wfTimeToLocalTime = (wfSeconds, wfEpochSeconds) => {
   return secondsUtcToLocalDate(timestamp);
 }
 
-module.exports = {
+export default {
   wfEpochSecondsPst,
   wfTimeToLocalTime
-}
+};

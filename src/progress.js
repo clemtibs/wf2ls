@@ -1,7 +1,5 @@
-const cliProgress = require('cli-progress');
+import { default as cliProgress } from 'cli-progress';
 
 const bar = new cliProgress.SingleBar({}, cliProgress.Presets.shades_classic);
 
-module.exports = {
-  bar
-}
+export { bar };

@@ -1,11 +1,12 @@
-const date = require('./date.js');
-const { config } = require('./config.js');
-const { loadSrcFile, writeFile } = require('./fs.js');
-const { parse2md } = require('./md.js');
-const { state } = require('./state.js');
-const { nodeIsBacklink } = require('./node.js');
+import date from './date.js';
+import { config } from './config.js';
+import { loadSrcFile, writeFile } from './fs.js';
+import { parse2md } from './md.js';
+import { state } from './state.js';
+import { nodeIsBacklink } from './node.js';
+import { default as minimist } from 'minimist';
 
-let argv = require('minimist')(process.argv.slice(2));
+const argv = minimist(process.argv.slice(2));
 
 const loadArgsToConfig = (args) => {
   config.sourceFile = args.i;

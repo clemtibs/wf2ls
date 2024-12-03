@@ -1,9 +1,10 @@
-const progress = require('./progress.js');
+import { bar as progressBar } from './progress.js';
 
 class State {
   #totalNumJobs;
   #jobProgress;
   #progressBar;
+
   constructor(progressBarObj) {
     this.#totalNumJobs = 0;
     this.#jobProgress = 0;
@@ -35,8 +36,6 @@ class State {
   }
 }
 
-const state = new State(progress.bar);
+const state = new State(progressBar);
 
-module.exports = {
-  state
-}
+export { state };

@@ -13,6 +13,4 @@ const makeNode = (name, note) => {
   return this;
 }
 
-module.exports = {
-  makeNode
-}
+export default { makeNode };

@@ -1,5 +1,5 @@
 /** Text tools **/
-const { config } = require('./config.js');
+import { config } from './config.js';
 
 const tagInText = (tag, str) => {
   return (str ?? '').includes(tag);
@@ -43,10 +43,10 @@ const cleanString = (inputStr) => {
     return cleanedStr;
 }
 
-module.exports = {
+export {
   tagInText,
   stripTag,
   toPageLink,
   makeBlockPrefix,
   makeNotePrefix
-}
+};

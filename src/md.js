@@ -1,16 +1,14 @@
-const { config } = require('./config.js');
-const { state } = require('./state.js');
-const utils = require('./utils.js');
-const { 
-  processNote
-} = require('./node.js');
-const {
+import { config } from './config.js';
+import { state } from './state.js';
+import utils from './utils.js';
+import { processNote } from './node.js';
+import {
   tagInText,
   stripTag,
   toPageLink,
   makeBlockPrefix,
   makeNotePrefix
-} = require('./text.js');
+} from './text.js';
 
 /*
  * @params:
@@ -79,6 +77,4 @@ const parse2md = (pageName, node, nNodes, indentLvl, isNewPage) => {
   state.addPage(pageName.trim(), pageBlocks.join('\n'));
 }
 
-module.exports = {
-  parse2md
-}
+export { parse2md };
