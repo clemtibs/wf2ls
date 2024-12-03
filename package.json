@@ -5,7 +5,7 @@
   "main": "src/wf2ls.js",
   "scripts": {
     "test": "mocha",
-    "test-watch": "mocha --watch"
+    "test-watch": "mocha --watch --parallel"
   },
   "type": "module",
   "keywords": [
