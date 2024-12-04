@@ -1,7 +1,5 @@
-import date from './date.js';
 import { loadSrcFile, writeFile } from './fs.js';
 import { parse2md } from './md.js';
-import { nodeIsBacklink } from './node.js';
 import { default as minimist } from 'minimist';
 import { parseData } from './processing.js';
 import { mainState } from './state.js';
