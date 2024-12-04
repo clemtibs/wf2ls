@@ -63,7 +63,7 @@ const parse2md = (state, conf, pageName, node, nNodes, indentLvl, isNewPage) => 
         marker = "TODO ";
         if (n.completed) {
           completed = "\n" + makeNotePrefix(conf.indentSpaces, indentLvl) + "completed-on:: " + toPageLink(n.completed);
-          marker = "COMPLETED ";
+          marker = "DONE ";
         }
       }
 
