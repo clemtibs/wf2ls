@@ -54,18 +54,21 @@ const secondsUtcToLocalDate = (seconds) => {
   const date = new Date(seconds * 1000);
   const options = {
     year: 'numeric',
-    month: 'numeric',
+    month: 'long',
     day: 'numeric',
-    hour: 'numeric',
-    minute: 'numeric',
-    second: 'numeric',
+    // hour: 'numeric',
+    // minute: 'numeric',
+    // second: 'numeric',
     timeZone: 'America/Los_Angeles',
     // timeZone: 'UTC',
-    timeZoneName: 'short'
+    // timeZoneName: 'short'
   };
   return date.toLocaleDateString("en-US", options);
+  // return date.toLocaleDateString("en-CA", options);
 }
 
+// TODO: add ability to pass format/timezone object
+// source: https://stackoverflow.com/a/66234640
 const wfTimeToLocalTime = (wfSeconds, wfEpochSeconds) => {
   const timestamp = wfSeconds + wfEpochSeconds;
   return secondsUtcToLocalDate(timestamp);
