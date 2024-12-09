@@ -86,6 +86,21 @@ to the same. This assumption works accurately for me down to the second. Time
 zones could easily be converted, but more sample data from other time zones is
 needed to know what Workflowy is doing internally.
 
+### Collapsing *
+
+Every top-level block of a page should be collapsed by default. This is the
+safest thing to do for potentially large lists that get brought over from
+Workflowy. In LogSeq, this is done by adding an invisible property `collapsed::
+true`.  Eventually, four useful options could be used here:
+
+- **collapse top** ( _default_ ): Every top level page block is collapsed, every
+    child block is not.
+- **collapse none**: Collapse nothing.
+- **collapse all**: Collapse everything on every level.
+- **collapse top and deep**: A potential compromise where every top level page
+    block is collapsed, plus every child of _n + 1_ depth going forward.
+
+
 ### Dates (built-in tags) *
 
 Not implemented yet. Workflowy uses `<time>` elements which LogSeq will
