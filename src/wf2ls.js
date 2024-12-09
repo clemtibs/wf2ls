@@ -1,9 +1,14 @@
+import { default as minimist } from 'minimist';
+
 import { loadSrcFile, writeFile } from './fs.js';
 import { parse2md } from './md.js';
-import { default as minimist } from 'minimist';
 import { parseData } from './processing.js';
-import { mainState } from './state.js';
-import { mainConfig, loadArgsToConfig } from './config.js';
+import { AppState } from './state.js';
+import { appConfig, loadArgsToConfig } from './config.js';
+import { mainProgressBar } from './progress.js';
+
+const mainState = new AppState(mainProgressBar);
+const mainConfig = loadArgsToConfig(appConfig, minimist(process.argv.slice(2)));
 
 const main = (state, conf) => {
   const rawData = loadSrcFile(conf.sourceFile);
@@ -17,7 +22,4 @@ const main = (state, conf) => {
   }
 }
 
-main(
-  mainState,
-  loadArgsToConfig(mainConfig, minimist(process.argv.slice(2)))
-);
+main(mainState, mainConfig);

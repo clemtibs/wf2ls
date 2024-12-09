@@ -1,4 +1,4 @@
-const mainConfig = {
+const appConfig = {
   sourceFile: "",
   destDir: "",
   newPageTag: "#LS-Page",
@@ -13,6 +13,6 @@ const loadArgsToConfig = (conf, args) => {
 }
 
 export {
-  mainConfig,
+  appConfig,
   loadArgsToConfig
 };

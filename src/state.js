@@ -1,5 +1,3 @@
-import { mainProgressBar } from './progress.js';
-
 class AppState {
   #totalNumJobs;
   #jobProgress;
@@ -36,6 +34,6 @@ class AppState {
   }
 }
 
-const mainState = new AppState(mainProgressBar);
-
-export { mainState };
+export { 
+  AppState
+};
