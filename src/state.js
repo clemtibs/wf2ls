@@ -2,18 +2,20 @@ class AppState {
   #totalNumJobs;
   #jobProgress;
   #progressBar;
+  isTestInstance = false;
 
-  constructor(appProgressBar) {
+  constructor(appProgressBar, testing) {
     this.#totalNumJobs = 0;
     this.#jobProgress = 0;
     this.pages = new Map();
     this.mirrors = new Map();
-    this.#progressBar = appProgressBar;
+    if (appProgressBar) this.#progressBar = appProgressBar;
+    if (testing) this.isTestInstance = testing;
   }
 
   addJob() {
     this.#totalNumJobs++;
-    this.#progressBar.setTotal(this.#totalNumJobs);
+    if (!this.isTestInstance) this.#progressBar.setTotal(this.#totalNumJobs);
   }
 
   addPage(pName, pageStr) {
@@ -22,15 +24,15 @@ class AppState {
 
   incrementJobProgress() {
     this.#jobProgress++;
-    this.#progressBar.update(this.#jobProgress);
+    if (!this.isTestInstance) this.#progressBar.update(this.#jobProgress);
   }
 
   startProgressBar() {
-    this.#progressBar.start(this.#totalNumJobs, 0);
+    if (!this.isTestInstance) this.#progressBar.start(this.#totalNumJobs, 0);
   }
 
   stopProgressBar() {
-    this.#progressBar.stop();
+    if (!this.isTestInstance) this.#progressBar.stop();
   }
 }
 

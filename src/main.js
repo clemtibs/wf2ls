@@ -6,6 +6,8 @@ const main = (state, conf, data) => {
   state.startProgressBar();
   parse2md(state, conf, conf.defaultPage, parsedData, parsedData.length);
   state.stopProgressBar();
+
+  if (state.isTestInstance) return state;
 }
 
 export { main };
