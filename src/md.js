@@ -31,19 +31,19 @@ const parse2md = (state, conf, pageName, node, nNodes, indentLvl, isNewPage) => 
       let note = "";
       let completed = "";
       let marker = "";
-      if (tagInText(conf.newPageTag, n.name) ||
-          tagInText(conf.newPageTag, n.note) &&
+      if (tagInText(conf.get("newPageTag"), n.name) ||
+          tagInText(conf.get("newPageTag"), n.note) &&
           !isNewPage) {
-            let pName = stripTag(conf.newPageTag, name).trim();
+            let pName = stripTag(conf.get("newPageTag"), name).trim();
             n.name = toPageLink(pName);
             name = n.name;
-            n.note = stripTag(conf.newPageTag, n.note).trim();
+            n.note = stripTag(conf.get("newPageTag"), n.note).trim();
             let newNode = n.children;
             newNode.unshift(utils.makeNode(
-              processNote( {note: n.note}, makeNotePrefix(conf.indentSpaces, 0)),
+              processNote( {note: n.note}, makeNotePrefix(conf.get("indentSpaces"), 0)),
               ''));
             state.addJob();
-            pageBlocks.push(makeBlockPrefix(conf.indentSpaces, indentLvl) + name);
+            pageBlocks.push(makeBlockPrefix(conf.get("indentSpaces"), indentLvl) + name);
             parse2md(
               state,
               conf,
@@ -57,17 +57,17 @@ const parse2md = (state, conf, pageName, node, nNodes, indentLvl, isNewPage) => 
             continue;
       }
 
-      note = processNote(n, makeNotePrefix(conf.indentSpaces, indentLvl));
+      note = processNote(n, makeNotePrefix(conf.get("indentSpaces"), indentLvl));
 
       if (n.layoutMode === "todo") {
         marker = "TODO ";
         if (n.completed) {
-          completed = "\n" + makeNotePrefix(conf.indentSpaces, indentLvl) + "completed-on:: " + toPageLink(n.completed);
+          completed = "\n" + makeNotePrefix(conf.get("indentSpaces"), indentLvl) + "completed-on:: " + toPageLink(n.completed);
           marker = "DONE ";
         }
       }
 
-      pageBlocks.push(makeBlockPrefix(conf.indentSpaces, indentLvl) + marker + name + completed + note);
+      pageBlocks.push(makeBlockPrefix(conf.get("indentSpaces"), indentLvl) + marker + name + completed + note);
 
       if (n.children) {
         pageBlocks.push(parse2md(
