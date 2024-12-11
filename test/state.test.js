@@ -1,7 +1,7 @@
 import { expect } from 'chai';
 
 import { AppState } from '../src/state.js';
-import { appConfig } from '../src/config.js';
+import { AppConfig } from '../src/config.js';
 import { main } from '../src/main.js';
 import { loadSrcFile } from '../src/fs.js';
 
@@ -34,16 +34,15 @@ describe('state.js', () => {
     });
     it('Returns state object when testing', () => {
       const testState = new AppState(undefined, true);
-      // shallow copy not good enough, need to make config class
-      // const testConfig = { ...appConfig };
-      const testConfig = {
+      const testSettings = {
         sourceFile: largeSampleDataLoc,
         destDir: "",
         newPageTag: "#LS-Page",
         indentSpaces: 2,
         defaultPage: "Page One"
       };
-      const testData = loadSrcFile(testConfig.sourceFile);
+      const testConfig = new AppConfig(testSettings)
+      const testData = loadSrcFile(testConfig.get("sourceFile"));
       const results = main(testState, testConfig, testData);      
       expect(results).to.be.an.instanceOf(AppState);
     });
