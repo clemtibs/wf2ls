@@ -3,7 +3,7 @@ import { expect } from 'chai';
 import { AppState } from '../src/state.js';
 import { AppConfig } from '../src/config.js';
 import { main } from '../src/main.js';
-import { loadSrcFile } from '../src/fs.js';
+import { readJsonFile } from '../src/fs.js';
 
 const largeSampleDataLoc = "./test/data/wf_data_sample.json";
 
@@ -42,7 +42,7 @@ describe('state.js', () => {
         defaultPage: "Page One"
       };
       const testConfig = new AppConfig(testSettings)
-      const testData = loadSrcFile(testConfig.get("sourceFile"));
+      const testData = readJsonFile(testConfig.get("sourceFile"));
       const results = main(testState, testConfig, testData);      
       expect(results).to.be.an.instanceOf(AppState);
     });

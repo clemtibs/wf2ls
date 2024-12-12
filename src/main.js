@@ -1,10 +1,10 @@
-import { parse2md } from './md.js';
-import { parseData } from './processing.js';
+import { convertToMd } from './md.js';
+import { parseWfData } from './processing.js';
 
 const main = (state, conf, data) => {
-  const parsedData = parseData(state, data);
+  const parsedData = parseWfData(state, data);
   state.startProgressBar();
-  parse2md(state, conf, conf.get("defaultPage"), parsedData, parsedData.length);
+  convertToMd(state, conf, conf.get("defaultPage"), parsedData, parsedData.length);
   state.stopProgressBar();
 
   if (state.isTestInstance) return state;

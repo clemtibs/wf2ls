@@ -19,7 +19,7 @@ import {
  *   <isNewPage:bool>, tell new recursive branch that it's starting a new page
  * @returns: <null>, appends to pages map in {AppState}
  */
-const parse2md = (state, conf, pageName, node, nNodes, indentLvl, isNewPage) => {
+const convertToMd = (state, conf, pageName, node, nNodes, indentLvl, isNewPage) => {
   pageName ? pageName : pageName = "content";
   indentLvl ? indentLvl : indentLvl = 0;
   isNewPage ? isNewPage : isNewPage = false;
@@ -44,7 +44,7 @@ const parse2md = (state, conf, pageName, node, nNodes, indentLvl, isNewPage) => 
               ''));
             state.addJob();
             pageBlocks.push(makeBlockPrefix(conf.get("indentSpaces"), indentLvl) + name);
-            parse2md(
+            convertToMd(
               state,
               conf,
               pName.trim(),
@@ -70,7 +70,7 @@ const parse2md = (state, conf, pageName, node, nNodes, indentLvl, isNewPage) => 
       pageBlocks.push(makeBlockPrefix(conf.get("indentSpaces"), indentLvl) + marker + name + completed + note);
 
       if (n.children) {
-        pageBlocks.push(parse2md(
+        pageBlocks.push(convertToMd(
           state,
           conf,
           pageName.trim(),
@@ -90,4 +90,4 @@ const parse2md = (state, conf, pageName, node, nNodes, indentLvl, isNewPage) => 
   state.addPage(pageName.trim(), pageBlocks.join('\n'));
 }
 
-export { parse2md };
+export { convertToMd };

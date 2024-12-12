@@ -1,5 +1,5 @@
 class AppConfig {
-  #options = {
+  #option_values = {
     sourceFile: null,
     destDir: null,
     newPageTag: null,
@@ -16,21 +16,21 @@ class AppConfig {
   };
 
   constructor(config) {
-    if (config) this.#options = { ...this.#options, ...config };
+    if (config) this.#option_values = { ...this.#option_values, ...config };
   }
 
   get(prop) {
-    if (this.#options.hasOwnProperty(prop)) {
-      return this.#options[prop]
+    if (this.#option_values.hasOwnProperty(prop)) {
+      return this.#option_values[prop]
     } else {
       throw new Error("Property not found");
     }
   }
 
   set(key, value) {
-    if (this.#options.hasOwnProperty(key)) {
+    if (this.#option_values.hasOwnProperty(key)) {
       if (typeof value === this.#option_types[key]) {
-        return this.#options[key] = value;
+        return this.#option_values[key] = value;
       } else {
         throw new Error("Invalid property value type");
       }
@@ -48,7 +48,7 @@ const defaultConfig = {
   defaultPage: "Page One"
 };
 
-const loadArgsToConfig = (conf, args) => {
+const updateConfigWithCliArgs = (conf, args) => {
   conf.set("sourceFile", args.i);
   conf.set("destDir", args.d);
 }
@@ -56,5 +56,5 @@ const loadArgsToConfig = (conf, args) => {
 export {
   AppConfig,
   defaultConfig,
-  loadArgsToConfig
+  updateConfigWithCliArgs
 };

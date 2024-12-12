@@ -8,9 +8,9 @@ const directoryExists = (path) => {
   }
 }
 
-const loadSrcFile = (fPath) => {
-  const rawData = fs.readFileSync(fPath);
-  return JSON.parse(rawData);
+const readJsonFile = (fPath) => {
+  const rawJson = fs.readFileSync(fPath);
+  return JSON.parse(rawJson);
 }
 
 const writeFile = (data, file, destDir) => {
@@ -26,6 +26,6 @@ const writeFile = (data, file, destDir) => {
 }
 
 export { 
-  loadSrcFile,
+  readJsonFile,
   writeFile
 };

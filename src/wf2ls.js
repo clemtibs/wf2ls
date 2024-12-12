@@ -4,17 +4,19 @@ import { AppState } from './state.js';
 import { 
   AppConfig,
   defaultConfig,
-  loadArgsToConfig
+  updateConfigWithCliArgs
 } from './config.js';
 import { mainProgressBar } from './progress.js';
 import { main } from './main.js';
-import { loadSrcFile, writeFile } from './fs.js';
+import { readJsonFile, writeFile } from './fs.js';
 
 // CLI entrypoint for main()
 const mainState = new AppState(mainProgressBar);
 const mainConfig = new AppConfig(defaultConfig);
-loadArgsToConfig(mainConfig, minimist(process.argv.slice(2)))
-const rawData = loadSrcFile(mainConfig.get("sourceFile"));
+
+updateConfigWithCliArgs(mainConfig, minimist(process.argv.slice(2)))
+
+const rawData = readJsonFile(mainConfig.get("sourceFile"));
 
 main(mainState, mainConfig, rawData);
 

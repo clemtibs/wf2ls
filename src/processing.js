@@ -10,7 +10,7 @@ import { nodeIsBacklink } from './node.js';
  *   {JSON}, raw JSON data loaded from Workflowy .backup file
  * @returns: {JSON} of same structure, with selected properties and minor formatting cleanup
  */
-const parseData = (state, data) => {
+const parseWfData = (state, data) => {
   let newData = [];
   for (let node of data) {
     if (node.nm !== "") {
@@ -27,7 +27,7 @@ const parseData = (state, data) => {
       // node.mirrorRootItems?.forEach(item => mirrors.set(item.id, node.id));
       if (node.ch) {
         if (!(node.ch.length === 1 && nodeIsBacklink(node.ch[0]))) {
-          newNode.children = parseData(state, node.ch); 
+          newNode.children = parseWfData(state, node.ch); 
         }
       }
       newData.push(newNode)
@@ -38,4 +38,4 @@ const parseData = (state, data) => {
   return newData;
 }
 
-export { parseData };
+export { parseWfData };
