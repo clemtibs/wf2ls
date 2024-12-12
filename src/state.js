@@ -4,6 +4,11 @@ class AppState {
   #progressBar;
   isTestInstance = false;
 
+/*
+ * @params:
+ *  {cliProgres}, progress bar intance, use undefined for testing instances
+ *  <testing:boolen>, is this an instance for testing?
+ */
   constructor(appProgressBar, testing) {
     this.#totalNumJobs = 0;
     this.#jobProgress = 0;

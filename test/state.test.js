@@ -26,6 +26,7 @@ describe('state.js', () => {
     describe('Console output', () => {
       const testState = new AppState(undefined, true);
       it('Does not call progressBar methods' , () => {
+        //TODO: need to use console spies for this
         expect(testState.addJob()).to.be.undefined;
         expect(testState.startProgressBar()).to.be.undefined;
         expect(testState.incrementJobProgress()).to.be.undefined;

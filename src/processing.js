@@ -1,4 +1,7 @@
 /* Processing and intake of JSON in Workflowy backup file format and structure.
+ *
+ * TODO: specify this output object structure so that diff JSON inputs can be
+ * used from other applications later as plugins.
 */
 
 import date from './date.js';
@@ -8,7 +11,8 @@ import { nodeIsBacklink } from './node.js';
  * @params: 
  *   {AppState}, application state object
  *   {JSON}, raw JSON data loaded from Workflowy .backup file
- * @returns: {JSON} of same structure, with selected properties and minor formatting cleanup
+ * @returns: {JSON} of same structure, with selected properties and minor
+ *           formatting cleanup. 
  */
 const parseWfData = (state, data) => {
   let newData = [];
