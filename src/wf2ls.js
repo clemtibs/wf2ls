@@ -22,7 +22,7 @@ import {
 const mainConfig = new AppConfig(defaultConfig); // internal from config.js
 let confFile = undefined;
 
-if (fileExists(mainConfig.get("confFileLocation"))) { // ./config_file.json
+if (fileExists(mainConfig.get("confFileLocation"))) { // ./config.json
   confFile = readJsonFile("default location", mainConfig.get("confFileLocation"));
   updateConfigFromFile(mainConfig, confFile[0]);
 }

@@ -48,7 +48,7 @@ const defaultConfig = {
   newPageTag: "#LS-Page",
   indentSpaces: 2,
   defaultPage: "Workflowy Imports",
-  confFileLocation: "./config_file.json",
+  confFileLocation: "./config.json",
 };
 
 const updateConfigFromCliArgs = (appConf, args) => {
