@@ -52,7 +52,7 @@ const defaultConfig = {
 };
 
 const updateConfigFromCliArgs = (appConf, args) => {
-  if (args.i) appConf.set("sourceFile", args.i);
+  if (args.s) appConf.set("sourceFile", args.s);
   if (args.d) appConf.set("destDir", args.d);
   if (args.c) appConf.set("confFileLocation", args.c);
 }
