@@ -1,5 +1,5 @@
 import utils from './utils.js';
-import { processNote } from './node.js';
+import { indentNote } from './node.js';
 import {
   tagInText,
   stripTag,
@@ -40,7 +40,7 @@ const convertToMd = (state, conf, pageName, node, nNodes, indentLvl, isNewPage) 
             n.note = stripTag(conf.get("newPageTag"), n.note).trim();
             let newNode = n.children;
             newNode.unshift(utils.makeNode(
-              processNote( {note: n.note}, makeNotePrefix(conf.get("indentSpaces"), 0)),
+              indentNote( {note: n.note}, makeNotePrefix(conf.get("indentSpaces"), 0)),
               ''));
             state.addJob();
             pageBlocks.push(makeBlockPrefix(conf.get("indentSpaces"), indentLvl) + name);
@@ -57,7 +57,7 @@ const convertToMd = (state, conf, pageName, node, nNodes, indentLvl, isNewPage) 
             continue;
       }
 
-      note = processNote(n, makeNotePrefix(conf.get("indentSpaces"), indentLvl));
+      note = indentNote(n, makeNotePrefix(conf.get("indentSpaces"), indentLvl));
 
       if (n.layoutMode === "todo") {
         marker = "TODO ";

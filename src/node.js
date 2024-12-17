@@ -6,13 +6,13 @@
  * @params: {JSON} single JSON node object
  * @returns: <string>, string of formatted note text with indents & newlines
  */
-const processNote = (node, indentTxt) => {
+const indentNote = (node, prefix) => {
   let note = "";
   if (node.note) {
     let lines = node.note.split('\n');
     let prefixedLines = []
     lines.forEach(l => {
-      prefixedLines.push(indentTxt + l);
+      prefixedLines.push(prefix + l);
     });
     note = '\n' + prefixedLines.join(`\n`);
   }
@@ -29,6 +29,6 @@ const nodeIsBacklink = (node) => {
 }
 
 export {
-  processNote,
+  indentNote,
   nodeIsBacklink
 };
