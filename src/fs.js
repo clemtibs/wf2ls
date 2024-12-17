@@ -8,6 +8,10 @@ const directoryExists = (path) => {
   }
 }
 
+const fileExists = (fPath) => {
+  return fs.existsSync(fPath);
+}
+
 const readJsonFile = (fPath) => {
   const rawJson = fs.readFileSync(fPath);
   return JSON.parse(rawJson);
@@ -26,6 +30,7 @@ const writeFile = (data, file, destDir) => {
 }
 
 export { 
+  fileExists,
   readJsonFile,
   writeFile
 };

@@ -1,0 +1,9 @@
+[
+  {
+    "sourceFile": "",
+    "destDir": "./output",
+    "newPageTag": "#LS-Page",
+    "indentSpaces": 2,
+    "defaultPage": "Workflowy Imports"
+  }
+]
