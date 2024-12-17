@@ -22,6 +22,9 @@ describe('config.js', () => {
       it('defaultPage', () => {
         expect(testConfig.get("defaultPage")).to.deep.equal(null);
       });
+      it('confFileLocation', () => {
+        expect(testConfig.get("confFileLocation")).to.deep.equal(null);
+      });
     });
     describe('Throw errors on nonexistent keys', () => {
       const testConfig = new AppConfig();
@@ -53,6 +56,10 @@ describe('config.js', () => {
       it('setting defaultPage as string', () => {
         expect(testConfig.set("defaultPage", "a string")).to.be.ok;
         expect(() => testConfig.set("defaultPage", 1)).to.throw(/property value type/);
+      });
+      it('setting confFileLocation as string', () => {
+        expect(testConfig.set("confFileLocation", "a string")).to.be.ok;
+        expect(() => testConfig.set("confFileLocation", 1)).to.throw(/property value type/);
       });
     });
     describe('Import configuration object on creation', () => {
