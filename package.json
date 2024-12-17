@@ -4,6 +4,7 @@
   "description": "A tool to help convert Workflowy backup JSON into LogSeq friendly markdown files",
   "main": "src/wf2ls.js",
   "scripts": {
+    "cli-convert": "node ./src/wf2ls.js",
     "test": "mocha",
     "test-watch": "mocha --watch --parallel"
   },
