@@ -26,6 +26,7 @@ const parseWfData = (state, data) => {
       // if (node.ct) newNode.created = date.wfTimeToLocalTime(node.ct, date.WF_EPOCH_SECONDS_PST);
       if (node.no) newNode.note = node.no.trim();
       if (node.cp) newNode.completed = date.wfTimeToLocalTime(node.cp, date.WF_EPOCH_SECONDS_PST);
+      //TODO: make parser output also use 'node.metadata.layoutMode' format
       if (node.metadata.layoutMode == "todo") newNode.layoutMode = "todo";
       // newNode.lastModified = date.wfTimeToLocalTime(node.lm, date.WF_EPOCH_SECONDS_PST);
       // node.mirrorRootItems?.forEach(item => mirrors.set(item.id, node.id));
@@ -42,4 +43,5 @@ const parseWfData = (state, data) => {
   return newData;
 }
 
+// TODO: change filename to parsers
 export { parseWfData };

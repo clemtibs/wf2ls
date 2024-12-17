@@ -1,6 +1,7 @@
 /*
  * Node testing and processing
  */
+import { default as _ } from 'lodash';
 
 /*
  * @params: {JSON} single JSON node object
@@ -28,7 +29,79 @@ const nodeIsBacklink = (node) => {
   }
 }
 
+const nodeIsBoard = (node) => {
+  if (node.metadata.layoutMode === 'board') {
+    return true;
+  } else {
+    return false;
+  }
+}
+
+const nodeIsBullet = (node) => {
+  if (_.isEmpty(node.metadata)) {
+    return true;
+  } else {
+    return false;
+  }
+}
+
+const nodeIsCodeBlock = (node) => {
+  if (node.metadata.layoutMode === 'code-block') {
+    return true;
+  } else {
+    return false;
+  }
+}
+
+const nodeIsH1 = (node) => {
+  if (node.metadata.layoutMode === 'h1') {
+    return true;
+  } else {
+    return false;
+  }
+}
+
+const nodeIsH2 = (node) => {
+  if (node.metadata.layoutMode === 'h2') {
+    return true;
+  } else {
+    return false;
+  }
+}
+
+const nodeIsParagraph = (node) => {
+  if (node.metadata.layoutMode === 'p') {
+    return true;
+  } else {
+    return false;
+  }
+}
+
+const nodeIsQuoteBlock = (node) => {
+  if (node.metadata.layoutMode === 'quote-block') {
+    return true;
+  } else {
+    return false;
+  }
+}
+
+const nodeIsTodo = (node) => {
+  if (node.metadata.layoutMode === 'todo') {
+    return true;
+  } else {
+    return false;
+  }
+}
+
 export {
   indentNote,
-  nodeIsBacklink
-};
+  nodeIsBacklink,
+  nodeIsBullet,
+  nodeIsBoard,
+  nodeIsCodeBlock,
+  nodeIsH1,
+  nodeIsH2,
+  nodeIsParagraph,
+  nodeIsQuoteBlock,
+  nodeIsTodo
+}
