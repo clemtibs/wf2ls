@@ -550,29 +550,36 @@
     },
     {
         "id": "fcc34f97-ef80-448f-7683-9fe6e771fe14",
-        "nm": "Types",
+        "nm": "Bullet Types",
         "ct": 380045673,
         "metadata": {},
-        "lm": 380983514,
+        "lm": 382967526,
         "ch": [
             {
+                "id": "5cd32b08-fcb2-e12b-f18e-118ac0fe97ff",
+                "nm": "Regular Bullet",
+                "ct": 382968786,
+                "metadata": {},
+                "lm": 382968791
+            },
+            {
                 "id": "50a9cde4-13b8-d563-b3db-40c187ad3d68",
-                "nm": "Todo",
+                "nm": "Todo item",
                 "ct": 380045626,
                 "metadata": {
                     "layoutMode": "todo"
                 },
-                "lm": 380045680
+                "lm": 382968795
             },
             {
                 "id": "ec2c92a1-3ea0-f9f6-2345-ffb5274159ec",
-                "nm": "Todo complete",
+                "nm": "Todo item complete",
                 "ct": 380045722,
                 "metadata": {
                     "layoutMode": "todo"
                 },
-                "cp": 380045736,
-                "lm": 380045736
+                "cp": 382968769,
+                "lm": 382968797
             },
             {
                 "id": "452802ef-c8b2-4202-dc91-ed6123c45cce",
@@ -588,9 +595,9 @@
                 "nm": "Heading 2",
                 "ct": 380045780,
                 "metadata": {
-                    "layoutMode": "p"
+                    "layoutMode": "h2"
                 },
-                "lm": 380045797
+                "lm": 382968679
             },
             {
                 "id": "e6266e35-90b5-1ade-430a-fa3bebbf6e3d",
@@ -647,11 +654,55 @@
         ]
     },
     {
-        "id": "1c26b02d-0273-5679-3e76-fe7e173a60fd",
-        "nm": "<span class=\"colored bc-yellow\">Some</span> <b><i>formated</i></b> <u>text</u> <s>here</s>",
-        "ct": 380044726,
+        "id": "e765ae92-4cb5-d63d-3f7b-7a26538d7f86",
+        "nm": "Text Formatting",
+        "ct": 382967466,
         "metadata": {},
-        "lm": 380983514
+        "lm": 382967550,
+        "ch": [
+            {
+                "id": "7705bc8e-2fde-8b0d-9bcc-0731d9540795",
+                "nm": "<span class=\"colored bc-yellow\">Yellow color highlight</span>",
+                "ct": 382967477,
+                "metadata": {},
+                "lm": 382967531
+            },
+            {
+                "id": "5d4b534c-379e-275f-5cf3-3c235cc3f513",
+                "nm": "<span class=\"colored c-red\">Red color text</span>",
+                "ct": 382967483,
+                "metadata": {},
+                "lm": 382967536
+            },
+            {
+                "id": "1c26b02d-0273-5679-3e76-fe7e173a60fd",
+                "nm": "<b>Bold text</b>",
+                "ct": 380044726,
+                "metadata": {},
+                "lm": 382967538
+            },
+            {
+                "id": "796addbe-f784-6403-389c-b2fbd86f0602",
+                "nm": "<u>Underline text</u>",
+                "ct": 382967503,
+                "metadata": {},
+                "lm": 382967550
+            },
+            {
+                "id": "4ef623e4-0935-fdb2-d287-2a27685c30c2",
+                "nm": "<i>Italic text</i>",
+                "ct": 382967499,
+                "metadata": {},
+                "lm": 382967541
+            },
+            {
+                "id": "82fb9e0c-08c2-ac1f-822a-7a3769eb1e34",
+                "nm": "<s>strike-through text</s>",
+                "ct": 382967507,
+                "metadata": {},
+                "lm": 382967547
+            }
+        ]
     },
     {
         "id": "49808b50-b01e-adfe-7642-732422b78346",
@@ -712,18 +763,18 @@
         "lm": 380983514
     },
     {
-        "id": "d1b70dfd-ad43-471e-ae06-4d556cb7007e",
+        "id": "c759f297-6236-4979-4595-fb1bcbd65385",
         "nm": "File upload",
-        "ct": 380043168,
+        "ct": 383058246,
         "metadata": {
             "s3File": {
                 "isFile": true,
-                "fileName": "Clements-Tiberio - Full Stack Resume (2024.09.20).pdf",
-                "fileType": "application/pdf",
-                "objectFolder": "gAAAAABnJEGOKGDoKOGQ2zMIzrgA9PcgyounGVj-gEpkr1a9fTptahWjAf44XpwAYJkApHz3zsyHBGkI-zYlKlu9g7HLIvzmpEApIimeAQcAXxLGJdpVAT6cbkLmlU5B2N6j60axVMnejAiI0cMqpKgEachSlc--lIVCvXuN4TvHFlb2VeE5X6AL4fvcKhvgut56dS-sJfmR4Y41hAa9vJ80_eqitWGgv9AMhEnfcueZdVsjG9u7lpM="
+                "fileName": "tmp.txt",
+                "fileType": "text/plain",
+                "objectFolder": "gAAAAABnUkKhLpdxC72wjCuv6I4iC27ruQKG6O6kOh96wNEADkg_iampBNCx1e39tPoAg_EE8v2Dy_NuWhsOyzgmCXmPB9xEBY5_hoOgBUKzYLsHINe_bh0Ix_hUUNiwMqcBORhKmpJzZU3hqOAkfSKm2KQAeOwB4naevx1z9azriSDqSeGLuKEBPF0TPCtbZZaW5KjPxvFHCGeeVZpa8DQesI9-z1S4FltqcOLGjd3S2YLUsv95r7Q="
             }
         },
-        "lm": 380983514
+        "lm": 383058309
     },
     {
         "id": "bf6d6065-d1e1-cafd-8dac-b28e391e2556",
@@ -733,51 +784,51 @@
         "lm": 380983514,
         "ch": [
             {
-                "id": "d1eb2904-c1e4-ea7e-6531-6df9fb13c35a",
+                "id": "037699cd-1178-09bb-bcf7-f2f031fa2156",
                 "nm": "",
-                "ct": 380092321,
+                "ct": 382967327,
                 "metadata": {
                     "layoutMode": "cmnt-c"
                 },
-                "lm": 380092321,
+                "lm": 382967327,
                 "ch": [
                     {
-                        "id": "41b8fd84-7a42-de9b-7769-38ea0ce0dcb0",
-                        "nm": "<mention id=\"0\" by=\"286081\" ts=\"77646272\"> </mention> a comment ",
-                        "ct": 380092328,
+                        "id": "43539d2a-ab08-fd84-4d90-b7912e4ad62d",
+                        "nm": "This is the top level comment",
+                        "ct": 382967339,
                         "metadata": {
                             "layoutMode": "cmnt"
                         },
-                        "lm": 380092328,
+                        "lm": 382967339,
                         "ch": [
                             {
-                                "id": "0e290fad-800a-54ba-c9bb-547527a0c281",
-                                "nm": " <mention id=\"286081\" by=\"286081\" ts=\"77646303\"> </mention> ",
-                                "ct": 380092363,
+                                "id": "aa8d5279-69c2-61bc-8c53-a71e4d3f5e85",
+                                "nm": "This is a second reply to the top level comment",
+                                "ct": 382967369,
                                 "metadata": {
                                     "layoutMode": "cmnt"
                                 },
-                                "lm": 380092363,
-                                "ch": [
-                                    {
-                                        "id": "120d3ce4-ff62-fe8e-8307-18909301750a",
-                                        "nm": "A response",
-                                        "ct": 380092363,
-                                        "metadata": {
-                                            "layoutMode": "p"
-                                        },
-                                        "lm": 380092363
-                                    }
-                                ]
+                                "lm": 382967369
                             },
                             {
-                                "id": "773055e2-e2d4-ce86-296d-25cd8fea9f4a",
-                                "nm": "A response ",
-                                "ct": 380092342,
+                                "id": "2f3a468b-2f49-c00a-8e1c-2d1e5ee03223",
+                                "nm": " This is a reply to the top level comment",
+                                "ct": 382967353,
                                 "metadata": {
                                     "layoutMode": "cmnt"
                                 },
-                                "lm": 380092342
+                                "lm": 382967353,
+                                "ch": [
+                                    {
+                                        "id": "25fe1f1d-3e1e-014e-3731-b25a5baa3756",
+                                        "nm": " This is a reply to the top level comment's first reply",
+                                        "ct": 382967420,
+                                        "metadata": {
+                                            "layoutMode": "cmnt"
+                                        },
+                                        "lm": 382967420
+                                    }
+                                ]
                             }
                         ]
                     }
