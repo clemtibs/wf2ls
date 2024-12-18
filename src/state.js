@@ -24,6 +24,10 @@ class AppState {
   }
 
   addPage(pName, pageStr) {
+    // TODO: A page specifically named "Orphans" needs to be detected and
+    // appended to rather than overwritten. That page is for nodes that have
+    // the newPageTag but end up with an empty node name or spaces as a result
+    // of stripTag(). 
     this.pages.set(pName, pageStr);
   }
 

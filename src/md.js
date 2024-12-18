@@ -4,8 +4,8 @@ import {
   tagInText,
   stripTag,
   toPageLink,
-  makeBlockPrefix,
-  makeNotePrefix
+  makeBlockNamePrefix,
+  makeBlockNotePrefix
 } from './text.js';
 
 /*
@@ -40,10 +40,10 @@ const convertToMd = (state, conf, pageName, node, nNodes, indentLvl, isNewPage) 
             n.note = stripTag(conf.get("newPageTag"), n.note).trim();
             let newNode = n.children;
             newNode.unshift(utils.makeNode(
-              indentNote( {note: n.note}, makeNotePrefix(conf.get("indentSpaces"), 0)),
+              indentNote( {note: n.note}, makeBlockNotePrefix(conf.get("indentSpaces"), 0)),
               ''));
             state.addJob();
-            pageBlocks.push(makeBlockPrefix(conf.get("indentSpaces"), indentLvl) + name);
+            pageBlocks.push(makeBlockNamePrefix(conf.get("indentSpaces"), indentLvl) + name);
             convertToMd(
               state,
               conf,
@@ -57,17 +57,17 @@ const convertToMd = (state, conf, pageName, node, nNodes, indentLvl, isNewPage) 
             continue;
       }
 
-      note = indentNote(n, makeNotePrefix(conf.get("indentSpaces"), indentLvl));
+      note = indentNote(n, makeBlockNotePrefix(conf.get("indentSpaces"), indentLvl));
 
       if (n.layoutMode === "todo") {
         marker = "TODO ";
         if (n.completed) {
-          completed = "\n" + makeNotePrefix(conf.get("indentSpaces"), indentLvl) + "completed-on:: " + toPageLink(n.completed);
+          completed = "\n" + makeBlockNotePrefix(conf.get("indentSpaces"), indentLvl) + "completed-on:: " + toPageLink(n.completed);
           marker = "DONE ";
         }
       }
 
-      pageBlocks.push(makeBlockPrefix(conf.get("indentSpaces"), indentLvl) + marker + name + completed + note);
+      pageBlocks.push(makeBlockNamePrefix(conf.get("indentSpaces"), indentLvl) + marker + name + completed + note);
 
       if (n.children) {
         pageBlocks.push(convertToMd(

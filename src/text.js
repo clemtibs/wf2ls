@@ -1,7 +1,11 @@
 /** Text tools **/
 
 const tagInText = (tag, str) => {
-  return (str ?? '').includes(tag);
+  if (tag === '') {
+    return false
+  } else {
+    return (str ?? '').includes(tag);
+  }
 }
 
 const stripTag = (tag, str) => {
@@ -9,23 +13,20 @@ const stripTag = (tag, str) => {
 }
 
 const toPageLink = (str) => {
-  return `[[ ${(str ?? 'Orphans')} ]]` 
-}
-
-const makeBlockPrefix = (indentSize, indentLvl) => {
-  if (indentLvl < 0) {
-    return ""
+  if (str === '' || str.trim().length === 0) {
+    return `[[ Orphans ]]` 
   } else {
-    return " ".repeat(indentSize * indentLvl) + "- ";
+    let trimmed = str.trim();
+    return `[[ ${trimmed} ]]` 
   }
 }
 
-const makeNotePrefix = (indentSize, indentLvl) => {
-  if (indentLvl < 0) {
-    return ""
-  } else {
-    return " ".repeat(indentSize * indentLvl) + "  ";
-  }
+const makeBlockNamePrefix = (indentSize, indentLvl) => {
+  return " ".repeat(indentSize * indentLvl) + "- ";
+}
+
+const makeBlockNotePrefix = (indentSize, indentLvl) => {
+  return " ".repeat(indentSize * indentLvl) + "  ";
 }
 
 /**
@@ -46,6 +47,6 @@ export {
   tagInText,
   stripTag,
   toPageLink,
-  makeBlockPrefix,
-  makeNotePrefix
+  makeBlockNamePrefix,
+  makeBlockNotePrefix
 };
