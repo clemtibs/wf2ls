@@ -1,4 +1,4 @@
-## Workflowy to LogSeq Converter Utility
+# Workflowy to LogSeq Converter Utility
 
 ![version](https://img.shields.io/badge/version-0.10.0-yellowgreen) ![status - alpha](https://img.shields.io/badge/status-alpha-orange) [![GitHub tag](https://img.shields.io/github/tag/brianclements/wf2ls?include_prereleases=&sort=semver&color=blue)](https://github.com/brianclements/wf2ls/releases/)
 [![License](https://img.shields.io/badge/License-MIT-blue)](#license)
@@ -21,6 +21,8 @@ this is also a bit of a roadmap for myself.
 
 **Anything suffixed with a __*__ indicates that the option/feature is not
 implemented yet.**
+
+Click [here](#usage) to jump to usage.
 
 ### Complete/Incomplete and Visible/Hidden status of bullets and blocks
 
@@ -201,6 +203,73 @@ with the file information and a dead link to where the file would be if it was
 correctly in assets, then create a new page with a list of missing files as a
 TODO list. One will be able to easily go through, download manually to assets,
 then the dead links will start to work normally.
+
+## Usage
+
+1) Download source
+
+    ```
+    git clone https://github.com/brianclements/wf2ls.git wf2ls
+    cd wf2ls
+    ```
+
+2) Install dependencies (~15mb)
+
+    `npm install`
+
+3) Testing (optional)
+
+    `npm run test`
+
+4) Run the conversion script
+
+    at minimum: `npm run cli-convert -- -s "./workflowy.backup"`
+
+    or
+
+    `npm run cli-convert -- -c "../config.json"`
+
+    or optionally
+
+    `npm run cli-convert -- -s "./workflowy.backup" -d "./output"`
+
+
+**NOTE:** Both `workflowy.backup` and any `config.json` must be proper JSON files.
+
+These are the only three CLI arguments possible. There are many configuration
+options pertaining to script behavior and conversions, and they are best
+contained in a configuration file.
+
+### Configuration
+
+A sample configuration can be found in the root of the source directory, called
+`config_file_example.json`.
+
+It contains the following:
+
+```json
+[
+  {
+    "sourceFile": "",
+    "destDir": "./output",
+    "newPageTag": "#LS-Page",
+    "indentSpaces": 2,
+    "defaultPage": "Workflowy Imports"
+  }
+]
+```
+
+The script handles configuration loading in the following order:
+
+1) Built-in default configuration is the same as the sample configuration file above.
+2) The script then checks for an optional configuration file in the source root
+   named `config.json`
+3) Then, the CLI option `-c` can specify a configuration file in a custom
+   location
+4) If `-s` `-d` are provided along with `-c`, the settings for just the source
+   file and destination directory in the configuration file will be ignored and the
+   CLI options will take precedent. All other options in the configuration file
+   will still take effect.
 
 ## Credits
 
