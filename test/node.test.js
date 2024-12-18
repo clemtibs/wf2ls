@@ -22,64 +22,83 @@ describe('node.js', () => {
   describe('Idendity Tests', () => {
     describe('nodeIsBacklink()', () => {
       it('should detect backlink nodes', () => {
-        let testNode = { 'metadata':
+        let testNodePass = { 'metadata':
                         {'isReferencesRoot': true }}
-        expect(nodeIsBacklink(testNode)).to.be.true;
+        expect(nodeIsBacklink(testNodePass)).to.be.true;
+        let testNodeFail = { 'metadata': {}}
+        expect(nodeIsBacklink(testNodeFail)).to.be.false;
       });
     });
     describe('nodeIsBullet()', () => {
       it('should detect regular nodes', () => {
-        let testNode = { 'metadata': {}}
-        expect(nodeIsBullet(testNode)).to.be.true;
+        let testNodePass = { 'metadata': {}}
+        expect(nodeIsBullet(testNodePass)).to.be.true;
+        let testNodeFail = { 'metadata':
+                        {'layoutMode': 'todo'}}
+        expect(nodeIsBullet(testNodeFail)).to.be.false;
       });
     });
     describe('nodeIsBoard()', () => {
       it('should detect board nodes', () => {
-        let testNode = { 'metadata':
+        let testNodePass = { 'metadata':
                         {'layoutMode': 'board'}}
-        expect(nodeIsBoard(testNode)).to.be.true;
+        expect(nodeIsBoard(testNodePass)).to.be.true;
+        let testNodeFail = { 'metadata': {}}
+        expect(nodeIsBoard(testNodeFail)).to.be.false;
       });
     });
     describe('nodeIsCodeBlock()', () => {
       it('should detect code block nodes', () => {
-        let testNode = { 'metadata':
+        let testNodePass = { 'metadata':
                         {'layoutMode': 'code-block'}}
-        expect(nodeIsCodeBlock(testNode)).to.be.true;
+        expect(nodeIsCodeBlock(testNodePass)).to.be.true;
+        let testNodeFail = { 'metadata': {}}
+        expect(nodeIsCodeBlock(testNodeFail)).to.be.false;
       });
     });
     describe('nodeIsH1()', () => {
       it('should detect H1 nodes', () => {
-        let testNode = { 'metadata':
+        let testNodePass = { 'metadata':
                         {'layoutMode': 'h1'}}
-        expect(nodeIsH1(testNode)).to.be.true;
+        expect(nodeIsH1(testNodePass)).to.be.true;
+        let testNodeFail = { 'metadata': {}}
+        expect(nodeIsH1(testNodeFail)).to.be.false;
       });
     });
     describe('nodeIsH2()', () => {
       it('should detect H2 nodes', () => {
-        let testNode = { 'metadata':
+        let testNodePass = { 'metadata':
                         {'layoutMode': 'h2'}}
-        expect(nodeIsH2(testNode)).to.be.true;
+        expect(nodeIsH2(testNodePass)).to.be.true;
+        let testNodeFail = { 'metadata': {}}
+        expect(nodeIsH2(testNodeFail)).to.be.false;
       });
     });
     describe('nodeIsParagraph()', () => {
       it('should detect paragraph nodes', () => {
-        let testNode = { 'metadata':
+        let testNodePass = { 'metadata':
                         {'layoutMode': 'p'}}
-        expect(nodeIsParagraph(testNode)).to.be.true;
+        expect(nodeIsParagraph(testNodePass)).to.be.true;
+        let testNodeFail = { 'metadata': {}}
+        expect(nodeIsParagraph(testNodeFail)).to.be.false;
       });
     });
     describe('nodeIsQuoteBlock()', () => {
       it('should detect quote block nodes', () => {
-        let testNode = { 'metadata':
+        let testNodePass = { 'metadata':
                         {'layoutMode': 'quote-block'}}
-        expect(nodeIsQuoteBlock(testNode)).to.be.true;
+        expect(nodeIsQuoteBlock(testNodePass)).to.be.true;
+        let testNodeFail = { 'metadata': {}}
+        expect(nodeIsQuoteBlock(testNodeFail)).to.be.false;
       });
     });
     describe('nodeIsTodo()', () => {
       it('should detect todo nodes', () => {
-        let testNode = { 'metadata':
+        let testNodePass = { 'metadata':
                         {'layoutMode': 'todo'}}
-        expect(nodeIsTodo(testNode)).to.be.true;
+        expect(nodeIsTodo(testNodePass)).to.be.true;
+        let testNodeFail = { 'metadata': {}}
+        expect(nodeIsTodo(testNodeFail)).to.be.false;
       });
     });
 
