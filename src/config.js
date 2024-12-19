@@ -60,7 +60,7 @@ const updateConfigFromCliArgs = (appConf, args) => {
 const updateConfigFromFile = (appConf, rawConf) => {
   if (rawConf.sourceFile) appConf.set("sourceFile", rawConf.sourceFile);
   if (rawConf.destDir) appConf.set("destDir", rawConf.destDir);
-  if (rawConf.newPagetag) appConf.set("newPageTag", rawConf.newPageTag);
+  if (rawConf.newPageTag) appConf.set("newPageTag", rawConf.newPageTag);
   if (rawConf.indentSpaces) appConf.set("indentSpaces", rawConf.indentSpaces);
   if (rawConf.defaultPage) appConf.set("defaultPage", rawConf.defaultPage);
   // specifically omiting "confFileLocation". We got to a specific config file
