@@ -43,5 +43,4 @@ const parseWfData = (state, data) => {
   return newData;
 }
 
-// TODO: change filename to parsers
 export { parseWfData };
