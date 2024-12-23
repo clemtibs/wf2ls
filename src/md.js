@@ -1,5 +1,7 @@
-import utils from './utils.js';
-import { indentNote } from './node.js';
+import { 
+  indentNote,
+  makeNode
+} from './node.js';
 import {
   tagInText,
   stripTag,
@@ -39,7 +41,7 @@ const convertToMd = (state, conf, pageName, node, nNodes, indentLvl, isNewPage) 
             name = n.name;
             n.note = stripTag(conf.get("newPageTag"), n.note).trim();
             let newNode = n.children;
-            newNode.unshift(utils.makeNode(
+            newNode.unshift(makeNode(
               indentNote( {note: n.note}, makeBlockNotePrefix(conf.get("indentSpaces"), 0)),
               ''));
             state.addJob();
