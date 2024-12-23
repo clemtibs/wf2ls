@@ -22,18 +22,29 @@ const indentNote = (node, prefix) => {
   return note;
 }
 
-const makeNode = (name, note) => {
+/*
+ * @params: 
+ *    [empty]
+ *    OR
+ *    {props}, object defining any of:
+ *      <id:string>, default: randomUUID()
+ *      <name:string>, default: ''
+ *      <note:string>, default: nonexistent
+ *      <completed:string>, default: nonexistent
+ *      <children:array>, default: nonexistent,
+ *          can include an array of recursive makeNode() functions
+ * @returns: {node}, node object compatible with convertToMd()
+ */
+const makeNode = (props) => {
+  props = (props ?? {});
   let newNode = {};
-  // id ? n.id = id : n.id = crypto.randomUUID();
-  // name ? n.name = name : n.id = '';
-  // if (note) n.note = note;
-  // if (completed) n.completed = completed;
-  // if (children) n.children = children;
-  newNode.id = crypto.randomUUID();
-  name ? newNode.name = name : newNode.name = '';
-  if (note) newNode.note = note;
-  // if (completed) n.completed = completed;
-  // if (children) n.children = children;
+
+  props.id ? newNode.id = props.id : newNode.id = crypto.randomUUID();
+  props.name ? newNode.name = props.name : newNode.name = '';
+  if (props.note) newNode.note = props.note;
+  if (props.completed) newNode.completed = props.completed;
+  if (props.children) newNode.children = props.children;
+
   return newNode;
 }
 
