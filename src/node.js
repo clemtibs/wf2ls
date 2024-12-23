@@ -37,7 +37,7 @@ const indentNote = (node, prefix) => {
  */
 const makeNode = (props) => {
   props = (props ?? {});
-  let newNode = {};
+  let newNode = { metadata: {}};
 
   props.id ? newNode.id = props.id : newNode.id = crypto.randomUUID();
   props.name ? newNode.name = props.name : newNode.name = '';

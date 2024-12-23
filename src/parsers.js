@@ -18,7 +18,7 @@ const parseWfData = (state, data) => {
   let newData = [];
   for (let node of data) {
     if (node.nm !== "") {
-      let newNode = {};
+      let newNode = { metadata: {}};
       state.addJob()
       // if (!resultIdMap.get(node.id)) resultIdMap.set(node.id, newNode);
       newNode.name = node.nm.trim();
@@ -26,8 +26,7 @@ const parseWfData = (state, data) => {
       // if (node.ct) newNode.created = date.wfTimeToLocalTime(node.ct, date.WF_EPOCH_SECONDS_PST);
       if (node.no) newNode.note = node.no.trim();
       if (node.cp) newNode.completed = date.wfTimeToLocalTime(node.cp, date.WF_EPOCH_SECONDS_PST);
-      //TODO: make parser output also use 'node.metadata.layoutMode' format
-      if (node.metadata.layoutMode == "todo") newNode.layoutMode = "todo";
+      if (node.metadata.layoutMode === "todo") newNode.metadata.layoutMode = "todo";
       // newNode.lastModified = date.wfTimeToLocalTime(node.lm, date.WF_EPOCH_SECONDS_PST);
       // node.mirrorRootItems?.forEach(item => mirrors.set(item.id, node.id));
       if (node.ch) {

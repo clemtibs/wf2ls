@@ -1,6 +1,7 @@
 import { 
   indentNote,
-  makeNode
+  makeNode,
+  nodeIsTodo
 } from './node.js';
 import {
   tagInText,
@@ -66,7 +67,7 @@ const convertToMd = (state, conf, pageName, node, nNodes, indentLvl, isNewPage) 
 
       note = indentNote(n, makeBlockNotePrefix(conf.get("indentSpaces"), indentLvl));
 
-      if (n.layoutMode === "todo") {
+      if (nodeIsTodo(n)) {
         marker = "TODO ";
         if (n.completed) {
           completed = "\n" + makeBlockNotePrefix(conf.get("indentSpaces"), indentLvl) + "completed-on:: " + toPageLink(n.completed);
