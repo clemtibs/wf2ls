@@ -10,7 +10,8 @@ import { default as _ } from 'lodash';
 const indentNote = (node, prefix) => {
   let note = "";
   if (node.note) {
-    let lines = node.note.split('\n');
+    let trimmedNote = node.note.trim();
+    let lines = trimmedNote.split('\n');
     let prefixedLines = []
     lines.forEach(l => {
       prefixedLines.push(prefix + l);
