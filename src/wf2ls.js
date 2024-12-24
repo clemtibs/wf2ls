@@ -24,13 +24,13 @@ let confFile = undefined;
 
 if (fileExists(mainConfig.get("confFileLocation"))) { // ./config.json
   confFile = readJsonFile(mainConfig.get("confFileLocation"));
-  updateConfigFromFile(mainConfig, confFile[0]);
+  updateConfigFromFile(mainConfig, confFile);
 }
 
 const cliArgs = minimist(process.argv.slice(2));
 if (fileExists(cliArgs.c)) { // config from custom location, "-c" option on CLI
   confFile = readJsonFile(cliArgs.c);
-  updateConfigFromFile(mainConfig, confFile[0]);
+  updateConfigFromFile(mainConfig, confFile);
 }
 
 // give CLI args a chance to override anything from defaultConfig or confFile
