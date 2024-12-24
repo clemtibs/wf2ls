@@ -13,21 +13,21 @@ import {
 
 /*
  * @params:
- *   {AppState}, application state object
- *   {mainConfig}, application config object
+ *   <state:object>, instance of AppState object
+ *   <conf:object>, instance of mainConfig object
  *   <pageName:string>, name of current page being processed
- *   {node:JSON}, current JSON node object
- *   <nNodes:int>, total number of children nodes in {node}
- *   <nNodes:int>, level of indenting for next set of children nodes
+ *   <nodes:array>, array of JSON node objects
+ *   <nNodes:int>, total number of children nodes in [nodes]
+ *   <indentLvl:int>, level of indenting for next set of children nodes
  *   <isNewPage:bool>, tell new recursive branch that it's starting a new page
- * @returns: <null>, appends to pages map in {AppState}
+ * @returns: <null>, appends to pages map in <state>
  */
-const convertToMd = (state, conf, pageName, node, nNodes, indentLvl, isNewPage) => {
+const convertToMd = (state, conf, pageName, nodes, nNodes, indentLvl, isNewPage) => {
   pageName ? pageName : pageName = "content";
   indentLvl ? indentLvl : indentLvl = 0;
   isNewPage ? isNewPage : isNewPage = false;
   let pageBlocks = [];
-  for (let n of node) {
+  for (let n of nodes) {
     state.incrementJobProgress();
     if (n.name !== "") {
       let name = n.name.trim();

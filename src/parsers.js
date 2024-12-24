@@ -1,18 +1,36 @@
-/* Processing and intake of JSON in Workflowy backup file format and structure.
+/* JSON Parsers
  *
- * TODO: specify this output object structure so that diff JSON inputs can be
- * used from other applications later as plugins.
-*/
+ * These prep JSON of various formats for conversion to LogSeq compliant markdown
+ * using convertToMd()
+ * 
+ * convertToMd() requires JSON objects of the same structure as the source,
+ * with minor formatting cleanup and the following properties per node:
+ *
+ *   <name:string>, required, cannot be empty
+ *   <id:string>, required, must be a valid UUID
+ *   <metadata:object>, required, ok if empty, is empty by default
+ *   [<note:string>], optional
+ *   [<completed:string>], optional
+ *   [<children:array>], optional, cannot be empty, contains n...
+ *                        JSON objects of same structure and parameters
+ *
+ *   All strings must be trimmed for whitespaces and newlines at start and end,
+ *   but may contain newlines within the text.
+ *
+ *   The root level of every JSON data object passed from parseWfData() through
+ *   to convertToMd() needs to be an array.
+ */
 
 import date from './date.js';
 import { nodeIsBacklink } from './node.js';
 
-/*
+/* Workflowy backup file format and structure.
+ *
  * @params: 
- *   {AppState}, application state object
- *   {JSON}, raw JSON data loaded from Workflowy .backup file
- * @returns: {JSON} of same structure, with selected properties and minor
- *           formatting cleanup. 
+ *   <state:object>, instance of AppState object
+ *   <data:array>, raw JSON data loaded from Workflowy .backup file. Load with 
+ *           readJsonFile(). Top level JSON structure is an array.
+ * @returns: <JSON array>
  */
 const parseWfData = (state, data) => {
   let newData = [];

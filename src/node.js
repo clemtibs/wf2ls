@@ -4,8 +4,11 @@
 import { default as _ } from 'lodash';
 
 /*
- * @params: {JSON} single JSON node object
- * @returns: <string>, string of formatted note text with indents & newlines
+ * @params:
+ *    <node:object>, single JSON node object
+ *    <prefix:string>, a string containing each lines indent content
+ * @returns: <string>, string of formatted note text with original indents &
+ *           newlines plus a newline at the start.
  */
 const indentNote = (node, prefix) => {
   let note = "";
