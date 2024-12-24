@@ -38,9 +38,9 @@ const parseWfData = (state, data) => {
     if (node.nm !== "") {
       let newNode = { metadata: {}};
       state.addJob()
+      newNode.id = node.id;
       // if (!resultIdMap.get(node.id)) resultIdMap.set(node.id, newNode);
       newNode.name = node.nm.trim();
-      // newNode.id = node.id;
       // if (node.ct) newNode.created = date.wfTimeToLocalTime(node.ct, date.WF_EPOCH_SECONDS_PST);
       if (node.no) newNode.note = node.no.trim();
       if (node.cp) newNode.completed = date.wfTimeToLocalTime(node.cp, date.WF_EPOCH_SECONDS_PST);
