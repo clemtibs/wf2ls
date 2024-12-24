@@ -1,3 +1,8 @@
+/* CLI entrypoint for main()
+ *
+ * Loading onfiguration files, CLI args, and source data from drive, writing to
+ * output directory.
+ */
 import { default as minimist } from 'minimist';
 
 import { AppState } from './state.js';
@@ -15,8 +20,7 @@ import {
   writeFile
 } from './fs.js';
 
-// CLI entrypoint for main()
-// process config files first.
+// Process config files first
 // REMEMBER: all paths are relative to your PWD in your term. Easiest common
 // reference is the root of src.
 const mainConfig = new AppConfig(defaultConfig); // internal from config.js
