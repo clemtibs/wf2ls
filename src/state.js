@@ -28,6 +28,13 @@ class AppState {
     // appended to rather than overwritten. That page is for nodes that have
     // the newPageTag but end up with an empty node name or spaces as a result
     // of stripTag(). 
+
+    // Newlines get added automatically at the end of each page (file) when
+    // written to disk, but are absent in pages map, which means they are
+    // missing for and fail the tests (since they compare against a file that
+    // is read, and ends in newlines). So when testing, we need to add newlines
+    // back to end of every page so they can pass. 
+    if (this.isTestInstance) pageStr += "\n";
     this.pages.set(pName, pageStr);
   }
 
