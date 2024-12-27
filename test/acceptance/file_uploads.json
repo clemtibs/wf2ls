@@ -1,0 +1,14 @@
+[{
+  "id": "c759f297-6236-4979-4595-fb1bcbd65385",
+  "nm": "File upload",
+  "ct": 383058246,
+  "metadata": {
+      "s3File": {
+          "isFile": true,
+          "fileName": "tmp.txt",
+          "fileType": "text/plain",
+          "objectFolder": "gAAAAABnUkKhLpdxC72wjCuv6I4iC27ruQKG6O6kOh96wNEADkg_iampBNCx1e39tPoAg_EE8v2Dy_NuWhsOyzgmCXmPB9xEBY5_hoOgBUKzYLsHINe_bh0Ix_hUUNiwMqcBORhKmpJzZU3hqOAkfSKm2KQAeOwB4naevx1z9azriSDqSeGLuKEBPF0TPCtbZZaW5KjPxvFHCGeeVZpa8DQesI9-z1S4FltqcOLGjd3S2YLUsv95r7Q="
+      }
+  },
+  "lm": 383058309
+}]

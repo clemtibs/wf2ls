@@ -1,0 +1,24 @@
+[{
+  "id": "66946bbc-61d9-97c1-f567-0056ae5514bf",
+  "nm": "A New LogSeq Page #LS-Page",
+  "ct": 380636923,
+  "metadata": {},
+  "no": "This used to be a note on the source block. It should not be visible on the source link block and only as the first note on the new page.\nThis is an example of a top level page link and these are notes for the top block.",
+  "lm": 382255508,
+  "ch": [
+      {
+          "id": "4fb70828-cc1e-1969-db29-24385ee740d1",
+          "nm": "This should be on the new page only.",
+          "ct": 382255508,
+          "metadata": {},
+          "lm": 382255512
+      },
+      {
+          "id": "e2a918ff-e46d-e902-799c-380e46da7d7b",
+          "nm": "This is also on the new page only.",
+          "ct": 382255509,
+          "metadata": {},
+          "lm": 382255509
+      }
+  ]
+}]

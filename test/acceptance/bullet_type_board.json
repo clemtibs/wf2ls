@@ -1,0 +1,25 @@
+[{
+    "id": "3a6d5b12-4c9c-82ea-0ddb-c749166d1a16",
+    "nm": "Board",
+    "ct": 380092122,
+    "metadata": {
+        "layoutMode": "board"
+    },
+    "lm": 380092152,
+    "ch": [
+        {
+            "id": "f2fc300b-5f49-1295-aed6-a7800a574584",
+            "nm": "Item 1",
+            "ct": 380092162,
+            "metadata": {},
+            "lm": 380092168
+        },
+        {
+            "id": "4a93bd29-f19c-d859-46eb-da71e48983cd",
+            "nm": "Item 2",
+            "ct": 380092168,
+            "metadata": {},
+            "lm": 380092173
+        }
+    ]
+}]

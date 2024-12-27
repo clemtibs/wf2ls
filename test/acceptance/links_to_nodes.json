@@ -1,0 +1,62 @@
+[{
+  "id": "562c17de-d6e8-2b63-9723-d0ff5ac4a9da",
+  "nm": "Links to nodes",
+  "ct": 380011159,
+  "metadata": {},
+  "lm": 380983514,
+  "ch": [
+      {
+          "id": "aff57398-663f-bad1-09fb-982e8186ff23",
+          "nm": "Node 1",
+          "ct": 380011219,
+          "metadata": {},
+          "no": "This note has a backlink child node.\n",
+          "lm": 382255901,
+          "ch": [
+              {
+                  "id": "314de0a1-26b3-0929-ef07-8828460a39ca",
+                  "nm": "",
+                  "ct": 380041084,
+                  "metadata": {
+                      "isReferencesRoot": true
+                  },
+                  "lm": 380041084,
+                  "ch": [
+                      {
+                          "id": "50874021-d709-1090-79fe-a60f88e86a76",
+                          "nm": "",
+                          "ct": 380041084,
+                          "metadata": {
+                              "mirror": {
+                                  "originalId": "a4dd2ac5-4b93-2904-19dc-57fe6d4de1d6",
+                                  "isMirrorRoot": true
+                              },
+                              "backlink": {
+                                  "sourceID": "a4dd2ac5-4b93-2904-19dc-57fe6d4de1d6",
+                                  "targetID": "aff57398-663f-bad1-09fb-982e8186ff23"
+                              },
+                              "originalId": "a4dd2ac5-4b93-2904-19dc-57fe6d4de1d6",
+                              "isVirtualRoot": true
+                          },
+                          "lm": 380041084
+                      }
+                  ]
+              }
+          ]
+      },
+      {
+          "id": "a4dd2ac5-4b93-2904-19dc-57fe6d4de1d6",
+          "nm": "Node 2",
+          "ct": 380011322,
+          "metadata": {
+              "mirror": {
+                  "backlinkMirrorRootIds": {
+                      "50874021-d709-1090-79fe-a60f88e86a76": true
+                  }
+              }
+          },
+          "no": "<a href=\"https://workflowy.com/#/982e8186ff23\">Link to node 1</a>",
+          "lm": 380041084
+      }
+  ]
+}]

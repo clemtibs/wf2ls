@@ -1,0 +1,1 @@
+- <span class="colored c-red">Red color text</span>

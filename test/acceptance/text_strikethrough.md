@@ -1,0 +1,1 @@
+- <s>strike-through text</s>

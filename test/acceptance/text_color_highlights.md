@@ -1,0 +1,1 @@
+- <span class="colored bc-yellow">Yellow color highlight</span>
