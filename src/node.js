@@ -1,5 +1,5 @@
-/*
- * Node testing and processing
+/* Node Testing and Processing
+ *
  */
 import { default as _ } from 'lodash';
 

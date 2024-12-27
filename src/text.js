@@ -1,4 +1,6 @@
-/** Text tools **/
+/* Text Tools
+ *
+ */
 
 const tagInText = (tag, str) => {
   if (tag === '') {

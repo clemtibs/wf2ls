@@ -1,3 +1,9 @@
+/* MD Converter
+ *
+ * The main loop that works over the data prepared by the parsers to do the
+ * actual conversions and translations.
+ *
+ */
 import { 
   indentNote,
   makeNode,
@@ -39,15 +45,14 @@ const convertToMd = (state, conf, pageName, nodes, nNodes, indentLvl, isNewPage)
       if (tagInText(newPageTag, n.name) ||
           tagInText(newPageTag, n.note) &&
           !isNewPage) {
-            let pName = stripTag(newPageTag, name).trim();
-            n.name = toPageLink(pName);
-            name = n.name;
-            n.note = stripTag(newPageTag, n.note).trim();
-            let newNode = n.children;
-            newNode.unshift(
+            let pageName = stripTag(newPageTag, name).trim();
+            name = toPageLink(pageName);
+            note = stripTag(newPageTag, n.note).trim();
+            let childrenNodes = n.children;
+            childrenNodes.unshift(
               makeNode({
                 name: indentNote(
-                  {note: n.note},
+                  {note: note},
                   makeBlockNotePrefix(indentSpaces, 0)
                 ),
               })
@@ -57,9 +62,9 @@ const convertToMd = (state, conf, pageName, nodes, nNodes, indentLvl, isNewPage)
             convertToMd(
               state,
               conf,
-              pName.trim(),
-              newNode,
-              newNode.length,
+              pageName.trim(),
+              childrenNodes,
+              childrenNodes.length,
               0,
               true
             );
@@ -77,7 +82,10 @@ const convertToMd = (state, conf, pageName, nodes, nNodes, indentLvl, isNewPage)
         }
       }
 
-      pageBlocks.push(makeBlockNamePrefix(indentSpaces, indentLvl) + marker + name + completed + note);
+      pageBlocks.push(
+        makeBlockNamePrefix(indentSpaces, indentLvl) + marker + name
+        + completed
+        + note);
 
       if (n.children) {
         pageBlocks.push(convertToMd(
