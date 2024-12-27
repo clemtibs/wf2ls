@@ -49,6 +49,10 @@ describe('main.js', () => {
   });
   describe('Acceptance tests', () => {
     describe('Basic Structure', () => {
+      it('Empty Note Name is skipped', () => {
+        runAcceptTest('empty_name');
+        expect(testResults.pages.get("default")).to.equal('\n');
+      });
       it('Multiple newlines within note text', () => {
         runAcceptTest('multiple_newlines_within_note_text');
         expect(testResults.pages.get("default")).to.equal(file(successTestOutput));
