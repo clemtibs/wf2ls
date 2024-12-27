@@ -38,6 +38,15 @@ describe('main.js', () => {
       testResults = undefined;
       successTestOutput = undefined;
     });
+  describe('main()', () => {
+    it('Returns state object when testing', () => {
+      testConfig.set("sourceFile", largeSampleDataLoc )
+      const testData = readJsonFile(testConfig.get("sourceFile"));
+
+      const testResults = main(testState, testConfig, testData);      
+      expect(testResults).to.be.an.instanceOf(AppState);
+    });
+  });
   describe('Acceptance tests', () => {
     describe('Basic Structure', () => {
       it('Multiple newlines within note text', () => {

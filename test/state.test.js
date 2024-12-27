@@ -1,9 +1,6 @@
 import { expect } from 'chai';
 
 import { AppState } from '../src/state.js';
-import { AppConfig } from '../src/config.js';
-import { main } from '../src/main.js';
-import { readJsonFile } from '../src/fs.js';
 
 const largeSampleDataLoc = "./test/data/wf_data_sample.json";
 
@@ -32,20 +29,6 @@ describe('state.js', () => {
         expect(testState.incrementJobProgress()).to.be.undefined;
         expect(testState.stopProgressBar()).to.be.undefined;
       });
-    });
-    it('Returns state object when testing', () => {
-      const testState = new AppState(undefined, true);
-      const testSettings = {
-        sourceFile: largeSampleDataLoc,
-        destDir: "",
-        newPageTag: "#LS-Page",
-        indentSpaces: 2,
-        defaultPage: "Page One"
-      };
-      const testConfig = new AppConfig(testSettings)
-      const testData = readJsonFile(testConfig.get("sourceFile"));
-      const results = main(testState, testConfig, testData);      
-      expect(results).to.be.an.instanceOf(AppState);
     });
   });
 });
