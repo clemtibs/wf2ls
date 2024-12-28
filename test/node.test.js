@@ -1,7 +1,7 @@
 import { expect } from 'chai';
 import {
-  indentNote,
   makeNode,
+  nodeHasNote,
   nodeIsBacklink,
   nodeIsBullet,
   nodeIsBoard,
@@ -15,48 +15,6 @@ import {
 
 describe('node.js', () => {
   describe('Node Processing', () => {
-    describe('indentNote()', () => {
-      it('Applies only a newline to node note with empty prefix', () => {
-        let testNodePass = { 'note': "Line 1\nLine 2\nLine 3" }
-        let testNodePassResult = "\nLine 1\nLine 2\nLine 3"
-        expect(indentNote(testNodePass, '')).to.deep.equal(testNodePassResult);
-        let testNodeFail = { 'note': "Line 1\nLine 2\nLine 3" }
-        let testNodeFailResult = "Line 1\nLine 2\nLine 3"
-        expect(indentNote(testNodeFail, '')).to.deep.not.equal(testNodeFailResult);
-      });
-      it('Applies prefix correctly to each line of note text in a node', () => {
-        let testNodePass = { 'note': "Line 1\nLine 2\nLine 3" }
-        let testNodePassResult = "\n  Line 1\n  Line 2\n  Line 3"
-        expect(indentNote(testNodePass, '  ')).to.deep.equal(testNodePassResult);
-      });
-      it('Applies prefix correctly to each line with multiple inner newlines', () => {
-        let testNodePass = { 'note': "Line 1\n\nLine 2\n\nLine 3" }
-        let testNodePassResult = "\n  Line 1\n  \n  Line 2\n  \n  Line 3"
-        expect(indentNote(testNodePass, '  ')).to.deep.equal(testNodePassResult);
-      });
-      it('Creates consistent start/end newline output regardless of input', () => {
-        let testNodePassOne = { 'note': "\nLine 1\nLine 2\nLine 3" }
-        let testNodePassTwo = { 'note': "Line 1\nLine 2\nLine 3\n" }
-        let testNodePassThree = { 'note': "\n\nLine 1\nLine 2\nLine 3" }
-        let testNodePassFour = { 'note': "Line 1\nLine 2\nLine 3\n\n" }
-        let testNodePassResult = "\nLine 1\nLine 2\nLine 3"
-        expect(indentNote(testNodePassOne, '')).to.deep.equal(testNodePassResult);
-        expect(indentNote(testNodePassTwo, '')).to.deep.equal(testNodePassResult);
-        expect(indentNote(testNodePassThree, '')).to.deep.equal(testNodePassResult);
-        expect(indentNote(testNodePassFour, '')).to.deep.equal(testNodePassResult);
-      });
-      it('Always remove extra leading/ending whitespace regardless of input', () => {
-        let testNodePassOne = { 'note': " Line 1\nLine 2\nLine 3" }
-        let testNodePassTwo = { 'note': "Line 1\nLine 2\nLine 3 " }
-        let testNodePassThree = { 'note': "  Line 1\nLine 2\nLine 3" }
-        let testNodePassFour = { 'note': "Line 1\nLine 2\nLine 3  " }
-        let testNodePassResult = "\nLine 1\nLine 2\nLine 3"
-        expect(indentNote(testNodePassOne, '')).to.deep.equal(testNodePassResult);
-        expect(indentNote(testNodePassTwo, '')).to.deep.equal(testNodePassResult);
-        expect(indentNote(testNodePassThree, '')).to.deep.equal(testNodePassResult);
-        expect(indentNote(testNodePassFour, '')).to.deep.equal(testNodePassResult);
-      });
-    });
     describe('makeNode()', () => {
       it('New node has correct default properties', () => {
         let testNode = makeNode();
@@ -111,6 +69,14 @@ describe('node.js', () => {
     });
   });
   describe('Idendity Tests', () => {
+    describe('nodeHasNote()', () => {
+      it('should detect node notes', () => {
+        let testNodePass = { 'note': 'some note content' };
+        expect(nodeHasNote(testNodePass)).to.be.true;
+        let testNodeFail = {};
+        expect(nodeHasNote(testNodeFail)).to.be.false;
+      });
+    });
     describe('nodeIsBacklink()', () => {
       it('should detect backlink nodes', () => {
         let testNodePass = { 'metadata':

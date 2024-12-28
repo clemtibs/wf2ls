@@ -5,11 +5,12 @@
  *
  */
 import { 
-  indentNote,
   makeNode,
+  nodeHasNote,
   nodeIsTodo
 } from './node.js';
 import {
+  indentLines,
   tagInText,
   stripTag,
   toPageLink,
@@ -39,20 +40,20 @@ const convertToMd = (state, conf, pageName, nodes, nNodes, indentLvl, isNewPage)
     state.incrementJobProgress();
     if (n.name !== "") {
       let name = n.name.trim();
-      let note = "";
+      let note = n.note ?? "";
       let completed = "";
       let marker = "";
-      if (tagInText(newPageTag, n.name) ||
-          tagInText(newPageTag, n.note) &&
+      if (tagInText(newPageTag, name) ||
+          tagInText(newPageTag, note) &&
           !isNewPage) {
             let pageName = stripTag(newPageTag, name).trim();
             name = toPageLink(pageName);
-            note = stripTag(newPageTag, n.note).trim();
+            note = stripTag(newPageTag, note).trim();
             let childrenNodes = n.children;
             childrenNodes.unshift(
               makeNode({
-                name: indentNote(
-                  {note: note},
+                name: indentLines(
+                  note,
                   makeBlockNotePrefix(indentSpaces, 0)
                 ),
               })
@@ -72,7 +73,9 @@ const convertToMd = (state, conf, pageName, nodes, nNodes, indentLvl, isNewPage)
             continue;
       }
 
-      note = indentNote(n, makeBlockNotePrefix(indentSpaces, indentLvl));
+      if (note !== "") {
+        note = indentLines(note, makeBlockNotePrefix(indentSpaces, indentLvl));
+      }
 
       if (nodeIsTodo(n)) {
         marker = "TODO ";

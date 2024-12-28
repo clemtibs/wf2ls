@@ -4,28 +4,6 @@
 import { default as _ } from 'lodash';
 
 /*
- * @params:
- *    <node:object>, single JSON node object
- *    <prefix:string>, a string containing each lines indent content
- * @returns: <string>, string of formatted note text with original indents &
- *           newlines plus a newline at the start.
- */
-const indentNote = (node, prefix) => {
-  let note = "";
-  if (node.note) {
-    let trimmedNote = node.note.trim();
-    let lines = trimmedNote.split('\n');
-    let prefixedLines = []
-    lines.forEach(l => {
-      prefixedLines.push(prefix + l);
-    });
-    note = '\n' + prefixedLines.join(`\n`);
-  }
-
-  return note;
-}
-
-/*
  * @params: 
  *    [empty]
  *    OR
@@ -49,6 +27,14 @@ const makeNode = (props) => {
   if (props.children) newNode.children = props.children;
 
   return newNode;
+}
+
+const nodeHasNote = (node) => {
+  if (node.note) {
+    return true;
+  } else {
+    return false;
+  }
 }
 
 const nodeIsBacklink = (node) => {
@@ -124,8 +110,8 @@ const nodeIsTodo = (node) => {
 }
 
 export {
-  indentNote,
   makeNode,
+  nodeHasNote,
   nodeIsBacklink,
   nodeIsBullet,
   nodeIsBoard,

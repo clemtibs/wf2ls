@@ -1,5 +1,6 @@
 import { expect } from 'chai';
 import {
+  indentLines,
   tagInText,
   stripTag,
   toPageLink,
@@ -8,6 +9,48 @@ import {
 } from '../src/text.js';
 
 describe('text.js', () => {
+  describe('indentLines()', () => {
+    it('Applies only a newline to node note with empty prefix', () => {
+      let testContentPass = "Line 1\nLine 2\nLine 3"
+      let testContentPassResult = "\nLine 1\nLine 2\nLine 3"
+      expect(indentLines(testContentPass, '')).to.deep.equal(testContentPassResult);
+      let testContentFail = "Line 1\nLine 2\nLine 3"
+      let testNodeFailResult = "Line 1\nLine 2\nLine 3"
+      expect(indentLines(testContentFail, '')).to.deep.not.equal(testNodeFailResult);
+    });
+    it('Applies prefix correctly to each line of note text in a node', () => {
+      let testContentPass = "Line 1\nLine 2\nLine 3"
+      let testContentPassResult = "\n  Line 1\n  Line 2\n  Line 3"
+      expect(indentLines(testContentPass, '  ')).to.deep.equal(testContentPassResult);
+    });
+    it('Applies prefix correctly to each line with multiple inner newlines', () => {
+      let testContentPass = "Line 1\n\nLine 2\n\nLine 3"
+      let testContentPassResult = "\n  Line 1\n  \n  Line 2\n  \n  Line 3"
+      expect(indentLines(testContentPass, '  ')).to.deep.equal(testContentPassResult);
+    });
+    it('Creates consistent start/end newline output regardless of input', () => {
+      let testContentPassOne = "\nLine 1\nLine 2\nLine 3"
+      let testContentPassTwo = "Line 1\nLine 2\nLine 3\n"
+      let testContentPassThree = "\n\nLine 1\nLine 2\nLine 3"
+      let testContentPassFour = "Line 1\nLine 2\nLine 3\n\n"
+      let testContentPassResult = "\nLine 1\nLine 2\nLine 3"
+      expect(indentLines(testContentPassOne, '')).to.deep.equal(testContentPassResult);
+      expect(indentLines(testContentPassTwo, '')).to.deep.equal(testContentPassResult);
+      expect(indentLines(testContentPassThree, '')).to.deep.equal(testContentPassResult);
+      expect(indentLines(testContentPassFour, '')).to.deep.equal(testContentPassResult);
+    });
+    it('Always remove extra leading/ending whitespace regardless of input', () => {
+      let testContentPassOne = " Line 1\nLine 2\nLine 3"
+      let testContentPassTwo = "Line 1\nLine 2\nLine 3 "
+      let testContentPassThree = "  Line 1\nLine 2\nLine 3"
+      let testContentPassFour = "Line 1\nLine 2\nLine 3  "
+      let testContentPassResult = "\nLine 1\nLine 2\nLine 3"
+      expect(indentLines(testContentPassOne, '')).to.deep.equal(testContentPassResult);
+      expect(indentLines(testContentPassTwo, '')).to.deep.equal(testContentPassResult);
+      expect(indentLines(testContentPassThree, '')).to.deep.equal(testContentPassResult);
+      expect(indentLines(testContentPassFour, '')).to.deep.equal(testContentPassResult);
+    });
+  });
   describe('tagInText()', () => {
     it('Pass when tag in string', () => {
       expect(tagInText('#Tag', '#Tag')).to.be.true;

@@ -2,6 +2,25 @@
  *
  */
 
+/*
+ * @params:
+ *    <node:object>, single JSON node object
+ *    <prefix:string>, a string containing each lines indent content
+ * @returns: <string>, string of formatted note text with original indents &
+ *           newlines plus a newline at the start.
+ */
+const indentLines = (content, prefix) => {
+  let output = "";
+  let trimmedContent = content.trim();
+  let lines = trimmedContent.split('\n');
+  let prefixedLines = []
+  lines.forEach(l => {
+    prefixedLines.push(prefix + l);
+  });
+  output = '\n' + prefixedLines.join(`\n`);
+  return output;
+}
+
 const tagInText = (tag, str) => {
   if (tag === '') {
     return false
@@ -46,6 +65,7 @@ const makeBlockNotePrefix = (indentSize, indentLvl) => {
 // }
 
 export {
+  indentLines,
   tagInText,
   stripTag,
   toPageLink,
