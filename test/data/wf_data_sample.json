@@ -640,6 +640,7 @@
                 "metadata": {
                     "layoutMode": "quote-block"
                 },
+                "no": "Note text should not be in the quote",
                 "lm": 380092198
             },
             {
@@ -649,6 +650,7 @@
                 "metadata": {
                     "layoutMode": "code-block"
                 },
+                "no": "Note text should not be in the code block",
                 "lm": 380092208
             }
         ]
