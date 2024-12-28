@@ -4,6 +4,8 @@
  * actual conversions and translations.
  *
  */
+import { default as TurndownService } from 'turndown';
+
 import { 
   makeNode,
   nodeHasNote,
@@ -23,6 +25,17 @@ import {
   makeBlockNotePrefix
 } from './text.js';
 
+const tdConfig = {
+  headingStyle: 'atx',
+  hr: '---',
+  bulletListMarker: '-',
+  codeBlockStyle: 'fenced',
+  fence: '```',
+  emDelimiter: '_',
+  strongDelimmiter: '**',
+  linkStyle: 'inlined'
+}
+
 /*
  * @params:
  *   <state:object>, instance of AppState object
@@ -39,6 +52,7 @@ const convertToMd = (state, conf, pageName, nodes, nNodes, indentLvl) => {
   let pageBlocks = [];
   let newPageTag = conf.get("newPageTag");
   let indentSpaces = conf.get("indentSpaces");
+  const td = new TurndownService(tdConfig);
   for (let n of nodes) {
     state.incrementJobProgress();
     if (n.name !== "") {
