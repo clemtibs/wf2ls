@@ -83,15 +83,15 @@ describe('main.js', () => {
         runAcceptTest('bullet_type_todo_complete');
         expect(testResults.pages.get("default")).to.equal(file(successTestOutput));
       });
-      it.skip('H1', () => {
+      it('H1', () => {
         runAcceptTest('bullet_type_h1');
         expect(testResults.pages.get("default")).to.equal(file(successTestOutput));
       });
-      it.skip('H2', () => {
+      it('H2', () => {
         runAcceptTest('bullet_type_h2');
         expect(testResults.pages.get("default")).to.equal(file(successTestOutput));
       });
-      it.skip('Paragraph', () => {
+      it('Paragraph', () => {
         runAcceptTest('bullet_type_p');
         expect(testResults.pages.get("default")).to.equal(file(successTestOutput));
       });
@@ -99,11 +99,11 @@ describe('main.js', () => {
         runAcceptTest('bullet_type_board');
         expect(testResults.pages.get("default")).to.equal(file(successTestOutput));
       });
-      it.skip('Quote', () => {
+      it('Quote', () => {
         runAcceptTest('bullet_type_quote');
         expect(testResults.pages.get("default")).to.equal(file(successTestOutput));
       });
-      it.skip('Codeblock', () => {
+      it('Codeblock', () => {
         runAcceptTest('bullet_type_codeblock');
         expect(testResults.pages.get("default")).to.equal(file(successTestOutput));
       });

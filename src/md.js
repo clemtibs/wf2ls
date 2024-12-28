@@ -7,6 +7,11 @@
 import { 
   makeNode,
   nodeHasNote,
+  nodeIsH1,
+  nodeIsH2,
+  nodeIsParagraph,
+  nodeIsQuoteBlock,
+  nodeIsCodeBlock,
   nodeIsTodo
 } from './node.js';
 import {
@@ -73,16 +78,38 @@ const convertToMd = (state, conf, pageName, nodes, nNodes, indentLvl, isNewPage)
             continue;
       }
 
+      switch (true) {
+        case nodeIsTodo(n):
+          marker = "TODO ";
+          if (n.completed) {
+            completed = "\n" + makeBlockNotePrefix(indentSpaces, indentLvl) + "completed-on:: " + toPageLink(n.completed);
+            marker = "DONE ";
+          }
+          break;
+        case nodeIsH1(n):
+          name = "# " + name;
+          break;
+        case nodeIsH2(n):
+          name = "## " + name;
+          break;
+        case nodeIsParagraph(n):
+          // do nothing
+          break;
+        // case nodeIsBoard(n):
+          // not implemented yet
+          // break;
+        case nodeIsQuoteBlock(n):
+          name = "> " + name + "\n";
+          break;
+        case nodeIsCodeBlock(n):
+          let nameContent = name;
+          name = "```";
+          note = nameContent + "\n```\n" + note;
+          break;
+      }
+     
       if (note !== "") {
         note = indentLines(note, makeBlockNotePrefix(indentSpaces, indentLvl));
-      }
-
-      if (nodeIsTodo(n)) {
-        marker = "TODO ";
-        if (n.completed) {
-          completed = "\n" + makeBlockNotePrefix(indentSpaces, indentLvl) + "completed-on:: " + toPageLink(n.completed);
-          marker = "DONE ";
-        }
       }
 
       pageBlocks.push(
