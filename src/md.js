@@ -31,13 +31,11 @@ import {
  *   <nodes:array>, array of JSON node objects
  *   <nNodes:int>, total number of children nodes in [nodes]
  *   <indentLvl:int>, level of indenting for next set of children nodes
- *   <isNewPage:bool>, tell new recursive branch that it's starting a new page
  * @returns: <null>, appends to pages map in <state>
  */
-const convertToMd = (state, conf, pageName, nodes, nNodes, indentLvl, isNewPage) => {
+const convertToMd = (state, conf, pageName, nodes, nNodes, indentLvl) => {
   pageName ? pageName : pageName = "content";
   indentLvl ? indentLvl : indentLvl = 0;
-  isNewPage ? isNewPage : isNewPage = false;
   let pageBlocks = [];
   let newPageTag = conf.get("newPageTag");
   let indentSpaces = conf.get("indentSpaces");
@@ -49,8 +47,7 @@ const convertToMd = (state, conf, pageName, nodes, nNodes, indentLvl, isNewPage)
       let completed = "";
       let marker = "";
       if (tagInText(newPageTag, name) ||
-          tagInText(newPageTag, note) &&
-          !isNewPage) {
+          tagInText(newPageTag, note)) {
             let pageName = stripTag(newPageTag, name).trim();
             name = toPageLink(pageName);
             note = stripTag(newPageTag, note).trim();
@@ -71,8 +68,7 @@ const convertToMd = (state, conf, pageName, nodes, nNodes, indentLvl, isNewPage)
               pageName.trim(),
               childrenNodes,
               childrenNodes.length,
-              0,
-              true
+              0
             );
             nNodes--;
             continue;
@@ -125,7 +121,7 @@ const convertToMd = (state, conf, pageName, nodes, nNodes, indentLvl, isNewPage)
           n.children,
           n.children.length,
           indentLvl + 1,
-          false));
+        ));
       }
     }
     nNodes--;
