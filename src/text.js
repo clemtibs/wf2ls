@@ -1,6 +1,8 @@
 /* Text Tools
  *
  */
+import * as linkify from 'linkifyjs';
+import linkifyHtml from 'linkify-html';
 
 /*
  * @params:
@@ -19,6 +21,17 @@ const indentLines = (content, prefix) => {
   });
   output = '\n' + prefixedLines.join(`\n`);
   return output;
+}
+
+const linkTextToUrl = (text) => {
+  // var urlRegex = /^(http:\/\/www\.|https:\/\/www\.|http:\/\/|https:\/\/)?[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,5}(:[0-9]{1,5})?(\/.*)?$/gm;
+  // return text.replace(urlRegex, (url) => {
+    // return '<a href="' + url + '">' + url + '</a>';
+  // })
+  const linkifyOptions = {
+    defaultProtocol: 'https'
+  };
+  return linkifyHtml(text, linkifyOptions);
 }
 
 const tagInText = (tag, str) => {
@@ -66,6 +79,7 @@ const makeBlockNotePrefix = (indentSize, indentLvl) => {
 
 export {
   indentLines,
+  linkTextToUrl,
   tagInText,
   stripTag,
   toPageLink,

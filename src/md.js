@@ -18,6 +18,7 @@ import {
 } from './node.js';
 import {
   indentLines,
+  linkTextToUrl,
   tagInText,
   stripTag,
   toPageLink,
@@ -36,6 +37,48 @@ const tdConfig = {
   linkStyle: 'inlined'
 }
 
+const customTdRules = {
+  strikethrough: {
+    filter: ['del', 's', 'strike'],
+    replacement: function (content) {
+      return '~~' + content + '~~';
+    }
+  },
+  emptyLinks: {
+    filter: function (node, options) {
+      return (
+        node.nodeName === 'A' &&
+        node.innerHTML === '' &&
+        node.getAttribute('href')
+      )
+    },
+    replacement: function (content, node, options) {
+      return ` [${node.getAttribute('href')}](${node.getAttribute('href')})`;
+    }
+  }
+}
+
+const convertHtmlToMd = (content) => {
+  const td = new TurndownService(tdConfig);
+  td.keep(['u']);
+
+  for (const [key, value] of Object.entries(customTdRules)) {
+    td.addRule(key, value);
+  }
+
+  let lines = content.split('\n');
+  let mdResult = []
+  for (let l of lines) {
+    if (l.includes('\n')) {
+      mdResult.push(l);
+    } else {
+      mdResult.push(td.turndown(l));
+    }
+  }
+
+  return mdResult.join('\n');
+}
+
 /*
  * @params:
  *   <state:object>, instance of AppState object
@@ -52,40 +95,36 @@ const convertToMd = (state, conf, pageName, nodes, nNodes, indentLvl) => {
   let pageBlocks = [];
   let newPageTag = conf.get("newPageTag");
   let indentSpaces = conf.get("indentSpaces");
-  const td = new TurndownService(tdConfig);
   for (let n of nodes) {
     state.incrementJobProgress();
     if (n.name !== "") {
-      let name = n.name.trim();
-      let note = n.note ?? "";
+      let name = convertHtmlToMd(linkTextToUrl(n.name.trim()));
+      let note = convertHtmlToMd(linkTextToUrl(n.note ?? ""));
       let completed = "";
       let marker = "";
-      if (tagInText(newPageTag, name) ||
-          tagInText(newPageTag, note)) {
-            let pageName = stripTag(newPageTag, name).trim();
-            name = toPageLink(pageName);
-            note = stripTag(newPageTag, note).trim();
-            let childrenNodes = n.children;
-            childrenNodes.unshift(
-              makeNode({
-                name: indentLines(
-                  note,
-                  makeBlockNotePrefix(indentSpaces, 0)
-                ),
-              })
-            );
-            state.addJob();
-            pageBlocks.push(makeBlockNamePrefix(indentSpaces, indentLvl) + name);
-            convertToMd(
-              state,
-              conf,
-              pageName.trim(),
-              childrenNodes,
-              childrenNodes.length,
-              0
-            );
-            nNodes--;
-            continue;
+      if (tagInText(newPageTag, name) || tagInText(newPageTag, note)) {
+        let pageName = stripTag(newPageTag, name).trim();
+        name = toPageLink(pageName);
+        note = stripTag(newPageTag, note).trim();
+        let childrenNodes = n.children;
+        childrenNodes.unshift(
+          makeNode({
+            name: note.split('\n')[0],
+            note: note.split('\n').slice(1).join('\n')
+          })
+        );
+        state.addJob();
+        pageBlocks.push(makeBlockNamePrefix(indentSpaces, indentLvl) + name);
+        convertToMd(
+          state,
+          conf,
+          pageName.trim(),
+          childrenNodes,
+          childrenNodes.length,
+          0
+        );
+        nNodes--;
+        continue;
       }
 
       switch (true) {
@@ -148,4 +187,7 @@ const convertToMd = (state, conf, pageName, nodes, nNodes, indentLvl) => {
   state.addPage(pageName.trim(), pageBlocks.join('\n'));
 }
 
-export { convertToMd };
+export { 
+  convertToMd,
+  convertHtmlToMd
+};
