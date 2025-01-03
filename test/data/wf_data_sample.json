@@ -442,7 +442,7 @@
         "ch": [
             {
                 "id": "dc2ae830-8010-5747-b6fb-7de86102b49b",
-                "nm": "Example.com",
+                "nm": "Example Site Name",
                 "ct": 380635990,
                 "metadata": {},
                 "lm": 380636017,
@@ -458,7 +458,7 @@
             },
             {
                 "id": "6ae7108d-143f-012b-fc73-01ee14f51a0a",
-                "nm": "Example.com",
+                "nm": "Example Site Name",
                 "ct": 380636010,
                 "metadata": {},
                 "no": "https://www.example.com/",
