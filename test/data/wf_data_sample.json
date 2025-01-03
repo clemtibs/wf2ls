@@ -76,46 +76,6 @@
                                                         "ct": 380660793,
                                                         "metadata": {},
                                                         "lm": 380660797
-                                                    },
-                                                    {
-                                                        "id": "a2d32b21-c03f-d4f2-32ae-edd141ffb772",
-                                                        "nm": "Bookmarks",
-                                                        "ct": 380637731,
-                                                        "metadata": {},
-                                                        "lm": 380637890,
-                                                        "ch": [
-                                                            {
-                                                                "id": "1ac0d407-ac20-469b-27d1-231d58dfe621",
-                                                                "nm": "Blank sibling",
-                                                                "ct": 380660762,
-                                                                "metadata": {},
-                                                                "lm": 380660769
-                                                            },
-                                                            {
-                                                                "id": "2d83f8e4-80cc-4aac-96a5-2b414d096131",
-                                                                "nm": "Google",
-                                                                "ct": 380637731,
-                                                                "metadata": {},
-                                                                "lm": 380637731,
-                                                                "ch": [
-                                                                    {
-                                                                        "id": "05c77573-ce96-6c12-fec7-756af1a69215",
-                                                                        "nm": "<a href=\"https://www.google.com/\">https://www.google.com/</a>",
-                                                                        "ct": 380637731,
-                                                                        "metadata": {},
-                                                                        "lm": 380637731
-                                                                    }
-                                                                ]
-                                                            },
-                                                            {
-                                                                "id": "4c8f644b-98fe-aa54-b106-9db525cab209",
-                                                                "nm": "Google",
-                                                                "ct": 380637731,
-                                                                "metadata": {},
-                                                                "no": "https://www.google.com/",
-                                                                "lm": 380637731
-                                                            }
-                                                        ]
                                                     }
                                                 ]
                                             }
@@ -314,10 +274,44 @@
     },
     {
         "id": "0b652619-83fd-07b8-5a29-461ea576ddb8",
-        "nm": "A link to <a href=\"https://www.google.com\">Google</a>",
+        "nm": "Web Links",
         "ct": 380010871,
         "metadata": {},
-        "lm": 380983514
+        "lm": 380983514,
+        "ch": [
+            {
+                "id": "87f7a540-2d44-4c61-91b9-49c80a654681",
+                "nm": "A link with inner content <a href=\"https://www.example.com\">Example.com</a>",
+                "no": "<a href=\"https://www.example.com\">Example.com</a>",
+                "ct": 380010907,
+                "metadata": {},
+                "lm": 380983629
+            },
+            {
+                "id": "f6575a5d-49cc-4acc-bd62-342f541f9bae",
+                "nm": "A link with full URL as inner content <a href=\"https://www.example.com\">https://www.example.com</a>",
+                "no": "<a href=\"https://www.example.com\">https://www.example.com</a>",
+                "ct": 380636017,
+                "metadata": {},
+                "lm": 380636018
+            },
+            {
+                "id": "c6966998-f6f9-4ce5-9da1-9f98fae76d1e",
+                "nm": "A link with no inner content <a href=\"https://www.example.com\"></a>",
+                "no": "<a href=\"https://www.example.com\"></a>",
+                "ct": 380010873,
+                "metadata": {},
+                "lm": 380983522
+            },
+            {
+                "id": "1201cadf-cb52-4b2e-90ce-371495411126",
+                "nm": "A plain text link: https://www.example.com",
+                "ct": 380636010,
+                "metadata": {},
+                "no": "https://www.example.com",
+                "lm": 380636014
+            }
+        ]
     },
     {
         "id": "d46cc471-5319-3bef-8fea-b65869df0868",
@@ -448,14 +442,14 @@
         "ch": [
             {
                 "id": "dc2ae830-8010-5747-b6fb-7de86102b49b",
-                "nm": "Google",
+                "nm": "Example.com",
                 "ct": 380635990,
                 "metadata": {},
                 "lm": 380636017,
                 "ch": [
                     {
                         "id": "57cc8310-febd-d9eb-7899-9dde5f380215",
-                        "nm": "<a href=\"https://www.google.com/\">https://www.google.com/</a>",
+                        "nm": "<a href=\"https://www.example.com/\">https://www.example.com/</a>",
                         "ct": 380636017,
                         "metadata": {},
                         "lm": 380636018
@@ -464,10 +458,10 @@
             },
             {
                 "id": "6ae7108d-143f-012b-fc73-01ee14f51a0a",
-                "nm": "Google",
+                "nm": "Example.com",
                 "ct": 380636010,
                 "metadata": {},
-                "no": "https://www.google.com/",
+                "no": "https://www.example.com/",
                 "lm": 380636014
             }
         ]
