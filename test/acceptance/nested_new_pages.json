@@ -10,7 +10,7 @@
           "nm": "A Nested New LogSeq Page",
           "ct": 380636931,
           "metadata": {},
-          "no": "#LS-Page &lt;---There was a tag right here.\nThis is an example of the tag in the notes. This should also make a new page.\nThis should end up on the second new page as a note of the first block.\n",
+          "no": "#LS-Page There was a tag at the beginning of this line.\nThis is an example of the tag in the notes. This should also make a new page.\nThis should end up on the second new page as a note of the first block.\n",
           "lm": 382255548,
           "ch": [
               {

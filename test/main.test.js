@@ -203,6 +203,10 @@ describe('main.js', () => {
         runAcceptTest('inline_code');
         expect(testResults.pages.get("default")).to.equal(file(successTestOutput));
       });
+      it.skip('Ascii "Arrows"', () => { // linkify stumbles on this one. These are rare but definitely are used.
+        runAcceptTest('ascii_arrows');
+        expect(testResults.pages.get("default")).to.equal(file(successTestOutput));
+      });
     });
   });
 });

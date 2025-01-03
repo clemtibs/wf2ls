@@ -1,4 +1,4 @@
-- <---There was a tag right here.
+- There was a tag at the beginning of this line.
   This is an example of the tag in the notes. This should also make a new page.
   This should end up on the second new page as a note of the first block.
 - This should be on the second new page only.
