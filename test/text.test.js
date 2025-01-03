@@ -1,6 +1,7 @@
 import { expect } from 'chai';
 import {
   indentLines,
+  linkTextToUrl,
   tagInText,
   stripTag,
   toPageLink,
@@ -49,6 +50,28 @@ describe('text.js', () => {
       expect(indentLines(testContentPassTwo, '')).to.deep.equal(testContentPassResult);
       expect(indentLines(testContentPassThree, '')).to.deep.equal(testContentPassResult);
       expect(indentLines(testContentPassFour, '')).to.deep.equal(testContentPassResult);
+    });
+  });
+  describe('linkTextToUrl()', () => {
+    it('Unencrypted link', () => {
+      let testUrl = 'http://www.example.com';
+      let testUrlPass = '<a href="' + testUrl + '">' + testUrl + '</a>';
+      expect(linkTextToUrl(testUrl)).to.deep.equal(testUrlPass);
+    });
+    it('Encrypted link', () => {
+      let testUrl = 'https://www.example.com';
+      let testUrlPass = '<a href="' + testUrl + '">' + testUrl + '</a>';
+      expect(linkTextToUrl(testUrl)).to.deep.equal(testUrlPass);
+    });
+    it('Missing subdomain', () => {
+      let testUrl = 'https://example.com';
+      let testUrlPass = '<a href="' + testUrl + '">' + testUrl + '</a>';
+      expect(linkTextToUrl(testUrl)).to.deep.equal(testUrlPass);
+    });
+    it('Missing protocol', () => {
+      let testUrl = 'www.example.com';
+      let testUrlPass = '<a href="https://' + testUrl + '">' + testUrl + '</a>';
+      expect(linkTextToUrl(testUrl)).to.deep.equal(testUrlPass);
     });
   });
   describe('tagInText()', () => {
