@@ -19,6 +19,8 @@
     "chai": "^5.1.2",
     "chai-files": "^1.4.0",
     "cli-progress": "^3.12.0",
+    "linkify-html": "^4.2.0",
+    "linkifyjs": "^4.2.0",
     "lodash": "^4.17.21",
     "minimist": "^1.2.8",
     "mocha": "^11.0.1",
