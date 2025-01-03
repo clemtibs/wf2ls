@@ -1,1 +1,1 @@
-- <b>Bold text</b>
+- **Bold text**

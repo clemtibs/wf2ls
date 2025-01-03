@@ -1,1 +1,1 @@
-- <i>Italic text</i>
+- _Italic text_

@@ -1,1 +1,1 @@
-- <s>strike-through text</s>
+- ~~strike-through text~~

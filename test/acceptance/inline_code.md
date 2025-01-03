@@ -1,2 +1,2 @@
 - Code
-  <code>Code is here</code>
+  `Code is here`

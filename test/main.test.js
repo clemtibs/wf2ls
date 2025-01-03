@@ -118,28 +118,28 @@ describe('main.js', () => {
           runAcceptTest('text_color');
           expect(testResults.pages.get("default")).to.equal(file(successTestOutput));
         });
-        it.skip('Bold Text', () => {
+        it('Bold Text', () => {
           runAcceptTest('text_bold');
           expect(testResults.pages.get("default")).to.equal(file(successTestOutput));
         });
-        it.skip('Underline Text', () => {
+        it('Underline Text', () => {
           runAcceptTest('text_underline');
           expect(testResults.pages.get("default")).to.equal(file(successTestOutput));
         });
-        it.skip('Italic Text', () => {
+        it('Italic Text', () => {
           runAcceptTest('text_italic');
           expect(testResults.pages.get("default")).to.equal(file(successTestOutput));
         });
-        it.skip('Strikethrough Text', () => {
+        it('Strikethrough Text', () => {
           runAcceptTest('text_strikethrough');
           expect(testResults.pages.get("default")).to.equal(file(successTestOutput));
         });
       });
-      it.skip('Web Links', () => {
+      it('Web Links', () => {
         runAcceptTest('web_link');
         expect(testResults.pages.get("default")).to.equal(file(successTestOutput));
       });
-      it.skip('Inline Code', () => {
+      it('Inline Code', () => {
         runAcceptTest('inline_code');
         expect(testResults.pages.get("default")).to.equal(file(successTestOutput));
       });
