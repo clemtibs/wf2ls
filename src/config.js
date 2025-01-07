@@ -1,20 +1,22 @@
 class AppConfig {
   #option_values = {
-    sourceFile: null,
-    destDir: null,
-    newPageTag: null,
-    indentSpaces: null,
+    confFileLocation: null,
     defaultPage: null,
-    confFileLocation: null
+    destDir: null,
+    highlightStyle: null,
+    indentSpaces: null,
+    newPageTag: null,
+    sourceFile: null,
   };
 
   #option_types = {
-    sourceFile: 'string',
-    destDir: 'string',
-    newPageTag: 'string',
-    indentSpaces: 'number',
-    defaultPage: 'string',
     confFileLocation: 'string',
+    defaultPage: 'string',
+    destDir: 'string',
+    highlightStyle: 'string',
+    indentSpaces: 'number',
+    newPageTag: 'string',
+    sourceFile: 'string',
   };
 
   constructor(config) {
@@ -43,12 +45,13 @@ class AppConfig {
 }
 
 const defaultConfig = {
-  sourceFile: "",
-  destDir: "./output",
-  newPageTag: "#LS-Page",
-  indentSpaces: 2,
-  defaultPage: "Workflowy Imports",
   confFileLocation: "./config.json",
+  defaultPage: "Workflowy Imports",
+  destDir: "./output",
+  highlightStyle: "default",
+  indentSpaces: 2,
+  newPageTag: "#LS-Page",
+  sourceFile: "",
 };
 
 const updateConfigFromCliArgs = (appConf, args) => {
@@ -58,15 +61,16 @@ const updateConfigFromCliArgs = (appConf, args) => {
 }
 
 const updateConfigFromFile = (appConf, rawConf) => {
-  if (rawConf.sourceFile) appConf.set("sourceFile", rawConf.sourceFile);
-  if (rawConf.destDir) appConf.set("destDir", rawConf.destDir);
-  if (rawConf.newPageTag) appConf.set("newPageTag", rawConf.newPageTag);
-  if (rawConf.indentSpaces) appConf.set("indentSpaces", rawConf.indentSpaces);
-  if (rawConf.defaultPage) appConf.set("defaultPage", rawConf.defaultPage);
   // specifically omiting "confFileLocation". We got to a specific config file
   // from either defaultConfig, or a specific -c option on the CLI. No need to 
   // change this value AFTER the window has passed for loading config files, will
   // only mess up debugging.
+  if (rawConf.defaultPage) appConf.set("defaultPage", rawConf.defaultPage);
+  if (rawConf.destDir) appConf.set("destDir", rawConf.destDir);
+  if (rawConf.highlightStyle) appConf.set("highlightStyle", rawConf.highlightStyle);
+  if (rawConf.indentSpaces) appConf.set("indentSpaces", rawConf.indentSpaces);
+  if (rawConf.newPageTag) appConf.set("newPageTag", rawConf.newPageTag);
+  if (rawConf.sourceFile) appConf.set("sourceFile", rawConf.sourceFile);
 }
 
 export {

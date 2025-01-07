@@ -133,32 +133,33 @@ describe('config.js', () => {
         confFileLocation: "confFileLocation"
       };
       const testConfig = new AppConfig(conf);
-      const testConfFile = {
-        sourceFile: "sourceFile-changed",
+      const testConfFromFile = {
+        confFileLocation: "confFileLocation-changed",
+        defaultPage: "defaultPage-changed",
         destDir: "destDir-changed",
+        highlightStyle: "default", // enforced list of options
         newPageTag: "newPageTag-changed",
         indentSpaces: 2,
-        defaultPage: "defaultPage-changed",
-        confFileLocation: "confFileLocation-changed"
+        sourceFile: "sourceFile-changed",
       }
-      updateConfigFromFile(testConfig, testConfFile)
-      it('Updates sourceFile', () => {
-        expect(testConfig.get("sourceFile")).to.deep.equal("sourceFile-changed");
+      updateConfigFromFile(testConfig, testConfFromFile)
+      it('Updates defaultPage', () => {
+        expect(testConfig.get("defaultPage")).to.deep.equal("defaultPage-changed");
       });
       it('Updates destDir', () => {
         expect(testConfig.get("destDir")).to.deep.equal("destDir-changed");
       });
-      it('Updates newPageTag', () => {
-        expect(testConfig.get("newPageTag")).to.deep.equal("newPageTag-changed");
-      });
       it('Updates indentSpaces', () => {
         expect(testConfig.get("indentSpaces")).to.deep.equal(2);
       });
-      it('Updates defaultPage', () => {
-        expect(testConfig.get("defaultPage")).to.deep.equal("defaultPage-changed");
+      it('Updates newPageTag', () => {
+        expect(testConfig.get("newPageTag")).to.deep.equal("newPageTag-changed");
       });
       it('Does not update confFileLocation', () => {
         expect(testConfig.get("confFileLocation")).to.deep.equal("confFileLocation");
+      });
+      it('Updates sourceFile', () => {
+        expect(testConfig.get("sourceFile")).to.deep.equal("sourceFile-changed");
       });
     });
   });
