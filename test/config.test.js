@@ -12,7 +12,7 @@ describe('config.js', () => {
     confFileLocation: "confFileLocation",
     defaultPage: "defaultPage",
     destDir: "destDir",
-    highlightStyle: "highlightStyle",
+    textColorMarkupMode: "textColorMarkupMode",
     newPageTag: "newPageTag",
     indentSpaces: 1,
     sourceFile: "sourceFile",
@@ -31,8 +31,8 @@ describe('config.js', () => {
       it('destDir', () => {
         expect(testConfig.get("destDir")).to.deep.equal(null);
       });
-      it('highlightStyle', () => {
-        expect(testConfig.get("highlightStyle")).to.deep.equal(null);
+      it('textColorMarkupMode', () => {
+        expect(testConfig.get("textColorMarkupMode")).to.deep.equal(null);
       });
       it('indentSpaces', () => {
         expect(testConfig.get("indentSpaces")).to.deep.equal(null);
@@ -73,9 +73,9 @@ describe('config.js', () => {
         expect(testConfig.set("destDir", "a string")).to.be.ok;
         expect(() => testConfig.set("destDir", 1)).to.throw(/property value type/);
       });
-      it('setting highlightStyle as string', () => {
-        expect(testConfig.set("highlightStyle", "default")).to.be.ok; // enforced list of options
-        expect(() => testConfig.set("highlightStyle", 1)).to.throw(/property value type/);
+      it('setting textColorMarkupMode as string', () => {
+        expect(testConfig.set("textColorMarkupMode", "default")).to.be.ok; // enforced list of options
+        expect(() => testConfig.set("textColorMarkupMode", 1)).to.throw(/property value type/);
       });
       it('setting indentSpaces as number', () => {
         expect(testConfig.set("indentSpaces", 1)).to.be.ok;
@@ -96,13 +96,13 @@ describe('config.js', () => {
     });
     describe('Enforces only allowed options', () => {
       const testConfig = new AppConfig();
-      describe('highlightStyle', () => {
+      describe('textColorMarkupMode', () => {
         it('passes default, plugin', () => {
-          expect(testConfig.set("highlightStyle", "default")).to.be.ok;
-          expect(testConfig.set("highlightStyle", "plugin")).to.be.ok;
+          expect(testConfig.set("textColorMarkupMode", "default")).to.be.ok;
+          expect(testConfig.set("textColorMarkupMode", "plugin")).to.be.ok;
         });
         it('fails something else', () => {
-          expect(() => testConfig.set("highlightStyle", "something else")).to.throw(/Invalid option value/);
+          expect(() => testConfig.set("textColorMarkupMode", "something else")).to.throw(/Invalid option value/);
         });
       });
     });
@@ -117,8 +117,8 @@ describe('config.js', () => {
       it('destDir not null', () => {
         expect(testConfig.get("destDir")).to.not.deep.equal(null);
       });
-      it('highlightStyle not null', () => {
-        expect(testConfig.get("highlightStyle")).to.not.deep.equal(null);
+      it('textColorMarkupMode not null', () => {
+        expect(testConfig.get("textColorMarkupMode")).to.not.deep.equal(null);
       });
       it('indentSpaces not null', () => {
         expect(testConfig.get("indentSpaces")).to.not.deep.equal(null);
@@ -152,7 +152,7 @@ describe('config.js', () => {
       });
       it('Only updates sourceFile, destDir, confFileLocation', () => {
         expect(testConfig.get("defaultPage")).to.deep.equal("defaultPage");
-        expect(testConfig.get("highlightStyle")).to.deep.equal("highlightStyle");
+        expect(testConfig.get("textColorMarkupMode")).to.deep.equal("textColorMarkupMode");
         expect(testConfig.get("indentSpaces")).to.deep.equal(1);
         expect(testConfig.get("newPageTag")).to.deep.equal("newPageTag");
         expect(testConfig.get("turndownConfig")).to.deep.equal({"turndown": "Config"});
@@ -165,7 +165,7 @@ describe('config.js', () => {
         confFileLocation: "confFileLocation-changed",
         defaultPage: "defaultPage-changed",
         destDir: "destDir-changed",
-        highlightStyle: "default", // enforced list of options
+        textColorMarkupMode: "default", // enforced list of options
         newPageTag: "newPageTag-changed",
         indentSpaces: 2,
         sourceFile: "sourceFile-changed",
@@ -182,8 +182,8 @@ describe('config.js', () => {
       it('Updates destDir', () => {
         expect(testConfig.get("destDir")).to.deep.equal("destDir-changed");
       });
-      it('Updates highlightStyle', () => {
-        expect(testConfig.get("highlightStyle")).to.deep.equal("default");
+      it('Updates textColorMarkupMode', () => {
+        expect(testConfig.get("textColorMarkupMode")).to.deep.equal("default");
       });
       it('Updates indentSpaces', () => {
         expect(testConfig.get("indentSpaces")).to.deep.equal(2);

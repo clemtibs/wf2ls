@@ -126,7 +126,7 @@ describe('main.js', () => {
             successTestOutput = acceptTestDir + testName + '_plugin' + '.md';
 
             const testInputData = readJsonFile(inputFileName);
-            testConfig.set("highlightStyle", "plugin");
+            testConfig.set("textColorMarkupMode", "plugin");
             testResults = main(testState, testConfig, testInputData);      
             expect(testResults.pages.get("default")).to.equal(file(successTestOutput));
           });
