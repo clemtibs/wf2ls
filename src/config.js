@@ -1,7 +1,8 @@
 import { 
   turndownDefaultConfig,
   turndownDefaultCustomRules,
-  turndownDefaultSpanHighlightRules
+  turndownDefaultSpanHighlightRules,
+  turndownDefaultSpanTextColorRules
 } from './md.js';
 
 class AppConfig {
@@ -9,7 +10,7 @@ class AppConfig {
     confFileLocation: null,
     defaultPage: null,
     destDir: null,
-    highlightStyle: null,
+    textColorMarkupMode: null,
     indentSpaces: null,
     newPageTag: null,
     sourceFile: null,
@@ -21,7 +22,7 @@ class AppConfig {
     confFileLocation: 'string',
     defaultPage: 'string',
     destDir: 'string',
-    highlightStyle: 'string',
+    textColorMarkupMode: 'string',
     indentSpaces: 'number',
     newPageTag: 'string',
     sourceFile: 'string',
@@ -30,16 +31,33 @@ class AppConfig {
   };
 
   #option_allowed_values = {
-    highlightStyle: ['default', 'plugin']
+    textColorMarkupMode: ['default', 'plugin']
   };
 
-  #updateTurndownCustomRules = () => {
+  #updateTurndownCustomRules() {
     const tdHlOpts = turndownDefaultSpanHighlightRules;
-    if (this.#option_values.highlightStyle === 'plugin') {
-      if (this.#option_values.turndownCustomRules !== null &&
-          this.#option_values.turndownCustomRules.hasOwnProperty('spanHighlight')) {
+    const tdTcOpts = turndownDefaultSpanTextColorRules;
+    switch (this.#option_values.textColorMarkupMode) {
+      case 'plugin':
+        if (this.#option_values.turndownCustomRules !== null) {
+          if (this.#option_values.turndownCustomRules.hasOwnProperty('spanHighlight')) {
             this.#option_values.turndownCustomRules.spanHighlight = tdHlOpts.spanHighlightPlugin;
-      }
+          }
+          if (this.#option_values.turndownCustomRules.hasOwnProperty('spanTextColor')) {
+            this.#option_values.turndownCustomRules.spanTextColor = tdTcOpts.spanTextColorPlugin;
+          }
+        }
+      break;
+      case 'default':
+        if (this.#option_values.turndownCustomRules !== null) {
+          if (this.#option_values.turndownCustomRules.hasOwnProperty('spanHighlight')) {
+            this.#option_values.turndownCustomRules.spanHighlight = tdHlOpts.spanHighlightDefault;
+          }
+          if (this.#option_values.turndownCustomRules.hasOwnProperty('spanTextColor')) {
+            this.#option_values.turndownCustomRules.spanTextColor = tdTcOpts.spanTextColorDefault;
+          }
+        }
+      break;
     }
   }
 
@@ -72,7 +90,7 @@ class AppConfig {
               throw new Error(`Invalid option value: "${value}" for "${key}"`);
         }
         switch (key) {
-          case 'highlightStyle':
+          case 'textColorMarkupMode':
             this.#option_values[key] = value;
             this.#updateTurndownCustomRules();
             return true;
@@ -93,7 +111,7 @@ const defaultConfig = {
   confFileLocation: "./config.json",
   defaultPage: "Workflowy Imports",
   destDir: "./output",
-  highlightStyle: "default",
+  textColorMarkupMode: "default",
   indentSpaces: 2,
   newPageTag: "#LS-Page",
   sourceFile: "",
@@ -114,7 +132,7 @@ const updateConfigFromFile = (appConf, rawConf) => {
   // only mess up debugging.
   if (rawConf.defaultPage) appConf.set("defaultPage", rawConf.defaultPage);
   if (rawConf.destDir) appConf.set("destDir", rawConf.destDir);
-  if (rawConf.highlightStyle) appConf.set("highlightStyle", rawConf.highlightStyle);
+  if (rawConf.textColorMarkupMode) appConf.set("textColorMarkupMode", rawConf.textColorMarkupMode);
   if (rawConf.indentSpaces) appConf.set("indentSpaces", rawConf.indentSpaces);
   if (rawConf.newPageTag) appConf.set("newPageTag", rawConf.newPageTag);
   if (rawConf.sourceFile) appConf.set("sourceFile", rawConf.sourceFile);

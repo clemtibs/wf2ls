@@ -38,13 +38,13 @@ const turndownDefaultConfig = {
   linkStyle: 'inlined'
 }
 
-// defined here, loaded dynamically in config.js based on value of 'highlightStyle'
+// defined here, loaded dynamically in config.js based on value of 'textColorMarkupMode'
 const turndownDefaultSpanHighlightRules = {
   spanHighlightDefault: {
     filter: function (node, options) {
       return (
         node.nodeName === 'SPAN' &&
-        node.getAttribute('class')
+        node.getAttribute('class').split(" ")[1].split("-")[0] === 'bc'
       )
     },
     replacement: function (content, node, options) {
@@ -88,29 +88,72 @@ const turndownDefaultSpanHighlightRules = {
     filter: function (node, options) {
       return (
         node.nodeName === 'SPAN' &&
-        node.getAttribute('class')
+        node.getAttribute('class').split(" ")[1].split("-")[0] === 'bc'
       )
     },
     replacement: function (content, node, options) {
       let color = node.getAttribute('class').split(" ")[1].split("-")[1];
-      // let pluginHl = (color) => {
-        // return `<mark class="${color}">${content}</mark>`;
-      // }
-      // let result;
 
-      // switch (color) {
-        // case 'teal':
-          // result = pluginHl('green');
-          // break;
-        // case 'sky':
-          // result = pluginHl('blue');
-          // break;
-        // default:
-          // result = pluginHl(color);
-      // }
-
-      // return result;
       return `<mark class="${color}">${content}</mark>`;
+    }
+  }
+}
+
+// defined here, loaded dynamically in config.js based on value of 'textColorMarkupMode'
+const turndownDefaultSpanTextColorRules = {
+  spanTextColorDefault: {
+    filter: function (node, options) {
+      return (
+        node.nodeName === 'SPAN' &&
+        node.getAttribute('class').split(" ")[1].split("-")[0] === 'c'
+      )
+    },
+    replacement: function (content, node, options) {
+      let color = node.getAttribute('class').split(" ")[1].split("-")[1];
+      let makeColorSpan = (color) => {
+        return `[[$${color}]]==${content}==`;
+      }
+      let result;
+
+      switch (color) {
+        case 'orange':
+          result = makeColorSpan('red');
+          break;
+        case 'yellow':
+          result = makeColorSpan('red');
+          break;
+        case 'teal':
+          result = makeColorSpan('green');
+          break;
+        case 'sky':
+          result = makeColorSpan('blue');
+          break;
+        case 'purple':
+          result = makeColorSpan('red');
+          break;
+        case 'pink':
+          result = makeColorSpan('red');
+          break;
+        case 'gray':
+          result = makeColorSpan('blue');
+          break;
+        default:
+          result = makeColorSpan(color);
+      }
+
+      return result;
+    }
+  },
+  spanTextColorPlugin: {
+    filter: function (node, options) {
+      return (
+        node.nodeName === 'SPAN' &&
+        node.getAttribute('class').split(" ")[1].split("-")[0] === 'c'
+      )
+    },
+    replacement: function (content, node, options) {
+      let color = node.getAttribute('class').split(" ")[1].split("-")[1];
+      return `<span class="${color}">${content}</span>`;
     }
   }
 }
@@ -135,9 +178,9 @@ const turndownDefaultCustomRules = {
       return ` [${node.getAttribute('href')}](${node.getAttribute('href')})`;
     }
   },
-  spanHighlight: turndownDefaultSpanHighlightRules.spanHighlightDefault
+  spanHighlight: turndownDefaultSpanHighlightRules.spanHighlightDefault,
+  spanTextColor: turndownDefaultSpanTextColorRules.spanTextColorDefault
 }
-
 
 const convertHtmlToMd = (config, content) => {
   const td = new TurndownService(config.get('turndownConfig'));
@@ -273,5 +316,6 @@ export {
   convertHtmlToMd,
   turndownDefaultConfig,
   turndownDefaultCustomRules,
-  turndownDefaultSpanHighlightRules
+  turndownDefaultSpanHighlightRules,
+  turndownDefaultSpanTextColorRules
 };
