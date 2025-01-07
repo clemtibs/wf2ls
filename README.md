@@ -1,11 +1,11 @@
 # Workflowy to LogSeq Converter Utility
 
-![version](https://img.shields.io/badge/version-0.14.0-yellowgreen) ![status - alpha](https://img.shields.io/badge/status-alpha-orange) [![GitHub tag](https://img.shields.io/github/tag/brianclements/wf2ls?include_prereleases=&sort=semver&color=blue)](https://github.com/brianclements/wf2ls/releases/)
+![version](https://img.shields.io/badge/version-0.15.0-yellowgreen) ![status - alpha](https://img.shields.io/badge/status-alpha-orange) [![GitHub tag](https://img.shields.io/github/tag/brianclements/wf2ls?include_prereleases=&sort=semver&color=blue)](https://github.com/brianclements/wf2ls/releases/)
 [![License](https://img.shields.io/badge/License-MIT-blue)](#license)
 
-This tool takes Workflowy backup files (the Dropbox sync files with
-*.backup suffixes), and convert them into LogSeq friendly markdown files.
-It uses [turndown](https://github.com/mixmark-io/turndown) for the html 
+This tool takes Workflowy backup files (the Dropbox sync files with *.backup
+suffixes), and convert them into LogSeq friendly markdown files.  It uses
+[turndown](https://github.com/mixmark-io/turndown) for the html to markdown
 conversion and [linkifyjs](https://github.com/nfrasser/linkifyjs) for link
 detection.
 
@@ -53,15 +53,14 @@ A sample configuration can be found in the root of the source directory, called
 It contains the following:
 
 ```json
-[
-  {
-    "sourceFile": "",
-    "destDir": "./output",
-    "newPageTag": "#LS-Page",
-    "indentSpaces": 2,
-    "defaultPage": "Workflowy Imports"
-  }
-]
+{
+  "defaultPage": "Workflowy Imports",
+  "destDir": "./output",
+  "indentSpaces": 2,
+  "textColorMarkupMode": "default",
+  "newPageTag": "#LS-Page",
+  "sourceFile": ""
+}
 ```
 
 The script handles configuration loading in the following order:
@@ -75,7 +74,6 @@ The script handles configuration loading in the following order:
    file and destination directory in the configuration file will be ignored and the
    CLI options will take precedent. All other options in the configuration file
    will still take effect.
-
 
 ## Background
 
@@ -234,9 +232,10 @@ This will be off by default and switched on when needed.
 ### Text Formatting *
 
 Workflowy uses standard HTML for bold, italic, underline, strikethrough and a
-some inline css and spanning to mark text color and highlights. While LoqSeq can currently display
-inline html tags accordingly, they should should be
-converted to markdown versions in the output accordingly.
+some inline css and spanning to mark text color and highlights. While LoqSeq can
+currently display inline html, these should should be converted to markdown
+versions accordingly and use already existing plugins for things like highlights
+and text colors wherever possible.
 
 Currently implemented:
 
@@ -244,10 +243,20 @@ Currently implemented:
 - underline
 - italic
 - strikethrough
+- Highlights or text coloring <sub>(_* partially implemented, see below_)</sub>
 
-Not completed yet:
+For text highlighting and text color, LogSeq doesn't support as many colors as
+Workflowy. So unsupported colors have been mapped to existing ones by default.
+These mappings cannot be changed at this time.
 
-- Highlights or text coloring
+Work to support all the colors and handle text color and highlights in a unified
+way will be handled with support of a plugin,
+[logseq-color-markup](https://github.com/brianclements/logseq-color-markup). To
+make use of the plugin during conversion, set `"textColorMarkupMode": "plugin"`
+in your `config.json` file.
+
+Workflowy also supports the use of background colors for `#` tags, but this
+information does not show up in the data itself so it is not extracted.
 
 ### Handling of "@" tags *
 
