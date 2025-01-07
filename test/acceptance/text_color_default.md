@@ -1,0 +1,11 @@
+- Color text
+  - [[$red]]==red text==
+  - [[$red]]==orange text==
+  - [[$red]]==yellow text==
+  - [[$green]]==green text==
+  - [[$green]]==teal text==
+  - [[$blue]]==sky text==
+  - [[$blue]]==blue text==
+  - [[$red]]==purple text==
+  - [[$red]]==pink text==
+  - [[$blue]]==gray text==

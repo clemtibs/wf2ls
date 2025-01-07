@@ -1,0 +1,11 @@
+- Color text
+  - <span class="red">red text</span>
+  - <span class="orange">orange text</span>
+  - <span class="yellow">yellow text</span>
+  - <span class="green">green text</span>
+  - <span class="teal">teal text</span>
+  - <span class="sky">sky text</span>
+  - <span class="blue">blue text</span>
+  - <span class="purple">purple text</span>
+  - <span class="pink">pink text</span>
+  - <span class="gray">gray text</span>

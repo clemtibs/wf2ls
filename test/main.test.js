@@ -131,9 +131,26 @@ describe('main.js', () => {
             expect(testResults.pages.get("default")).to.equal(file(successTestOutput));
           });
         });
-        it.skip('Text color', () => {
-          runAcceptTest('text_color');
-          expect(testResults.pages.get("default")).to.equal(file(successTestOutput));
+        describe('Text Color', () => {
+          it('Default setting', () => {
+            let testName = 'text_color';
+            const inputFileName = acceptTestDir + testName + '.json';
+            successTestOutput = acceptTestDir + testName + '_default' + '.md';
+
+            const testInputData = readJsonFile(inputFileName);
+            testResults = main(testState, testConfig, testInputData);      
+            expect(testResults.pages.get("default")).to.equal(file(successTestOutput));
+          });
+          it('Plugin setting', () => {
+            let testName = 'text_color';
+            const inputFileName = acceptTestDir + testName + '.json';
+            successTestOutput = acceptTestDir + testName + '_plugin' + '.md';
+
+            const testInputData = readJsonFile(inputFileName);
+            testConfig.set("textColorMarkupMode", "plugin");
+            testResults = main(testState, testConfig, testInputData);      
+            expect(testResults.pages.get("default")).to.equal(file(successTestOutput));
+          });
         });
         it('Bold Text', () => {
           runAcceptTest('text_bold');

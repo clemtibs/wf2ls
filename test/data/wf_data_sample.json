@@ -737,10 +737,82 @@
             },
             {
                 "id": "5d4b534c-379e-275f-5cf3-3c235cc3f513",
-                "nm": "<span class=\"colored c-red\">Red color text</span>",
+                "nm": "Color text",
                 "ct": 382967483,
                 "metadata": {},
-                "lm": 382967536
+                "lm": 382967536,
+                "ch": [
+                    {
+                        "id": "f27708e7-5fec-40b2-846e-c3227d63e4b4",
+                        "nm": "<span class=\"colored c-red\">red text</span>",
+                        "ct": 382967477,
+                        "metadata": {},
+                        "lm": 382967531
+                    },
+                    {
+                        "id": "714d38d0-5a02-457f-a623-2e58d90b43a1",
+                        "nm": "<span class=\"colored c-orange\">orange text</span>",
+                        "ct": 382967477,
+                        "metadata": {},
+                        "lm": 382967531
+                    },
+                    {
+                        "id": "4c5a8557-a900-4e4a-b52f-d275fe12eb94",
+                        "nm": "<span class=\"colored c-yellow\">yellow text</span>",
+                        "ct": 382967477,
+                        "metadata": {},
+                        "lm": 382967531
+                    },
+                    {
+                        "id": "0ae6c929-3833-434a-a7b8-e8871e6d36ab",
+                        "nm": "<span class=\"colored c-green\">green text</span>",
+                        "ct": 382967477,
+                        "metadata": {},
+                        "lm": 382967531
+                    },
+                    {
+                        "id": "0433736e-105d-43df-b764-b8f225a239ab",
+                        "nm": "<span class=\"colored c-teal\">teal text</span>",
+                        "ct": 382967477,
+                        "metadata": {},
+                        "lm": 382967531
+                    },
+                    {
+                        "id": "9d3745dd-8f66-471e-b584-f1272ccd0d78",
+                        "nm": "<span class=\"colored c-sky\">sky text</span>",
+                        "ct": 382967477,
+                        "metadata": {},
+                        "lm": 382967531
+                    },
+                    {
+                        "id": "afc04eb1-e86f-4b47-9612-8561082d318f",
+                        "nm": "<span class=\"colored c-blue\">blue text</span>",
+                        "ct": 382967477,
+                        "metadata": {},
+                        "lm": 382967531
+                    },
+                    {
+                        "id": "7de28f42-5e25-4081-b527-5804be79063b",
+                        "nm": "<span class=\"colored c-purple\">purple text</span>",
+                        "ct": 382967477,
+                        "metadata": {},
+                        "lm": 382967531
+                    },
+                    {
+                        "id": "a1a965ff-cec7-4540-bf06-ef80d8e62b65",
+                        "nm": "<span class=\"colored c-pink\">pink text</span>",
+                        "ct": 382967477,
+                        "metadata": {},
+                        "lm": 382967531
+                    },
+                    {
+                        "id": "3fd3fb11-1185-4796-a32b-e13b4c7b3e00",
+                        "nm": "<span class=\"colored c-gray\">gray text</span>",
+                        "ct": 382967477,
+                        "metadata": {},
+                        "lm": 382967531
+                    }
+                    ]
             },
             {
                 "id": "1c26b02d-0273-5679-3e76-fe7e173a60fd",

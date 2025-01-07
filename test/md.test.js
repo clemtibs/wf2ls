@@ -89,5 +89,21 @@ describe('md.js', () => {
       testContentPassResult = 'Non-html filler [[#blue]]==blue highlight== more filler'
       expect(convertHtmlToMd(testConfig, testContentPass)).to.deep.equal(testContentPassResult);
     });
+    it('Color text', () => {
+      // testing subset of default conversions for simplicify. For complete
+      // testing of all colors and plugins, see acceptance tests in
+      // main.test.js
+      let testContentPass = 'Non-html filler <span class=\"colored c-red\">red text</span> more filler'
+      let testContentPassResult = 'Non-html filler [[$red]]==red text== more filler'
+      expect(convertHtmlToMd(testConfig, testContentPass)).to.deep.equal(testContentPassResult);
+
+      testContentPass = 'Non-html filler <span class=\"colored c-green\">green text</span> more filler'
+      testContentPassResult = 'Non-html filler [[$green]]==green text== more filler'
+      expect(convertHtmlToMd(testConfig, testContentPass)).to.deep.equal(testContentPassResult);
+
+      testContentPass = 'Non-html filler <span class=\"colored c-blue\">blue text</span> more filler'
+      testContentPassResult = 'Non-html filler [[$blue]]==blue text== more filler'
+      expect(convertHtmlToMd(testConfig, testContentPass)).to.deep.equal(testContentPassResult);
+    });
   });
 });
