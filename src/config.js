@@ -1,8 +1,8 @@
 import { 
   turndownDefaultConfig,
   turndownDefaultCustomRules,
-  turndownDefaultSpanHighlightRules,
-  turndownDefaultSpanTextColorRules
+  turndownSpanPluginRules,
+  turndownSpanDefaultRules
 } from './md.js';
 
 class AppConfig {
@@ -35,26 +35,26 @@ class AppConfig {
   };
 
   #updateTurndownCustomRules() {
-    const tdHlOpts = turndownDefaultSpanHighlightRules;
-    const tdTcOpts = turndownDefaultSpanTextColorRules;
+    const plugRules = turndownSpanPluginRules;
+    const defRules = turndownSpanDefaultRules;
     switch (this.#option_values.textColorMarkupMode) {
       case 'plugin':
         if (this.#option_values.turndownCustomRules !== null) {
-          if (this.#option_values.turndownCustomRules.hasOwnProperty('spanHighlight')) {
-            this.#option_values.turndownCustomRules.spanHighlight = tdHlOpts.spanHighlightPlugin;
-          }
           if (this.#option_values.turndownCustomRules.hasOwnProperty('spanTextColor')) {
-            this.#option_values.turndownCustomRules.spanTextColor = tdTcOpts.spanTextColorPlugin;
+            this.#option_values.turndownCustomRules.spanTextColor = plugRules.spanTextColorPlugin;
+          }
+          if (this.#option_values.turndownCustomRules.hasOwnProperty('spanHighlight')) {
+            this.#option_values.turndownCustomRules.spanHighlight = plugRules.spanHighlightPlugin;
           }
         }
       break;
       case 'default':
         if (this.#option_values.turndownCustomRules !== null) {
-          if (this.#option_values.turndownCustomRules.hasOwnProperty('spanHighlight')) {
-            this.#option_values.turndownCustomRules.spanHighlight = tdHlOpts.spanHighlightDefault;
-          }
           if (this.#option_values.turndownCustomRules.hasOwnProperty('spanTextColor')) {
-            this.#option_values.turndownCustomRules.spanTextColor = tdTcOpts.spanTextColorDefault;
+            this.#option_values.turndownCustomRules.spanTextColor = defRules.spanTextColorDefault;
+          }
+          if (this.#option_values.turndownCustomRules.hasOwnProperty('spanHighlight')) {
+            this.#option_values.turndownCustomRules.spanHighlight = defRules.spanHighlightDefault;
           }
         }
       break;

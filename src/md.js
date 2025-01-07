@@ -39,49 +39,17 @@ const turndownDefaultConfig = {
 }
 
 // defined here, loaded dynamically in config.js based on value of 'textColorMarkupMode'
-const turndownDefaultSpanHighlightRules = {
-  spanHighlightDefault: {
+const turndownSpanPluginRules = {
+  spanTextColorPlugin: {
     filter: function (node, options) {
       return (
         node.nodeName === 'SPAN' &&
-        node.getAttribute('class').split(" ")[1].split("-")[0] === 'bc'
+        node.getAttribute('class').split(" ")[1].split("-")[0] === 'c'
       )
     },
     replacement: function (content, node, options) {
       let color = node.getAttribute('class').split(" ")[1].split("-")[1];
-      let defaultHl = (color) => {
-        return `[[#${color}]]==${content}==`;
-      }
-      let yellowHl = `==${content}==`;
-      let result;
-
-      switch (color) {
-        case 'orange':
-          result = yellowHl;
-          break;
-        case 'yellow':
-          result = yellowHl;
-          break;
-        case 'teal':
-          result = defaultHl('green');
-          break;
-        case 'sky':
-          result = defaultHl('blue');
-          break;
-        case 'purple':
-          result = defaultHl('red');
-          break;
-        case 'pink':
-          result = defaultHl('red');
-          break;
-        case 'gray':
-          result = yellowHl;
-          break;
-        default:
-          result = defaultHl(color);
-      }
-
-      return result;
+      return `<span class="${color}">${content}</span>`;
     }
   },
   spanHighlightPlugin: {
@@ -100,7 +68,7 @@ const turndownDefaultSpanHighlightRules = {
 }
 
 // defined here, loaded dynamically in config.js based on value of 'textColorMarkupMode'
-const turndownDefaultSpanTextColorRules = {
+const turndownSpanDefaultRules = {
   spanTextColorDefault: {
     filter: function (node, options) {
       return (
@@ -144,16 +112,48 @@ const turndownDefaultSpanTextColorRules = {
       return result;
     }
   },
-  spanTextColorPlugin: {
+  spanHighlightDefault: {
     filter: function (node, options) {
       return (
         node.nodeName === 'SPAN' &&
-        node.getAttribute('class').split(" ")[1].split("-")[0] === 'c'
+        node.getAttribute('class').split(" ")[1].split("-")[0] === 'bc'
       )
     },
     replacement: function (content, node, options) {
       let color = node.getAttribute('class').split(" ")[1].split("-")[1];
-      return `<span class="${color}">${content}</span>`;
+      let defaultHl = (color) => {
+        return `[[#${color}]]==${content}==`;
+      }
+      let yellowHl = `==${content}==`;
+      let result;
+
+      switch (color) {
+        case 'orange':
+          result = yellowHl;
+          break;
+        case 'yellow':
+          result = yellowHl;
+          break;
+        case 'teal':
+          result = defaultHl('green');
+          break;
+        case 'sky':
+          result = defaultHl('blue');
+          break;
+        case 'purple':
+          result = defaultHl('red');
+          break;
+        case 'pink':
+          result = defaultHl('red');
+          break;
+        case 'gray':
+          result = yellowHl;
+          break;
+        default:
+          result = defaultHl(color);
+      }
+
+      return result;
     }
   }
 }
@@ -178,8 +178,8 @@ const turndownDefaultCustomRules = {
       return ` [${node.getAttribute('href')}](${node.getAttribute('href')})`;
     }
   },
-  spanHighlight: turndownDefaultSpanHighlightRules.spanHighlightDefault,
-  spanTextColor: turndownDefaultSpanTextColorRules.spanTextColorDefault
+  spanTextColor: turndownSpanDefaultRules.spanTextColorDefault,
+  spanHighlight: turndownSpanDefaultRules.spanHighlightDefault
 }
 
 const convertHtmlToMd = (config, content) => {
@@ -316,6 +316,6 @@ export {
   convertHtmlToMd,
   turndownDefaultConfig,
   turndownDefaultCustomRules,
-  turndownDefaultSpanHighlightRules,
-  turndownDefaultSpanTextColorRules
+  turndownSpanPluginRules,
+  turndownSpanDefaultRules
 };
