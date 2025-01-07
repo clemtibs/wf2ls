@@ -1,6 +1,7 @@
 {
   "defaultPage": "Workflowy Imports",
   "destDir": "./output",
+  "highlightStyle": "default",
   "indentSpaces": 2,
   "newPageTag": "#LS-Page",
   "sourceFile": ""

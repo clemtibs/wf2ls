@@ -1,0 +1,11 @@
+- Color highlights
+  - [[#red]]==red highlight==
+  - ==orange highlight==
+  - ==yellow highlight==
+  - [[#green]]==green highlight==
+  - [[#green]]==teal highlight==
+  - [[#blue]]==sky highlight==
+  - [[#blue]]==blue highlight==
+  - [[#red]]==purple highlight==
+  - [[#red]]==pink highlight==
+  - ==gray highlight==

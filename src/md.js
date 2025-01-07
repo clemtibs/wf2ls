@@ -26,7 +26,8 @@ import {
   makeBlockNotePrefix
 } from './text.js';
 
-const tdConfig = {
+// defined here, loaded in config.js, accessed via config object
+const turndownDefaultConfig = {
   headingStyle: 'atx',
   hr: '---',
   bulletListMarker: '-',
@@ -37,7 +38,85 @@ const tdConfig = {
   linkStyle: 'inlined'
 }
 
-const customTdRules = {
+// defined here, loaded dynamically in config.js based on value of 'highlightStyle'
+const turndownDefaultSpanHighlightRules = {
+  spanHighlightDefault: {
+    filter: function (node, options) {
+      return (
+        node.nodeName === 'SPAN' &&
+        node.getAttribute('class')
+      )
+    },
+    replacement: function (content, node, options) {
+      let color = node.getAttribute('class').split(" ")[1].split("-")[1];
+      let defaultHl = (color) => {
+        return `[[#${color}]]==${content}==`;
+      }
+      let yellowHl = `==${content}==`;
+      let result;
+
+      switch (color) {
+        case 'orange':
+          result = yellowHl;
+          break;
+        case 'yellow':
+          result = yellowHl;
+          break;
+        case 'teal':
+          result = defaultHl('green');
+          break;
+        case 'sky':
+          result = defaultHl('blue');
+          break;
+        case 'purple':
+          result = defaultHl('red');
+          break;
+        case 'pink':
+          result = defaultHl('red');
+          break;
+        case 'gray':
+          result = yellowHl;
+          break;
+        default:
+          result = defaultHl(color);
+      }
+
+      return result;
+    }
+  },
+  spanHighlightPlugin: {
+    filter: function (node, options) {
+      return (
+        node.nodeName === 'SPAN' &&
+        node.getAttribute('class')
+      )
+    },
+    replacement: function (content, node, options) {
+      let color = node.getAttribute('class').split(" ")[1].split("-")[1];
+      // let pluginHl = (color) => {
+        // return `<mark class="${color}">${content}</mark>`;
+      // }
+      // let result;
+
+      // switch (color) {
+        // case 'teal':
+          // result = pluginHl('green');
+          // break;
+        // case 'sky':
+          // result = pluginHl('blue');
+          // break;
+        // default:
+          // result = pluginHl(color);
+      // }
+
+      // return result;
+      return `<mark class="${color}">${content}</mark>`;
+    }
+  }
+}
+
+// defined here, loaded in config.js, accessed via config object
+const turndownDefaultCustomRules = {
   strikethrough: {
     filter: ['del', 's', 'strike'],
     replacement: function (content) {
@@ -55,14 +134,16 @@ const customTdRules = {
     replacement: function (content, node, options) {
       return ` [${node.getAttribute('href')}](${node.getAttribute('href')})`;
     }
-  }
+  },
+  spanHighlight: turndownDefaultSpanHighlightRules.spanHighlightDefault
 }
 
-const convertHtmlToMd = (content) => {
-  const td = new TurndownService(tdConfig);
+
+const convertHtmlToMd = (config, content) => {
+  const td = new TurndownService(config.get('turndownConfig'));
   td.keep(['u']);
 
-  for (const [key, value] of Object.entries(customTdRules)) {
+  for (const [key, value] of Object.entries(config.get('turndownCustomRules'))) {
     td.addRule(key, value);
   }
 
@@ -98,8 +179,8 @@ const convertToMd = (state, conf, pageName, nodes, nNodes, indentLvl) => {
   for (let n of nodes) {
     state.incrementJobProgress();
     if (n.name !== "") {
-      let name = convertHtmlToMd(linkTextToUrl(n.name.trim()));
-      let note = convertHtmlToMd(linkTextToUrl(n.note ?? ""));
+      let name = convertHtmlToMd(conf, linkTextToUrl(n.name.trim()));
+      let note = convertHtmlToMd(conf, linkTextToUrl(n.note ?? ""));
       let completed = "";
       let marker = "";
       if (tagInText(newPageTag, name) || tagInText(newPageTag, note)) {
@@ -189,5 +270,8 @@ const convertToMd = (state, conf, pageName, nodes, nNodes, indentLvl) => {
 
 export { 
   convertToMd,
-  convertHtmlToMd
+  convertHtmlToMd,
+  turndownDefaultConfig,
+  turndownDefaultCustomRules,
+  turndownDefaultSpanHighlightRules
 };

@@ -110,9 +110,26 @@ describe('main.js', () => {
     });
     describe('Html -> Md Conversions', () => {
       describe('Text Formatting', () => {
-        it.skip('Color Highlights', () => {
-          runAcceptTest('text_color_highlights');
-          expect(testResults.pages.get("default")).to.equal(file(successTestOutput));
+        describe('Color Highlights', () => {
+          it('Default setting', () => {
+            let testName = 'text_color_highlights';
+            const inputFileName = acceptTestDir + testName + '.json';
+            successTestOutput = acceptTestDir + testName + '_default' + '.md';
+
+            const testInputData = readJsonFile(inputFileName);
+            testResults = main(testState, testConfig, testInputData);      
+            expect(testResults.pages.get("default")).to.equal(file(successTestOutput));
+          });
+          it('Plugin setting', () => {
+            let testName = 'text_color_highlights';
+            const inputFileName = acceptTestDir + testName + '.json';
+            successTestOutput = acceptTestDir + testName + '_plugin' + '.md';
+
+            const testInputData = readJsonFile(inputFileName);
+            testConfig.set("highlightStyle", "plugin");
+            testResults = main(testState, testConfig, testInputData);      
+            expect(testResults.pages.get("default")).to.equal(file(successTestOutput));
+          });
         });
         it.skip('Text color', () => {
           runAcceptTest('text_color');

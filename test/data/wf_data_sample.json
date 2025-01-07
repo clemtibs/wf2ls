@@ -658,10 +658,82 @@
         "ch": [
             {
                 "id": "7705bc8e-2fde-8b0d-9bcc-0731d9540795",
-                "nm": "<span class=\"colored bc-yellow\">Yellow color highlight</span>",
+                "nm": "Color highlights",
                 "ct": 382967477,
                 "metadata": {},
-                "lm": 382967531
+                "lm": 382967531,
+                "ch": [
+                    {
+                        "id": "5b71c1a4-6635-414c-bffb-bed5c0751837",
+                        "nm": "<span class=\"colored bc-red\">red highlight</span>",
+                        "ct": 382967477,
+                        "metadata": {},
+                        "lm": 382967531
+                    },
+                    {
+                        "id": "e273526d-68b8-49b8-b5be-2135c6d71c73",
+                        "nm": "<span class=\"colored bc-orange\">orange highlight</span>",
+                        "ct": 382967477,
+                        "metadata": {},
+                        "lm": 382967531
+                    },
+                    {
+                        "id": "020f7194-290a-4f98-899d-181d00481088",
+                        "nm": "<span class=\"colored bc-yellow\">yellow highlight</span>",
+                        "ct": 382967477,
+                        "metadata": {},
+                        "lm": 382967531
+                    },
+                    {
+                        "id": "db360765-b61e-429d-bdbd-1497d3b4ba0a",
+                        "nm": "<span class=\"colored bc-green\">green highlight</span>",
+                        "ct": 382967477,
+                        "metadata": {},
+                        "lm": 382967531
+                    },
+                    {
+                        "id": "f091dcc5-2d04-4dbf-af5c-6d69e531336f",
+                        "nm": "<span class=\"colored bc-teal\">teal highlight</span>",
+                        "ct": 382967477,
+                        "metadata": {},
+                        "lm": 382967531
+                    },
+                    {
+                        "id": "3b8f21e5-86e4-4cfc-bffc-45f2fe41a542",
+                        "nm": "<span class=\"colored bc-sky\">sky highlight</span>",
+                        "ct": 382967477,
+                        "metadata": {},
+                        "lm": 382967531
+                    },
+                    {
+                        "id": "7fba008c-d9a8-4072-8fde-52ee81716a0e",
+                        "nm": "<span class=\"colored bc-blue\">blue highlight</span>",
+                        "ct": 382967477,
+                        "metadata": {},
+                        "lm": 382967531
+                    },
+                    {
+                        "id": "beeded1c-5485-48a4-9b0d-43d34c1ad71a",
+                        "nm": "<span class=\"colored bc-purple\">purple highlight</span>",
+                        "ct": 382967477,
+                        "metadata": {},
+                        "lm": 382967531
+                    },
+                    {
+                        "id": "f7be620f-9195-4137-a075-ea7a428f8bd7",
+                        "nm": "<span class=\"colored bc-pink\">pink highlight</span>",
+                        "ct": 382967477,
+                        "metadata": {},
+                        "lm": 382967531
+                    },
+                    {
+                        "id": "5c939ab8-0c06-4268-a2ee-40fee79d4215",
+                        "nm": "<span class=\"colored bc-gray\">gray highlight</span>",
+                        "ct": 382967477,
+                        "metadata": {},
+                        "lm": 382967531
+                    }
+                    ]
             },
             {
                 "id": "5d4b534c-379e-275f-5cf3-3c235cc3f513",

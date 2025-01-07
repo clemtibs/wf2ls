@@ -8,26 +8,46 @@ import {
 
 
 describe('config.js', () => {
+  const conf = {
+    confFileLocation: "confFileLocation",
+    defaultPage: "defaultPage",
+    destDir: "destDir",
+    highlightStyle: "highlightStyle",
+    newPageTag: "newPageTag",
+    indentSpaces: 1,
+    sourceFile: "sourceFile",
+    turndownConfig: {"turndown": "Config"},
+    turndownCustomRules: {"turndown": "CustomRules"},
+  };
   describe('AppConfig instances', () => {
     describe('Have required properties', () => {
       const testConfig = new AppConfig();
-      it('sourceFile', () => {
-        expect(testConfig.get("sourceFile")).to.deep.equal(null);
-      });
-      it('destDir', () => {
-        expect(testConfig.get("destDir")).to.deep.equal(null);
-      });
-      it('newPageTag', () => {
-        expect(testConfig.get("newPageTag")).to.deep.equal(null);
-      });
-      it('indentSpaces', () => {
-        expect(testConfig.get("indentSpaces")).to.deep.equal(null);
+      it('confFileLocation', () => {
+        expect(testConfig.get("confFileLocation")).to.deep.equal(null);
       });
       it('defaultPage', () => {
         expect(testConfig.get("defaultPage")).to.deep.equal(null);
       });
-      it('confFileLocation', () => {
-        expect(testConfig.get("confFileLocation")).to.deep.equal(null);
+      it('destDir', () => {
+        expect(testConfig.get("destDir")).to.deep.equal(null);
+      });
+      it('highlightStyle', () => {
+        expect(testConfig.get("highlightStyle")).to.deep.equal(null);
+      });
+      it('indentSpaces', () => {
+        expect(testConfig.get("indentSpaces")).to.deep.equal(null);
+      });
+      it('newPageTag', () => {
+        expect(testConfig.get("newPageTag")).to.deep.equal(null);
+      });
+      it('sourceFile', () => {
+        expect(testConfig.get("sourceFile")).to.deep.equal(null);
+      });
+      it('turndownConfig', () => {
+        expect(testConfig.get("turndownConfig")).to.deep.equal(null);
+      });
+      it('turndownCustomRules', () => {
+        expect(testConfig.get("turndownCustomRules")).to.deep.equal(null);
       });
     });
     describe('Throw errors on nonexistent keys', () => {
@@ -41,69 +61,82 @@ describe('config.js', () => {
     });
     describe('Enforces types', () => {
       const testConfig = new AppConfig();
-      it('setting indentSpaces as number', () => {
-        expect(testConfig.set("indentSpaces", 1)).to.be.ok;
-        expect(() => testConfig.set("indentSpaces", "a string")).to.throw(/property value type/);
-      });
-      it('setting sourceFile as string', () => {
-        expect(testConfig.set("sourceFile", "a string")).to.be.ok;
-        expect(() => testConfig.set("sourceFile", 1)).to.throw(/property value type/);
-      });
-      it('setting destDir as string', () => {
-        expect(testConfig.set("destDir", "a string")).to.be.ok;
-        expect(() => testConfig.set("destDir", 1)).to.throw(/property value type/);
-      });
-      it('setting newPageTag as string', () => {
-        expect(testConfig.set("newPageTag", "a string")).to.be.ok;
-        expect(() => testConfig.set("newPageTag", 1)).to.throw(/property value type/);
+      it('setting confFileLocation as string', () => {
+        expect(testConfig.set("confFileLocation", "a string")).to.be.ok;
+        expect(() => testConfig.set("confFileLocation", 1)).to.throw(/property value type/);
       });
       it('setting defaultPage as string', () => {
         expect(testConfig.set("defaultPage", "a string")).to.be.ok;
         expect(() => testConfig.set("defaultPage", 1)).to.throw(/property value type/);
       });
-      it('setting confFileLocation as string', () => {
-        expect(testConfig.set("confFileLocation", "a string")).to.be.ok;
-        expect(() => testConfig.set("confFileLocation", 1)).to.throw(/property value type/);
+      it('setting destDir as string', () => {
+        expect(testConfig.set("destDir", "a string")).to.be.ok;
+        expect(() => testConfig.set("destDir", 1)).to.throw(/property value type/);
+      });
+      it('setting highlightStyle as string', () => {
+        expect(testConfig.set("highlightStyle", "default")).to.be.ok; // enforced list of options
+        expect(() => testConfig.set("highlightStyle", 1)).to.throw(/property value type/);
+      });
+      it('setting indentSpaces as number', () => {
+        expect(testConfig.set("indentSpaces", 1)).to.be.ok;
+        expect(() => testConfig.set("indentSpaces", "a string")).to.throw(/property value type/);
+      });
+      it('setting newPageTag as string', () => {
+        expect(testConfig.set("newPageTag", "a string")).to.be.ok;
+        expect(() => testConfig.set("newPageTag", 1)).to.throw(/property value type/);
+      });
+      it('setting sourceFile as string', () => {
+        expect(testConfig.set("sourceFile", "a string")).to.be.ok;
+        expect(() => testConfig.set("sourceFile", 1)).to.throw(/property value type/);
+      });
+      it('setting turndownConfig as object', () => {
+        expect(testConfig.set("turndownConfig", { "an": "object"})).to.be.ok;
+        expect(() => testConfig.set("turndownConfig", 1)).to.throw(/property value type/);
+      });
+    });
+    describe('Enforces only allowed options', () => {
+      const testConfig = new AppConfig();
+      describe('highlightStyle', () => {
+        it('passes default, plugin', () => {
+          expect(testConfig.set("highlightStyle", "default")).to.be.ok;
+          expect(testConfig.set("highlightStyle", "plugin")).to.be.ok;
+        });
+        it('fails something else', () => {
+          expect(() => testConfig.set("highlightStyle", "something else")).to.throw(/Invalid option value/);
+        });
       });
     });
     describe('Import configuration object on creation', () => {
-      const conf = {
-        sourceFile: "one",
-        destDir: "two",
-        newPageTag: "three",
-        indentSpaces: 1,
-        defaultPage: "four",
-        confFileLocation: "five"
-      };
       const testConfig = new AppConfig(conf);
-      it('sourceFile not null', () => {
-        expect(testConfig.get("sourceFile")).to.not.deep.equal(null);
-      });
-      it('destDir not null', () => {
-        expect(testConfig.get("destDir")).to.not.deep.equal(null);
-      });
-      it('newPageTag not null', () => {
-        expect(testConfig.get("newPageTag")).to.not.deep.equal(null);
-      });
-      it('indentSpaces not null', () => {
-        expect(testConfig.get("indentSpaces")).to.not.deep.equal(null);
+      it('confFileLocation not null', () => {
+        expect(testConfig.get("confFileLocation")).to.not.deep.equal(null);
       });
       it('defaultPage not null', () => {
         expect(testConfig.get("defaultPage")).to.not.deep.equal(null);
       });
-      it('confFileLocation not null', () => {
-        expect(testConfig.get("confFileLocation")).to.not.deep.equal(null);
+      it('destDir not null', () => {
+        expect(testConfig.get("destDir")).to.not.deep.equal(null);
+      });
+      it('highlightStyle not null', () => {
+        expect(testConfig.get("highlightStyle")).to.not.deep.equal(null);
+      });
+      it('indentSpaces not null', () => {
+        expect(testConfig.get("indentSpaces")).to.not.deep.equal(null);
+      });
+      it('newPageTag not null', () => {
+        expect(testConfig.get("newPageTag")).to.not.deep.equal(null);
+      });
+      it('sourceFile not null', () => {
+        expect(testConfig.get("sourceFile")).to.not.deep.equal(null);
+      });
+      it('turndownConfig not null', () => {
+        expect(testConfig.get("turndownConfig")).to.not.deep.equal(null);
+      });
+      it('turndownCustomRules not null', () => {
+        expect(testConfig.get("turndownCustomRules")).to.not.deep.equal(null);
       });
     });
     describe('Can be updated with updateConfigFromCliArgs()', () => {
-      const conf = {
-        sourceFile: "sourceFile",
-        destDir: "destDir",
-        newPageTag: "newPageTag",
-        indentSpaces: 1,
-        defaultPage: "defaultPage",
-        confFileLocation: "confFileLocation"
-      };
       const testConfig = new AppConfig(conf);
       const testCliArgs = {
         s: "sourceFile-changed",
@@ -118,20 +151,15 @@ describe('config.js', () => {
         expect(testConfig.get("confFileLocation")).to.deep.equal("confFileLocation-changed");
       });
       it('Only updates sourceFile, destDir, confFileLocation', () => {
-        expect(testConfig.get("newPageTag")).to.deep.equal("newPageTag");
-        expect(testConfig.get("indentSpaces")).to.deep.equal(1);
         expect(testConfig.get("defaultPage")).to.deep.equal("defaultPage");
+        expect(testConfig.get("highlightStyle")).to.deep.equal("highlightStyle");
+        expect(testConfig.get("indentSpaces")).to.deep.equal(1);
+        expect(testConfig.get("newPageTag")).to.deep.equal("newPageTag");
+        expect(testConfig.get("turndownConfig")).to.deep.equal({"turndown": "Config"});
+        expect(testConfig.get("turndownCustomRules")).to.deep.equal({"turndown": "CustomRules"});
       });
     });
     describe('Can be updated with updateConfigFromFile()', () => {
-      const conf = {
-        sourceFile: "sourceFile",
-        destDir: "destDir",
-        newPageTag: "newPageTag",
-        indentSpaces: 1,
-        defaultPage: "defaultPage",
-        confFileLocation: "confFileLocation"
-      };
       const testConfig = new AppConfig(conf);
       const testConfFromFile = {
         confFileLocation: "confFileLocation-changed",
@@ -141,13 +169,21 @@ describe('config.js', () => {
         newPageTag: "newPageTag-changed",
         indentSpaces: 2,
         sourceFile: "sourceFile-changed",
+        turndownConfig: {"turndown": "Config-changed"},
+        turndownCustomRules: {"turndown": "CustomRules-changed"},
       }
       updateConfigFromFile(testConfig, testConfFromFile)
+      it('Does not update confFileLocation', () => {
+        expect(testConfig.get("confFileLocation")).to.deep.equal("confFileLocation");
+      });
       it('Updates defaultPage', () => {
         expect(testConfig.get("defaultPage")).to.deep.equal("defaultPage-changed");
       });
       it('Updates destDir', () => {
         expect(testConfig.get("destDir")).to.deep.equal("destDir-changed");
+      });
+      it('Updates highlightStyle', () => {
+        expect(testConfig.get("highlightStyle")).to.deep.equal("default");
       });
       it('Updates indentSpaces', () => {
         expect(testConfig.get("indentSpaces")).to.deep.equal(2);
@@ -155,11 +191,14 @@ describe('config.js', () => {
       it('Updates newPageTag', () => {
         expect(testConfig.get("newPageTag")).to.deep.equal("newPageTag-changed");
       });
-      it('Does not update confFileLocation', () => {
-        expect(testConfig.get("confFileLocation")).to.deep.equal("confFileLocation");
-      });
       it('Updates sourceFile', () => {
         expect(testConfig.get("sourceFile")).to.deep.equal("sourceFile-changed");
+      });
+      it('Updates turndownConfig', () => {
+        expect(testConfig.get("turndownConfig")).to.deep.equal({"turndown": "Config-changed"});
+      });
+      it('Updates turndownCustomRules', () => {
+        expect(testConfig.get("turndownCustomRules")).to.deep.equal({"turndown": "CustomRules-changed"});
       });
     });
   });

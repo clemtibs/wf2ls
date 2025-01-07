@@ -1,0 +1,11 @@
+- Color highlights
+  - <mark class="red">red highlight</mark>
+  - <mark class="orange">orange highlight</mark>
+  - <mark class="yellow">yellow highlight</mark>
+  - <mark class="green">green highlight</mark>
+  - <mark class="teal">teal highlight</mark>
+  - <mark class="sky">sky highlight</mark>
+  - <mark class="blue">blue highlight</mark>
+  - <mark class="purple">purple highlight</mark>
+  - <mark class="pink">pink highlight</mark>
+  - <mark class="gray">gray highlight</mark>
