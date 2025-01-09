@@ -74,7 +74,9 @@ const wfTimeToLocalTime = (wfSeconds, wfEpochSeconds) => {
   return secondsUtcToLocalDate(timestamp);
 }
 
-export default {
+export {
+  addDaySuffix,
+  formatDate,
   WF_EPOCH_SECONDS_PST,
   wfTimeToLocalTime
 };

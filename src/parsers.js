@@ -21,7 +21,10 @@
  *   to convertToMd() needs to be an array.
  */
 
-import date from './date.js';
+import {
+  WF_EPOCH_SECONDS_PST,
+  wfTimeToLocalTime
+} from './date.js';
 import { nodeIsBacklink } from './node.js';
 
 /* Workflowy backup file format and structure.
@@ -41,11 +44,11 @@ const parseWfData = (state, data) => {
       newNode.id = node.id;
       // if (!resultIdMap.get(node.id)) resultIdMap.set(node.id, newNode);
       newNode.name = node.nm.trim();
-      // if (node.ct) newNode.created = date.wfTimeToLocalTime(node.ct, date.WF_EPOCH_SECONDS_PST);
+      // if (node.ct) newNode.created = wfTimeToLocalTime(node.ct, WF_EPOCH_SECONDS_PST);
       if (node.no) newNode.note = node.no.trim();
-      if (node.cp) newNode.completed = date.wfTimeToLocalTime(node.cp, date.WF_EPOCH_SECONDS_PST);
+      if (node.cp) newNode.completed = wfTimeToLocalTime(node.cp, WF_EPOCH_SECONDS_PST);
       if (node.metadata.layoutMode) newNode.metadata.layoutMode = node.metadata.layoutMode;
-      // newNode.lastModified = date.wfTimeToLocalTime(node.lm, date.WF_EPOCH_SECONDS_PST);
+      // newNode.lastModified = wfTimeToLocalTime(node.lm, WF_EPOCH_SECONDS_PST);
       // node.mirrorRootItems?.forEach(item => mirrors.set(item.id, node.id));
       if (node.ch) {
         if (!(node.ch.length === 1 && nodeIsBacklink(node.ch[0]))) {
