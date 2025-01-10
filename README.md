@@ -54,6 +54,7 @@ It contains the following:
 
 ```json
 {
+  "dateFormat": "yyyy-MM-dd",
   "defaultPage": "Workflowy Imports",
   "destDir": "./output",
   "indentSpaces": 2,
@@ -158,11 +159,77 @@ to the same. This assumption works accurately for me down to the second. Time
 zones could easily be converted, but more sample data from other time zones is
 needed to know what Workflowy is doing internally.
 
-### Dates (built-in tags) *
+### Dates (built-in tags)
 
-Not implemented yet. Workflowy uses `<time>` elements which LogSeq will
-display fine, but they need to be converted to actual page links to be of any
-use.
+Workflowy implements dates, times, and ranges as such:
+
+`<time startYear=\"2024\" endYear=\"2024\" startMonth=\"10\" endMonth=\"10\" startDay=\"31\" endDay=\"31\" startHour=\"10\" endHour=\"11\" startMinute=\"0\" endMinute=\"0\">Thu, Oct 31, 2024 at 10:00am - Thu, Oct 31, 2024 at 11:00am</time>`
+
+LogSeq has first class support for single dates in the form of page links to
+journal days (`[[ 2024-10-31 ]]` for example), but times are simply dropped in
+as text after a date tag. They are neither searchable or taggable (`[[
+2024-10-31 ]] at 10:00 am`).
+
+Currently, single dates are converted accordingly. Time support in 12 and 24 hour
+formats is pending*.
+
+Every date format that LogSeq supports is supported in the conversion. The
+options in the configuration are set with the `dateFormat` key in the options
+json file, and the values are exactly the format listed in `LogSeq Settings ->
+Editor -> Preferred date format` menu.
+
+LogSeq also doesn't really have support for date ranges in the same way that
+Workflowy does. In Workflowy, one can specify a date range tag, and that item
+will continue to show up in searches for dates that fall in that range.
+
+In order for LogSeq to have the same behavior, one must actually link each day
+in the date with the original block or page. There are two ways to do this, for
+a date range of 2024-10-28 through 2024-10-31:
+
+1) Add a date page link for every day that falls within the range, so that
+the page shows up in the LogSeq journal or in searches for dates.
+  - Example:
+
+    ```
+    - Original block
+      [[ 2024-10-28 ]]
+      [[ 2024-10-29 ]]
+      [[ 2024-10-30 ]]
+      [[ 2024-10-31 ]]
+    ```
+
+2) Add a copy of, or reference to, the original page on each journal page for
+the dates within the range.
+  - Example:
+
+    ```
+    Journal page for 2024-10-28
+      - ((6781812d-890e-410e-86f1-d2c7fb3f8485)) <- this is a block reference to
+        the original block
+    ```
+
+    ```
+    Journal page for 2024-10-29
+      - ((6781812d-890e-410e-86f1-d2c7fb3f8485)) <- this is a block reference to
+        the original block
+    ```
+
+    ```
+    Journal page for 2024-10-30
+      - ((6781812d-890e-410e-86f1-d2c7fb3f8485)) <- this is a block reference to
+        the original block
+    ```
+
+    ```
+    Journal page for 2024-10-31
+      - ((6781812d-890e-410e-86f1-d2c7fb3f8485)) <- this is a block reference to
+        the original block
+    ```
+
+Another possibility is the use of LogSeqs `SCHEDULED` with a daily repeater and
+`DEADLINE` to mark the end of the range. I would imagine all these possibilities
+are heavily dependent on context. I'm not even sure which I prefer yet for my
+own data as I see possibilities for each.
 
 ### Collapsing *
 
