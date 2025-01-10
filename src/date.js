@@ -8,6 +8,129 @@
 // annoying.
 const WF_EPOCH_SECONDS_PST = 1350385936;
 
+// Date formatting templates
+
+const month = {
+  'MMMM': (d) => { return new Intl.DateTimeFormat("en-US", {month: 'long', timeZone: 'America/Los_Angeles'}).format(d)},
+  'MMM': (d) => { return new Intl.DateTimeFormat("en-US", {month: 'short', timeZone: 'America/Los_Angeles'}).format(d)},
+  'MM': (d) => { return new Intl.DateTimeFormat("en-US", {month: '2-digit', timeZone: 'America/Los_Angeles'}).format(d)},
+}
+
+const day = {
+  'do': (d) => { return addDaySuffix(new Intl.DateTimeFormat("en-US", { day: 'numeric', timeZone: 'America/Los_Angeles' }).format(d))},
+  'dd': (d) => { return new Intl.DateTimeFormat("en-US", { day: '2-digit', timeZone: 'America/Los_Angeles' }).format(d)}
+}
+
+const weekday = {
+  'E': (d) => { return new Intl.DateTimeFormat("en-US", { weekday: 'short', timeZone: 'America/Los_Angeles' }).format(d)},
+  'EEE': (d) => { return new Intl.DateTimeFormat("en-US", { weekday: 'short', timeZone: 'America/Los_Angeles' }).format(d)},
+  'EEEE': (d) => { return new Intl.DateTimeFormat("en-US", { weekday: 'long', timeZone: 'America/Los_Angeles' }).format(d)},
+}
+
+const year = (d) => { return d.getFullYear()}
+
+const dateFormats = {
+  'E, MM/dd/yyyy': (d) => {
+    return `${weekday['E'](d)}, ${month['MM'](d)}/${day['dd'](d)}/${year(d)}`
+  },
+  'E, MM-dd-yyyy': (d) => {
+    return `${weekday['E'](d)}, ${month['MM'](d)}-${day['dd'](d)}-${year(d)}`
+  },
+  'E, MM.dd.yyyy': (d) => {
+    return `${weekday['E'](d)}, ${month['MM'](d)}.${day['dd'](d)}.${year(d)}`
+  },
+  'E, yyyy/MM/dd': (d) => {
+    return `${weekday['E'](d)}, ${year(d)}/${month['MM'](d)}/${day['dd'](d)}`
+  },
+  'EEE, MM/dd/yyyy': (d) => {
+    return `${weekday['EEE'](d)}, ${month['MM'](d)}/${day['dd'](d)}/${year(d)}`
+  },
+  'EEE, MM-dd-yyyy': (d) => {
+    return `${weekday['EEE'](d)}, ${month['MM'](d)}-${day['dd'](d)}-${year(d)}`
+  },
+  'EEE, MM.dd.yyyy': (d) => {
+    return `${weekday['EEE'](d)}, ${month['MM'](d)}.${day['dd'](d)}.${year(d)}`
+  },
+  'EEE, yyyy/MM/dd': (d) => {
+    return `${weekday['EEE'](d)}, ${year(d)}/${month['MM'](d)}/${day['dd'](d)}`
+  },
+  'EEEE, MM/dd/yyyy': (d) => {
+    return `${weekday['EEEE'](d)}, ${month['MM'](d)}/${day['dd'](d)}/${year(d)}`
+  },
+  'EEEE, MM-dd-yyyy': (d) => {
+    return `${weekday['EEEE'](d)}, ${month['MM'](d)}-${day['dd'](d)}-${year(d)}`
+  },
+  'EEEE, MM.dd.yyyy': (d) => {
+    return `${weekday['EEEE'](d)}, ${month['MM'](d)}.${day['dd'](d)}.${year(d)}`
+  },
+  'EEEE, yyyy/MM/dd': (d) => {
+    return `${weekday['EEEE'](d)}, ${year(d)}/${month['MM'](d)}/${day['dd'](d)}`
+  },
+  'MM-dd-yyyy': (d) => {
+    return `${month['MM'](d)}-${day['dd'](d)}-${year(d)}`
+  },
+  'MM/dd/yyyy': (d) => {
+    return `${month['MM'](d)}/${day['dd'](d)}/${year(d)}`
+  },
+  'MMM do, yyyy': (d) => {
+    return `${month['MMM'](d)} ${day['do'](d)}, ${year(d)}`
+  },
+  'MMMM do, yyyy': (d) => {
+    return `${month['MMMM'](d)} ${day['do'](d)}, ${year(d)}`
+  },
+  'MM_dd_yyyy': (d) => {
+    return `${month['MM'](d)}_${day['dd'](d)}_${year(d)}`
+  },
+  'dd-MM-yyyy': (d) => {
+    return `${day['dd'](d)}-${month['MM'](d)}-${year(d)}`
+  },
+  'do MMM yyyy': (d) => {
+    return `${day['do'](d)} ${month['MMM'](d)} ${year(d)}`
+  },
+  'do MMMM yyyy': (d) => {
+    return `${day['do'](d)} ${month['MMMM'](d)} ${year(d)}`
+  },
+  'yyyy-MM-dd': (d) => {
+    return `${year(d)}-${month['MM'](d)}-${day['dd'](d)}`
+  },
+  'yyyy-MM-dd EEEE': (d) => {
+    return `${year(d)}-${month['MM'](d)}-${day['dd'](d)} ${weekday['EEEE'](d)}`
+  },
+  'yyyy/MM/dd': (d) => {
+    return `${year(d)}/${month['MM'](d)}/${day['dd'](d)}`
+  },
+  'yyyyMMdd': (d) => {
+    return `${year(d)}${month['MM'](d)}${day['dd'](d)}`
+  },
+  'yyyy_MM_dd': (d) => {
+    return `${year(d)}_${month['MM'](d)}_${day['dd'](d)}`
+  },
+  'yyyy年MM月dd日': (d) => {
+    return `${year(d)}年${month['MM'](d)}月${day['dd'](d)}日`
+  },
+}
+
+const addDaySuffix = (day) => {
+  if ([11, 12, 13].includes(day)) {
+    return `${day}th`;
+  } else {
+    let ld = Number(day.toString().slice(-1));
+    switch (ld) {
+      case 1:
+        return `${day}st`;
+        break;
+      case 2:
+        return `${day}nd`;
+        break;
+      case 3:
+        return `${day}rd`;
+        break;
+      default:
+        return `${day}th`;
+    }
+  }
+}
+
 const dateUtcToSecondsUtc = (dateStr) => {
   const date = new Date(dateStr);
   const dateSeconds = Math.floor(date.getTime() / 1000);
@@ -59,12 +182,33 @@ const secondsUtcToLocalDate = (seconds) => {
     // hour: 'numeric',
     // minute: 'numeric',
     // second: 'numeric',
+    // hour12: false,
     timeZone: 'America/Los_Angeles',
     // timeZone: 'UTC',
     // timeZoneName: 'short'
   };
   return date.toLocaleDateString("en-US", options);
   // return date.toLocaleDateString("en-CA", options);
+}
+
+const formatDate = (date, dFormat) => {
+  const startDate = new Date(
+    date.startYear,
+    date.startMonth - 1,
+    date.startDay,
+    date.startHour,
+    date.startMinute
+  )
+
+  // const endDate = new Date(
+    // date.endYear,
+    // date.endMonth - 1,
+    // date.endDay,
+    // date.endHour,
+    // date.endMinute
+  // )
+
+  return dateFormats[dFormat](startDate);
 }
 
 // TODO: add ability to pass format/timezone object

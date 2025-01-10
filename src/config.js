@@ -8,6 +8,7 @@ import {
 class AppConfig {
   #option_values = {
     confFileLocation: null,
+    dateFormat: null,
     defaultPage: null,
     destDir: null,
     textColorMarkupMode: null,
@@ -20,6 +21,7 @@ class AppConfig {
 
   #option_types = {
     confFileLocation: 'string',
+    dateFormat: 'string',
     defaultPage: 'string',
     destDir: 'string',
     textColorMarkupMode: 'string',
@@ -31,40 +33,75 @@ class AppConfig {
   };
 
   #option_allowed_values = {
-    textColorMarkupMode: ['default', 'plugin']
+    textColorMarkupMode: ['default', 'plugin'],
+    dateFormat: [
+      'E, MM/dd/yyyy',
+      'E, MM-dd-yyyy',
+      'E, MM.dd.yyyy',
+      'E, yyyy/MM/dd',
+      'EEE, MM/dd/yyyy',
+      'EEE, MM-dd-yyyy',
+      'EEE, MM.dd.yyyy',
+      'EEE, yyyy/MM/dd',
+      'EEEE, MM/dd/yyyy',
+      'EEEE, MM-dd-yyyy',
+      'EEEE, MM.dd.yyyy',
+      'EEEE, yyyy/MM/dd',
+      'MM-dd-yyyy',
+      'MM/dd/yyyy',
+      'MMM do, yyyy',
+      'MMMM do, yyyy',
+      'MM_dd_yyyy',
+      'dd-MM-yyyy',
+      'do MMM yyyy',
+      'do MMMM yyyy',
+      'yyyy-MM-dd',
+      'yyyy-MM-dd EEEE',
+      'yyyy/MM/dd',
+      'yyyyMMdd',
+      'yyyy_MM_dd',
+      'yyyy年MM月dd日',
+    ]
   };
 
   #updateTurndownCustomRules() {
-    const plugRules = turndownSpanPluginRules;
-    const defRules = turndownSpanDefaultRules;
-    switch (this.#option_values.textColorMarkupMode) {
-      case 'plugin':
-        if (this.#option_values.turndownCustomRules !== null) {
-          if (this.#option_values.turndownCustomRules.hasOwnProperty('spanTextColor')) {
-            this.#option_values.turndownCustomRules.spanTextColor = plugRules.spanTextColorPlugin;
-          }
-          if (this.#option_values.turndownCustomRules.hasOwnProperty('spanHighlight')) {
-            this.#option_values.turndownCustomRules.spanHighlight = plugRules.spanHighlightPlugin;
-          }
+    if (this.#option_values.turndownCustomRules !== null) {
+      const plugRules = turndownSpanPluginRules;
+      const defRules = turndownSpanDefaultRules;
+      switch (this.#option_values.textColorMarkupMode) {
+        case 'plugin':
+            if (this.#option_values.turndownCustomRules.hasOwnProperty('spanTextColor')) {
+              this.#option_values.turndownCustomRules.spanTextColor = plugRules.spanTextColorPlugin;
+            }
+            if (this.#option_values.turndownCustomRules.hasOwnProperty('spanHighlight')) {
+              this.#option_values.turndownCustomRules.spanHighlight = plugRules.spanHighlightPlugin;
+            }
+        break;
+        case 'default':
+            if (this.#option_values.turndownCustomRules.hasOwnProperty('spanTextColor')) {
+              this.#option_values.turndownCustomRules.spanTextColor = defRules.spanTextColorDefault;
+            }
+            if (this.#option_values.turndownCustomRules.hasOwnProperty('spanHighlight')) {
+              this.#option_values.turndownCustomRules.spanHighlight = defRules.spanHighlightDefault;
+            }
+        break;
+      }
+
+      // Inject the date format into the plugin
+      if (this.#option_values.turndownCustomRules.hasOwnProperty('dates')) {
+        const baseDateRule = this.#option_values.turndownCustomRules.dates.replacement;
+        this.#option_values.turndownCustomRules.dates.replacement = (content, node, options) => {
+          const dateFormatSetting = this.#option_values.dateFormat;
+          return baseDateRule(content, node, options, dateFormatSetting);
         }
-      break;
-      case 'default':
-        if (this.#option_values.turndownCustomRules !== null) {
-          if (this.#option_values.turndownCustomRules.hasOwnProperty('spanTextColor')) {
-            this.#option_values.turndownCustomRules.spanTextColor = defRules.spanTextColorDefault;
-          }
-          if (this.#option_values.turndownCustomRules.hasOwnProperty('spanHighlight')) {
-            this.#option_values.turndownCustomRules.spanHighlight = defRules.spanHighlightDefault;
-          }
-        }
-      break;
+      }
     }
   }
 
   constructor(config) {
     if (config) this.#option_values = { ...this.#option_values, ...config };
     // This code for checking allowed values on instantiation works, but leaving
-    // it alone until I really need it.
+    // it alone until I really need it. Makes testing more difficult.
     //
     // for (let key in this.#option_allowed_values) {
       // if (!this.#option_allowed_values[key].includes(this.#option_values[key])) {
@@ -90,6 +127,11 @@ class AppConfig {
               throw new Error(`Invalid option value: "${value}" for "${key}"`);
         }
         switch (key) {
+          case 'dateFormat':
+            this.#option_values[key] = value;
+            this.#updateTurndownCustomRules();
+            return true;
+            break;
           case 'textColorMarkupMode':
             this.#option_values[key] = value;
             this.#updateTurndownCustomRules();
@@ -109,6 +151,7 @@ class AppConfig {
 
 const defaultConfig = {
   confFileLocation: "./config.json",
+  dateFormat: 'yyyy-MM-dd',
   defaultPage: "Workflowy Imports",
   destDir: "./output",
   textColorMarkupMode: "default",
@@ -130,6 +173,7 @@ const updateConfigFromFile = (appConf, rawConf) => {
   // from either defaultConfig, or a specific -c option on the CLI. No need to 
   // change this value AFTER the window has passed for loading config files, will
   // only mess up debugging.
+  if (rawConf.dateFormat) appConf.set("dateFormat", rawConf.dateFormat);
   if (rawConf.defaultPage) appConf.set("defaultPage", rawConf.defaultPage);
   if (rawConf.destDir) appConf.set("destDir", rawConf.destDir);
   if (rawConf.textColorMarkupMode) appConf.set("textColorMarkupMode", rawConf.textColorMarkupMode);

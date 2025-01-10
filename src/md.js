@@ -6,6 +6,7 @@
  */
 import { default as TurndownService } from 'turndown';
 
+import { formatDate } from './date.js';
 import { 
   makeNode,
   nodeHasNote,
@@ -179,7 +180,30 @@ const turndownDefaultCustomRules = {
     }
   },
   spanTextColor: turndownSpanDefaultRules.spanTextColorDefault,
-  spanHighlight: turndownSpanDefaultRules.spanHighlightDefault
+  spanHighlight: turndownSpanDefaultRules.spanHighlightDefault,
+  dates: {
+    filter: function (node, options) {
+      return (
+        node.nodeName === 'TIME'
+      )
+    },
+    replacement: function (content, node, options, dFormat) {
+      const d = {
+        startYear: node.getAttribute('startYear'),
+        endYear: node.getAttribute('endYear'),
+        startMonth: node.getAttribute('startMonth'),
+        endMonth: node.getAttribute('endMonth'),
+        startDay: node.getAttribute('startDay'),
+        endDay: node.getAttribute('endDay'),
+        startHour: node.getAttribute('startHour'),
+        endHour: node.getAttribute('endHour'),
+        startMinute: node.getAttribute('startMinute'),
+        endMinute: node.getAttribute('endMinute'),
+      }
+      
+      return `[[ ${formatDate(d, dFormat)} ]]`
+    }
+  }
 }
 
 const convertHtmlToMd = (config, content) => {
