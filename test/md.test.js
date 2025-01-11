@@ -105,5 +105,17 @@ describe('md.js', () => {
       testContentPassResult = 'Non-html filler [[$blue]]==blue text== more filler'
       expect(convertHtmlToMd(testConfig, testContentPass)).to.deep.equal(testContentPassResult);
     });
+    describe('Dates', () => {
+      // TODO: rewrite all above with string literals
+      let dateHtml;
+      let fillerPre = 'Non-html filler';
+      let fillerPost = 'more filler'; 
+      it('Single date', () => {
+        dateHtml = '<time startYear=\"2024\" startMonth=\"10\" startDay=\"31\">Thu, Oct 31, 2024</time>';
+        let testContentPass = `${fillerPre} ${dateHtml} ${fillerPost}`;
+        let testContentPassResult = `${fillerPre} [[ 2024-10-31 ]] ${fillerPost}`;
+        expect(convertHtmlToMd(testConfig, testContentPass)).to.deep.equal(testContentPassResult);
+      });
+    });
   });
 });

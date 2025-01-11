@@ -1,0 +1,41 @@
+[{
+  "id": "d0772b2a-696a-4aa9-ba7d-072781d0b166",
+  "nm": "Dates with time range",
+  "ct": 380044000,
+  "metadata": {},
+  "lm": 380983514,
+  "ch": [
+      {
+          "id": "eee8aebc-6bf0-4c80-986d-eccfd275beb1",
+          "nm": "Time range morning (12 hour)",
+          "ct": 385896122,
+          "metadata": {},
+          "no": "<time startYear=\"2024\" endYear=\"2024\" startMonth=\"10\" endMonth=\"10\" startDay=\"31\" endDay=\"31\" startHour=\"9\" endHour=\"10\" startMinute=\"0\" endMinute=\"0\">Thu, Oct 31, 2024 at 09:00am - Thu, Oct 31, 2024 at 10:00am</time>",
+          "lm": 385896412
+      },
+      {
+          "id": "1dcf9d03-e419-714e-e83e-71c5517829e0",
+          "nm": "Time range evening (12 hour)",
+          "ct": 385895262,
+          "metadata": {},
+          "no": "<time startYear=\"2024\" endYear=\"2024\" startMonth=\"10\" endMonth=\"10\" startDay=\"31\" endDay=\"31\" startHour=\"21\" endHour=\"22\" startMinute=\"0\" endMinute=\"0\">Thu, Oct 31, 2024 at 09:00pm - Thu, Oct 31, 2024 at 10:00pm</time>",
+          "lm": 385896414
+      },
+      {
+          "id": "eee8aebc-6bf0-4c80-986d-eccfd275beb1",
+          "nm": "Time range morning (24 hour)",
+          "ct": 385896122,
+          "metadata": {},
+          "no": "<time startYear=\"2024\" endYear=\"2024\" startMonth=\"10\" endMonth=\"10\" startDay=\"31\" endDay=\"31\" startHour=\"9\" endHour=\"10\" startMinute=\"0\" endMinute=\"0\">Thu, Oct 31, 2024 at 09:00am - Thu, Oct 31, 2024 at 10:00am</time>",
+          "lm": 385896412
+      },
+      {
+          "id": "1dcf9d03-e419-714e-e83e-71c5517829e0",
+          "nm": "Time range evening (24 hour)",
+          "ct": 385895262,
+          "metadata": {},
+          "no": "<time startYear=\"2024\" endYear=\"2024\" startMonth=\"10\" endMonth=\"10\" startDay=\"31\" endDay=\"31\" startHour=\"21\" endHour=\"22\" startMinute=\"0\" endMinute=\"0\">Thu, Oct 31, 2024 at 09:00pm - Thu, Oct 31, 2024 at 10:00pm</time>",
+          "lm": 385896414
+      }
+  ]
+}]

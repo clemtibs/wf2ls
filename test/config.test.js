@@ -10,6 +10,7 @@ import {
 describe('config.js', () => {
   const conf = {
     confFileLocation: "confFileLocation",
+    dateFormat: "dateFormat",
     defaultPage: "defaultPage",
     destDir: "destDir",
     textColorMarkupMode: "textColorMarkupMode",
@@ -24,6 +25,9 @@ describe('config.js', () => {
       const testConfig = new AppConfig();
       it('confFileLocation', () => {
         expect(testConfig.get("confFileLocation")).to.deep.equal(null);
+      });
+      it('dateFormat', () => {
+        expect(testConfig.get("dateFormat")).to.deep.equal(null);
       });
       it('defaultPage', () => {
         expect(testConfig.get("defaultPage")).to.deep.equal(null);
@@ -65,6 +69,10 @@ describe('config.js', () => {
         expect(testConfig.set("confFileLocation", "a string")).to.be.ok;
         expect(() => testConfig.set("confFileLocation", 1)).to.throw(/property value type/);
       });
+      it('setting dateFormat as string', () => {
+        expect(testConfig.set("dateFormat", "yyyy-MM-dd")).to.be.ok;
+        expect(() => testConfig.set("dateFormat", 1)).to.throw(/property value type/);
+      });
       it('setting defaultPage as string', () => {
         expect(testConfig.set("defaultPage", "a string")).to.be.ok;
         expect(() => testConfig.set("defaultPage", 1)).to.throw(/property value type/);
@@ -105,11 +113,47 @@ describe('config.js', () => {
           expect(() => testConfig.set("textColorMarkupMode", "something else")).to.throw(/Invalid option value/);
         });
       });
+      describe('dateFormat', () => {
+        it('passes supported options', () => {
+          expect(testConfig.set("dateFormat", "E, MM/dd/yyyy")).to.be.ok;
+          expect(testConfig.set("dateFormat", "E, MM-dd-yyyy")).to.be.ok;
+          expect(testConfig.set("dateFormat", "E, MM.dd.yyyy")).to.be.ok;
+          expect(testConfig.set("dateFormat", "E, yyyy/MM/dd")).to.be.ok;
+          expect(testConfig.set("dateFormat", "EEE, MM/dd/yyyy")).to.be.ok;
+          expect(testConfig.set("dateFormat", "EEE, MM-dd-yyyy")).to.be.ok;
+          expect(testConfig.set("dateFormat", "EEE, MM.dd.yyyy")).to.be.ok;
+          expect(testConfig.set("dateFormat", "EEE, yyyy/MM/dd")).to.be.ok;
+          expect(testConfig.set("dateFormat", "EEEE, MM/dd/yyyy")).to.be.ok;
+          expect(testConfig.set("dateFormat", "EEEE, MM-dd-yyyy")).to.be.ok;
+          expect(testConfig.set("dateFormat", "EEEE, MM.dd.yyyy")).to.be.ok;
+          expect(testConfig.set("dateFormat", "EEEE, yyyy/MM/dd")).to.be.ok;
+          expect(testConfig.set("dateFormat", "MM-dd-yyyy")).to.be.ok;
+          expect(testConfig.set("dateFormat", "MM/dd/yyyy")).to.be.ok;
+          expect(testConfig.set("dateFormat", "MMM do, yyyy")).to.be.ok;
+          expect(testConfig.set("dateFormat", "MMMM do, yyyy")).to.be.ok;
+          expect(testConfig.set("dateFormat", "MM_dd_yyyy")).to.be.ok;
+          expect(testConfig.set("dateFormat", "dd-MM-yyyy")).to.be.ok;
+          expect(testConfig.set("dateFormat", "do MMM yyyy")).to.be.ok;
+          expect(testConfig.set("dateFormat", "do MMMM yyyy")).to.be.ok;
+          expect(testConfig.set("dateFormat", "yyyy-MM-dd")).to.be.ok;
+          expect(testConfig.set("dateFormat", "yyyy-MM-dd EEEE")).to.be.ok;
+          expect(testConfig.set("dateFormat", "yyyy/MM/dd")).to.be.ok;
+          expect(testConfig.set("dateFormat", "yyyyMMdd")).to.be.ok;
+          expect(testConfig.set("dateFormat", "yyyy_MM_dd")).to.be.ok;
+          expect(testConfig.set("dateFormat", "yyyy年MM月dd日")).to.be.ok;
+        });
+        it('fails something else', () => {
+          expect(() => testConfig.set("dateFormat", "something else")).to.throw(/Invalid option value/);
+        });
+      });
     });
     describe('Import configuration object on creation', () => {
       const testConfig = new AppConfig(conf);
       it('confFileLocation not null', () => {
         expect(testConfig.get("confFileLocation")).to.not.deep.equal(null);
+      });
+      it('dateFormat not null', () => {
+        expect(testConfig.get("dateFormat")).to.not.deep.equal(null);
       });
       it('defaultPage not null', () => {
         expect(testConfig.get("defaultPage")).to.not.deep.equal(null);
@@ -151,6 +195,7 @@ describe('config.js', () => {
         expect(testConfig.get("confFileLocation")).to.deep.equal("confFileLocation-changed");
       });
       it('Only updates sourceFile, destDir, confFileLocation', () => {
+        expect(testConfig.get("dateFormat")).to.deep.equal("dateFormat");
         expect(testConfig.get("defaultPage")).to.deep.equal("defaultPage");
         expect(testConfig.get("textColorMarkupMode")).to.deep.equal("textColorMarkupMode");
         expect(testConfig.get("indentSpaces")).to.deep.equal(1);
@@ -163,6 +208,7 @@ describe('config.js', () => {
       const testConfig = new AppConfig(conf);
       const testConfFromFile = {
         confFileLocation: "confFileLocation-changed",
+        dateFormat: "MMMM do, yyyy", // enforced list of options
         defaultPage: "defaultPage-changed",
         destDir: "destDir-changed",
         textColorMarkupMode: "default", // enforced list of options
@@ -175,6 +221,9 @@ describe('config.js', () => {
       updateConfigFromFile(testConfig, testConfFromFile)
       it('Does not update confFileLocation', () => {
         expect(testConfig.get("confFileLocation")).to.deep.equal("confFileLocation");
+      });
+      it('Updates dateFormat', () => {
+        expect(testConfig.get("dateFormat")).to.deep.equal("MMMM do, yyyy");
       });
       it('Updates defaultPage', () => {
         expect(testConfig.get("defaultPage")).to.deep.equal("defaultPage-changed");

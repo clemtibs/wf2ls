@@ -181,9 +181,23 @@ describe('main.js', () => {
         runAcceptTest('tagging_ampersat');
         expect(testResults.pages.get("default")).to.equal(file(successTestOutput));
       });
-      it.skip('Date Tags', () => {
-        runAcceptTest('dates');
-        expect(testResults.pages.get("default")).to.equal(file(successTestOutput));
+      describe('Date & Time Tags', () => {
+        it('Single Date', () => {
+          runAcceptTest('dates');
+          expect(testResults.pages.get("default")).to.equal(file(successTestOutput));
+        });
+        it.skip('Date range', () => {
+          runAcceptTest('dates_range');
+          expect(testResults.pages.get("default")).to.equal(file(successTestOutput));
+        });
+        it.skip('Dates with time', () => {
+          runAcceptTest('dates_with_time');
+          expect(testResults.pages.get("default")).to.equal(file(successTestOutput));
+        });
+        it.skip('Dates with time range', () => {
+          runAcceptTest('dates_with_time_range');
+          expect(testResults.pages.get("default")).to.equal(file(successTestOutput));
+        });
       });
     });
     describe('Opinionated Re-organization & Translation', () => {
