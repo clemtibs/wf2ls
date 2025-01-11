@@ -231,19 +231,26 @@ Another possibility is the use of LogSeqs `SCHEDULED` with a daily repeater and
 are heavily dependent on context. I'm not even sure which I prefer yet for my
 own data as I see possibilities for each.
 
-### Collapsing *
+### Collapsing
 
-Every top-level block of a page should be collapsed by default. This is the
+Every top-level block of a page is collapsed by default. This is the
 safest thing to do for potentially large lists that get brought over from
 Workflowy. In LogSeq, this is done by adding an invisible property `collapsed::
-true`.  Eventually, four useful options could be used here:
+true`. The possible values of `collapseMode` are:
 
-- **collapse top** ( _default_ ): Every top level page block is collapsed, every
+- **top** ( _default_ ): Every top level page block is collapsed, every
     child block is not.
-- **collapse none**: Collapse nothing.
-- **collapse all**: Collapse everything on every level.
-- **collapse top and deep**: A potential compromise where every top level page
-    block is collapsed, plus every child of _n + 1_ depth going forward.
+- **none**: Collapse nothing.
+- **all**: Collapse everything on every level.
+- **shallow**: A potential compromise where every top level page
+    block is collapsed, plus every child of `collapseDepth` depth going forward.
+
+**Note**: Regardless of which setting, only blocks with children get the text
+appended.
+
+The default value of `collapseDepth` is 3 and is only observed when used with
+the `shallow` option. A `collapseDepth` of 1 is functionally equivalent to a
+`collapseMode` of `top`.
 
 ### Tagging *
 
