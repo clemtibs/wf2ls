@@ -9,6 +9,8 @@ import {
 
 describe('config.js', () => {
   const conf = {
+    collapseMode: "collapseMode",
+    collapseDepth: 1,
     confFileLocation: "confFileLocation",
     dateFormat: "dateFormat",
     defaultPage: "defaultPage",
@@ -23,6 +25,12 @@ describe('config.js', () => {
   describe('AppConfig instances', () => {
     describe('Have required properties', () => {
       const testConfig = new AppConfig();
+      it('collapseMode', () => {
+        expect(testConfig.get("collapseMode")).to.deep.equal(null);
+      });
+      it('collapseDepth', () => {
+        expect(testConfig.get("collapseDepth")).to.deep.equal(null);
+      });
       it('confFileLocation', () => {
         expect(testConfig.get("confFileLocation")).to.deep.equal(null);
       });
@@ -65,6 +73,14 @@ describe('config.js', () => {
     });
     describe('Enforces types', () => {
       const testConfig = new AppConfig();
+      it('setting collapseMode as string', () => {
+        expect(testConfig.set("collapseMode", "none")).to.be.ok;
+        expect(() => testConfig.set("collapseMode", 1)).to.throw(/property value type/);
+      });
+      it('setting collapseDepth as number', () => {
+        expect(testConfig.set("collapseDepth", 1)).to.be.ok;
+        expect(() => testConfig.set("collapseDepth", "a string")).to.throw(/property value type/);
+      });
       it('setting confFileLocation as string', () => {
         expect(testConfig.set("confFileLocation", "a string")).to.be.ok;
         expect(() => testConfig.set("confFileLocation", 1)).to.throw(/property value type/);
@@ -104,6 +120,17 @@ describe('config.js', () => {
     });
     describe('Enforces only allowed options', () => {
       const testConfig = new AppConfig();
+      describe('collapseMode', () => {
+        it('passes top, none, all, shallow', () => {
+          expect(testConfig.set("collapseMode", "top")).to.be.ok;
+          expect(testConfig.set("collapseMode", "none")).to.be.ok;
+          expect(testConfig.set("collapseMode", "all")).to.be.ok;
+          expect(testConfig.set("collapseMode", "shallow")).to.be.ok;
+        });
+        it('fails something else', () => {
+          expect(() => testConfig.set("collapseMode", "something else")).to.throw(/Invalid option value/);
+        });
+      });
       describe('textColorMarkupMode', () => {
         it('passes default, plugin', () => {
           expect(testConfig.set("textColorMarkupMode", "default")).to.be.ok;
@@ -149,6 +176,12 @@ describe('config.js', () => {
     });
     describe('Import configuration object on creation', () => {
       const testConfig = new AppConfig(conf);
+      it('collapseMode not null', () => {
+        expect(testConfig.get("collapseMode")).to.not.deep.equal(null);
+      });
+      it('collapseDepth not null', () => {
+        expect(testConfig.get("collapseDepth")).to.not.deep.equal(null);
+      });
       it('confFileLocation not null', () => {
         expect(testConfig.get("confFileLocation")).to.not.deep.equal(null);
       });
@@ -195,6 +228,8 @@ describe('config.js', () => {
         expect(testConfig.get("confFileLocation")).to.deep.equal("confFileLocation-changed");
       });
       it('Only updates sourceFile, destDir, confFileLocation', () => {
+        expect(testConfig.get("collapseMode")).to.deep.equal("collapseMode");
+        expect(testConfig.get("collapseDepth")).to.deep.equal(1);
         expect(testConfig.get("dateFormat")).to.deep.equal("dateFormat");
         expect(testConfig.get("defaultPage")).to.deep.equal("defaultPage");
         expect(testConfig.get("textColorMarkupMode")).to.deep.equal("textColorMarkupMode");
@@ -207,6 +242,8 @@ describe('config.js', () => {
     describe('Can be updated with updateConfigFromFile()', () => {
       const testConfig = new AppConfig(conf);
       const testConfFromFile = {
+        collapseMode: "none", // enforced list of options
+        collapseDepth: 2, // enforced list of options
         confFileLocation: "confFileLocation-changed",
         dateFormat: "MMMM do, yyyy", // enforced list of options
         defaultPage: "defaultPage-changed",
@@ -219,6 +256,12 @@ describe('config.js', () => {
         turndownCustomRules: {"turndown": "CustomRules-changed"},
       }
       updateConfigFromFile(testConfig, testConfFromFile)
+      it('Updates collapseMode', () => {
+        expect(testConfig.get("collapseMode")).to.deep.equal("none");
+      });
+      it('Updates collapseDepth', () => {
+        expect(testConfig.get("collapseDepth")).to.deep.equal(2);
+      });
       it('Does not update confFileLocation', () => {
         expect(testConfig.get("confFileLocation")).to.deep.equal("confFileLocation");
       });

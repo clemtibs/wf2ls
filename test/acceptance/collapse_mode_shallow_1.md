@@ -1,0 +1,21 @@
+- child one
+  collapsed:: true
+  - grandchild one
+    - great-grandchild one
+      - great-great-grandchild one
+        - great-great-great-grandchild one
+          - great-great-great-great-grandchild one
+    - great-grandchild two
+  - grandchild two
+    - great-grandchild one
+      - great-great-grandchild one
+        - great-great-great-grandchild one
+    - great-grandchild two
+- child two
+  collapsed:: true
+  - grandchild one
+    - great-grandchild one
+    - great-grandchild two
+  - grandchild two
+    - great-grandchild one
+    - great-grandchild two
