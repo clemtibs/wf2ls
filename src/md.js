@@ -251,6 +251,8 @@ const convertToMd = (state, conf, pageName, nodes, nNodes, indentLvl) => {
       let completed = "";
       let collapsed = "";
       let marker = "";
+
+      // Splitting off new pages.
       if (tagInText(newPageTag, name) || tagInText(newPageTag, note)) {
         let pageName = stripTag(newPageTag, name).trim();
         name = toPageLink(pageName);
@@ -275,7 +277,8 @@ const convertToMd = (state, conf, pageName, nodes, nNodes, indentLvl) => {
         nNodes--;
         continue;
       }
-
+      
+      // Special Workflowy node types
       switch (true) {
         case nodeIsTodo(n):
           marker = "TODO ";
@@ -296,6 +299,9 @@ const convertToMd = (state, conf, pageName, nodes, nNodes, indentLvl) => {
         // case nodeIsBoard(n):
           // not implemented yet
           // break;
+        // TODO: multi-line quotes and codeblocks? This needs some revisiting.
+        //       Splitting the content between name and note is fragile when adding
+        //       properties.
         case nodeIsQuoteBlock(n):
           name = "> " + name + "\n";
           break;
@@ -309,7 +315,11 @@ const convertToMd = (state, conf, pageName, nodes, nNodes, indentLvl) => {
       if (note !== "") {
         note = indentLines(note, makeBlockNotePrefix(indentSpaces, indentLvl));
       }
-
+      
+      // Node collapsing.
+      // TODO: including nodes with no children but have notes would be nice.
+      //       Needs careful implementation though as it will break quote and code
+      //       block formatting.
       if (n.children) {
         const collapsedText = "\n" + makeBlockNotePrefix(indentSpaces, indentLvl) + "collapsed:: true";
         switch (conf.get("collapseMode")) {
@@ -330,13 +340,14 @@ const convertToMd = (state, conf, pageName, nodes, nNodes, indentLvl) => {
             break;
         }
       }
-
+      
       pageBlocks.push(
         makeBlockNamePrefix(indentSpaces, indentLvl) + marker + name
         + completed
         + collapsed
         + note);
-
+      
+      // Recurse into children nodes
       if (n.children) {
         pageBlocks.push(convertToMd(
           state,
