@@ -1,4 +1,6 @@
 {
+  "collapseMode": "top",
+  "collapseDepth": 3,
   "dateFormat": "yyyy-MM-dd",
   "defaultPage": "Workflowy Imports",
   "destDir": "./output",

@@ -7,6 +7,8 @@ import {
 
 class AppConfig {
   #option_values = {
+    collapseMode: null,
+    collapseDepth: null,
     confFileLocation: null,
     dateFormat: null,
     defaultPage: null,
@@ -20,6 +22,8 @@ class AppConfig {
   };
 
   #option_types = {
+    collapseMode: "string",
+    collapseDepth: "number",
     confFileLocation: 'string',
     dateFormat: 'string',
     defaultPage: 'string',
@@ -33,7 +37,12 @@ class AppConfig {
   };
 
   #option_allowed_values = {
-    textColorMarkupMode: ['default', 'plugin'],
+    collapseMode: [
+      'top',
+      'none',
+      'all',
+      'shallow',
+    ],
     dateFormat: [
       'E, MM/dd/yyyy',
       'E, MM-dd-yyyy',
@@ -61,7 +70,8 @@ class AppConfig {
       'yyyyMMdd',
       'yyyy_MM_dd',
       'yyyy年MM月dd日',
-    ]
+    ],
+    textColorMarkupMode: ['default', 'plugin']
   };
 
   #updateTurndownCustomRules() {
@@ -150,6 +160,8 @@ class AppConfig {
 }
 
 const defaultConfig = {
+  collapseMode: "top",
+  collapseDepth: 3,
   confFileLocation: "./config.json",
   dateFormat: 'yyyy-MM-dd',
   defaultPage: "Workflowy Imports",
@@ -173,6 +185,8 @@ const updateConfigFromFile = (appConf, rawConf) => {
   // from either defaultConfig, or a specific -c option on the CLI. No need to 
   // change this value AFTER the window has passed for loading config files, will
   // only mess up debugging.
+  if (rawConf.collapseMode) appConf.set("collapseMode", rawConf.collapseMode);
+  if (rawConf.collapseDepth) appConf.set("collapseDepth", rawConf.collapseDepth);
   if (rawConf.dateFormat) appConf.set("dateFormat", rawConf.dateFormat);
   if (rawConf.defaultPage) appConf.set("defaultPage", rawConf.defaultPage);
   if (rawConf.destDir) appConf.set("destDir", rawConf.destDir);

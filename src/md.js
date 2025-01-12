@@ -249,6 +249,7 @@ const convertToMd = (state, conf, pageName, nodes, nNodes, indentLvl) => {
       let name = convertHtmlToMd(conf, linkTextToUrl(n.name.trim()));
       let note = convertHtmlToMd(conf, linkTextToUrl(n.note ?? ""));
       let completed = "";
+      let collapsed = "";
       let marker = "";
       if (tagInText(newPageTag, name) || tagInText(newPageTag, note)) {
         let pageName = stripTag(newPageTag, name).trim();
@@ -309,9 +310,31 @@ const convertToMd = (state, conf, pageName, nodes, nNodes, indentLvl) => {
         note = indentLines(note, makeBlockNotePrefix(indentSpaces, indentLvl));
       }
 
+      if (n.children) {
+        const collapsedText = "\n" + makeBlockNotePrefix(indentSpaces, indentLvl) + "collapsed:: true";
+        switch (conf.get("collapseMode")) {
+          case ('top'):
+            if (indentLvl === 0) {
+              collapsed = collapsedText;
+            }
+            break;
+          case ('none'):
+            // do nothing
+            break;
+          case ('all'):
+            collapsed = collapsedText;
+            break;
+          case ('shallow'):
+            const collapseLvl = conf.get("collapseDepth");
+            if (indentLvl <= collapseLvl - 1) collapsed = collapsedText;
+            break;
+        }
+      }
+
       pageBlocks.push(
         makeBlockNamePrefix(indentSpaces, indentLvl) + marker + name
         + completed
+        + collapsed
         + note);
 
       if (n.children) {
