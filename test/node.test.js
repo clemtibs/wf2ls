@@ -3,6 +3,8 @@ import {
   makeNode,
   nodeHasNote,
   nodeIsBacklink,
+  nodeIsChildBookmark,
+  nodeIsNoteBookmark,
   nodeIsBullet,
   nodeIsBoard,
   nodeIsCodeBlock,
@@ -84,6 +86,171 @@ describe('node.js', () => {
         expect(nodeIsBacklink(testNodePass)).to.be.true;
         let testNodeFail = { 'metadata': {}}
         expect(nodeIsBacklink(testNodeFail)).to.be.false;
+      });
+    });
+    describe('nodeIsChildBookmark()', () => {
+      it('should pass on most common format', () => {
+        let testNodePass = {
+          "name": "Example Site Name",
+          "metadata": {},
+          "children": [
+              {
+                "name": "[Example](https://www.example.com/)",
+                "metadata": {},
+              }
+          ]
+        }
+        expect(nodeIsChildBookmark(testNodePass)).to.be.true;
+      });
+      it('should pass only when child note has no real content', () => {
+        let testNodePass = {
+          "name": "Example Site Name",
+          "metadata": {},
+          "note": '  ', // <-- whitespace
+          "children": [
+              {
+                "name": "[Example](https://www.example.com/)",
+                "note": '  ', // <-- whitespace
+                "metadata": {},
+              }
+          ]
+        }
+        expect(nodeIsChildBookmark(testNodePass)).to.be.true;
+        testNodePass = {
+          "name": "Example Site Name",
+          "metadata": {},
+          "note": '  ', // <-- whitespace
+          "children": [
+              {
+                "name": "[Example](https://www.example.com/)",
+                "metadata": {},
+              }
+          ]
+        }
+        expect(nodeIsChildBookmark(testNodePass)).to.be.true;
+        testNodePass = {
+          "name": "Example Site Name",
+          "metadata": {},
+          "children": [
+              {
+                "name": "[Example](https://www.example.com/)",
+                "note": '  ', // <-- whitespace
+                "metadata": {},
+              }
+          ]
+        }
+        expect(nodeIsChildBookmark(testNodePass)).to.be.true;
+        testNodePass = {
+          "name": "Example Site Name",
+          "metadata": {},
+          "note": 'Some text',
+          "children": [
+              {
+                "name": "[Example](https://www.example.com/)",
+                "metadata": {},
+              }
+          ]
+        }
+        expect(nodeIsChildBookmark(testNodePass)).to.be.true;
+        testNodePass = {
+          "name": "Example Site Name",
+          "metadata": {},
+          "note": 'Some text',
+          "children": [
+              {
+                "name": "[Example](https://www.example.com/)",
+                "note": '  ', // <-- whitespace
+                "metadata": {},
+              }
+          ]
+        }
+        expect(nodeIsChildBookmark(testNodePass)).to.be.true;
+      });
+      it('should fail gracefully when missing name or note fields', () => {
+        let testNodeFail = { 'metadata': {}}
+        expect(nodeIsChildBookmark(testNodeFail)).to.be.false;
+      });
+      it('should fail only when child note has content', () => {
+        let testNodeFail = {
+          "name": "Example Site Name",
+          "metadata": {},
+          "note": 'Some text',
+          "children": [
+              {
+                "name": "[Example](https://www.example.com/)",
+                "note": 'Some text',
+                "metadata": {},
+              }
+          ]
+        }
+        expect(nodeIsChildBookmark(testNodeFail)).to.be.false;
+        testNodeFail = {
+          "name": "Example Site Name",
+          "metadata": {},
+          "children": [
+              {
+                "name": "[Example](https://www.example.com/)",
+                "note": 'Some text',
+                "metadata": {},
+              }
+          ]
+        }
+        expect(nodeIsChildBookmark(testNodeFail)).to.be.false;
+      });
+      it('should fail when child node has children', () => {
+        let testNodeFail = {
+          "name": "Example Site Name",
+          "metadata": {},
+          "children": [
+              {
+                "name": "[Example](https://www.example.com/)",
+                "metadata": {},
+                "children": [
+                    {
+                      "name": "Some stuff",
+                      "metadata": {},
+                    }
+                ]
+              }
+          ]
+        }
+        expect(nodeIsChildBookmark(testNodeFail)).to.be.false;
+      });
+    });
+    describe('nodeIsNoteBookmark()', () => {
+      it('should pass on most common format', () => {
+        let testNodePass = {
+          "name": "Example Site Name",
+          "metadata": {},
+          "note": "[Example](https://www.example.com/)",
+        }
+        expect(nodeIsNoteBookmark(testNodePass)).to.be.true;
+      });
+      it('should pass when note has whitespace around valid link', () => {
+        let testNodePass = {
+          "name": "Example Site Name",
+          "metadata": {},
+          "note": " [Example](https://www.example.com/) ", // <-- whitespace
+        }
+        expect(nodeIsNoteBookmark(testNodePass)).to.be.true;
+      });
+      it('should fail gracefully when missing name or note fields', () => {
+        let testNodeFail = { 'metadata': {}}
+        expect(nodeIsNoteBookmark(testNodeFail)).to.be.false;
+      });
+      it('should fail when note field has any other text', () => {
+        let testNodeFail = {
+          "name": "Example Site Name",
+          "metadata": {},
+          "note": "[Example](https://www.example.com/) Some other text",
+        }
+        expect(nodeIsNoteBookmark(testNodeFail)).to.be.false;
+        testNodeFail = {
+          "name": "Example Site Name",
+          "metadata": {},
+          "note": "Some other text [Example](https://www.example.com/)",
+        }
+        expect(nodeIsNoteBookmark(testNodeFail)).to.be.false;
       });
     });
     describe('nodeIsBullet()', () => {
