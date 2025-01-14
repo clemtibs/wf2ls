@@ -140,10 +140,6 @@ class AppConfig {
         }
         switch (key) {
           case 'dateFormat':
-            this.#option_values[key] = value;
-            this.#updateTurndownCustomRules();
-            return true;
-            break;
           case 'textColorMarkupMode':
             this.#option_values[key] = value;
             this.#updateTurndownCustomRules();
