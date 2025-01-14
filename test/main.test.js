@@ -239,7 +239,7 @@ describe('main.js', () => {
         describe('Collapse shallow', () => {
           let testName = 'collapse_mode';
           const inputFileName = acceptTestDir + testName + '.json';
-          it('collapseDepth=3 (default)', () => {
+          it('collapseDepth = 3 (default)', () => {
             successTestOutput = acceptTestDir + testName + '_shallow_default' + '.md';
             const testInputData = readJsonFile(inputFileName);
             testConfig.set("collapseMode", "shallow");
