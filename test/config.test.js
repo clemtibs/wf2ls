@@ -11,6 +11,7 @@ describe('config.js', () => {
   const conf = {
     collapseMode: "collapseMode",
     collapseDepth: 1,
+    compressBookmarks: "compressBookmarks",
     confFileLocation: "confFileLocation",
     dateFormat: "dateFormat",
     defaultPage: "defaultPage",
@@ -49,6 +50,10 @@ describe('config.js', () => {
       it('setting collapseDepth as number', () => {
         expect(testConfig.set("collapseDepth", 1)).to.be.ok;
         expect(() => testConfig.set("collapseDepth", "a string")).to.throw(/property value type/);
+      });
+      it('setting compressBookmarks as boolean', () => {
+        expect(testConfig.set("compressBookmarks", true)).to.be.ok;
+        expect(() => testConfig.set("compressBookmarks", "a string")).to.throw(/property value type/);
       });
       it('setting confFileLocation as string', () => {
         expect(testConfig.set("confFileLocation", "a string")).to.be.ok;
@@ -183,6 +188,7 @@ describe('config.js', () => {
       const testConfFromFile = {
         collapseMode: "none", // enforced list of options
         collapseDepth: 2, // enforced list of options
+        compressBookmarks: true,
         confFileLocation: "confFileLocation-changed",
         dateFormat: "MMMM do, yyyy", // enforced list of options
         defaultPage: "defaultPage-changed",
