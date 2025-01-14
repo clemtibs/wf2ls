@@ -50,7 +50,7 @@ const parseWfData = (state, data) => {
       if (node.metadata.layoutMode) newNode.metadata.layoutMode = node.metadata.layoutMode;
       // newNode.lastModified = wfTimeToLocalTime(node.lm, WF_EPOCH_SECONDS_PST);
       // node.mirrorRootItems?.forEach(item => mirrors.set(item.id, node.id));
-      if (node.ch) {
+      if (node.hasOwnProperty('ch')) {
         if (!(node.ch.length === 1 && nodeIsBacklink(node.ch[0]))) {
           newNode.children = parseWfData(state, node.ch); 
         }

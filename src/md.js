@@ -245,119 +245,117 @@ const convertToMd = (state, conf, pageName, nodes, nNodes, indentLvl) => {
   let indentSpaces = conf.get("indentSpaces");
   for (let n of nodes) {
     state.incrementJobProgress();
-    if (n.name !== "") {
-      let name = convertHtmlToMd(conf, linkTextToUrl(n.name.trim()));
-      let note = convertHtmlToMd(conf, linkTextToUrl(n.note ?? ""));
-      let completed = "";
-      let collapsed = "";
-      let marker = "";
+    let name = convertHtmlToMd(conf, linkTextToUrl(n.name.trim()));
+    let note = convertHtmlToMd(conf, linkTextToUrl(n.note ?? ""));
+    let completed = "";
+    let collapsed = "";
+    let marker = "";
 
-      // Splitting off new pages.
-      if (tagInText(newPageTag, name) || tagInText(newPageTag, note)) {
-        let pageName = stripTag(newPageTag, name).trim();
-        name = toPageLink(pageName);
-        note = stripTag(newPageTag, note).trim();
-        let childrenNodes = n.children;
-        childrenNodes.unshift(
-          makeNode({
-            name: note.split('\n')[0],
-            note: note.split('\n').slice(1).join('\n')
-          })
-        );
-        state.addJob();
-        pageBlocks.push(makeBlockNamePrefix(indentSpaces, indentLvl) + name);
-        convertToMd(
-          state,
-          conf,
-          pageName.trim(),
-          childrenNodes,
-          childrenNodes.length,
-          0
-        );
-        nNodes--;
-        continue;
-      }
-      
-      // Special Workflowy node types
-      switch (true) {
-        case nodeIsTodo(n):
-          marker = "TODO ";
-          if (n.completed) {
-            completed = "\n" + makeBlockNotePrefix(indentSpaces, indentLvl) + "completed-on:: " + toPageLink(n.completed);
-            marker = "DONE ";
+    // Splitting off new pages.
+    if (tagInText(newPageTag, name) || tagInText(newPageTag, note)) {
+      let pageName = stripTag(newPageTag, name).trim();
+      name = toPageLink(pageName);
+      note = stripTag(newPageTag, note).trim();
+      let childrenNodes = n.children;
+      childrenNodes.unshift(
+        makeNode({
+          name: note.split('\n')[0],
+          note: note.split('\n').slice(1).join('\n')
+        })
+      );
+      state.addJob();
+      pageBlocks.push(makeBlockNamePrefix(indentSpaces, indentLvl) + name);
+      convertToMd(
+        state,
+        conf,
+        pageName.trim(),
+        childrenNodes,
+        childrenNodes.length,
+        0
+      );
+      nNodes--;
+      continue;
+    }
+    
+    // Special node types
+    switch (true) {
+      case nodeIsTodo(n):
+        marker = "TODO ";
+        if (n.completed) {
+          completed = "\n" + makeBlockNotePrefix(indentSpaces, indentLvl) + "completed-on:: " + toPageLink(n.completed);
+          marker = "DONE ";
+        }
+        break;
+      case nodeIsH1(n):
+        name = "# " + name;
+        break;
+      case nodeIsH2(n):
+        name = "## " + name;
+        break;
+      case nodeIsParagraph(n):
+        // do nothing
+        break;
+      // case nodeIsBoard(n):
+        // not implemented yet
+        // break;
+      // TODO: multi-line quotes and codeblocks? This needs some revisiting.
+      //       Splitting the content between name and note is fragile when adding
+      //       properties.
+      case nodeIsQuoteBlock(n):
+        name = "> " + name + "\n";
+        break;
+      case nodeIsCodeBlock(n):
+        let nameContent = name;
+        name = "```";
+        note = nameContent + "\n```\n" + note;
+        break;
+    }
+    
+    if (note !== "") {
+      note = indentLines(note, makeBlockNotePrefix(indentSpaces, indentLvl));
+    }
+    
+    // Node collapsing.
+    // TODO: including nodes with no children but have notes would be nice.
+    //       Needs careful implementation though as it will break quote and code
+    //       block formatting.
+    if (n.hasOwnProperty('children')) {
+      const collapsedText = "\n" + makeBlockNotePrefix(indentSpaces, indentLvl) + "collapsed:: true";
+      switch (conf.get("collapseMode")) {
+        case ('top'):
+          if (indentLvl === 0) {
+            collapsed = collapsedText;
           }
           break;
-        case nodeIsH1(n):
-          name = "# " + name;
-          break;
-        case nodeIsH2(n):
-          name = "## " + name;
-          break;
-        case nodeIsParagraph(n):
+        case ('none'):
           // do nothing
           break;
-        // case nodeIsBoard(n):
-          // not implemented yet
-          // break;
-        // TODO: multi-line quotes and codeblocks? This needs some revisiting.
-        //       Splitting the content between name and note is fragile when adding
-        //       properties.
-        case nodeIsQuoteBlock(n):
-          name = "> " + name + "\n";
+        case ('all'):
+          collapsed = collapsedText;
           break;
-        case nodeIsCodeBlock(n):
-          let nameContent = name;
-          name = "```";
-          note = nameContent + "\n```\n" + note;
+        case ('shallow'):
+          const collapseLvl = conf.get("collapseDepth");
+          if (indentLvl <= collapseLvl - 1) collapsed = collapsedText;
           break;
       }
-     
-      if (note !== "") {
-        note = indentLines(note, makeBlockNotePrefix(indentSpaces, indentLvl));
-      }
-      
-      // Node collapsing.
-      // TODO: including nodes with no children but have notes would be nice.
-      //       Needs careful implementation though as it will break quote and code
-      //       block formatting.
-      if (n.children) {
-        const collapsedText = "\n" + makeBlockNotePrefix(indentSpaces, indentLvl) + "collapsed:: true";
-        switch (conf.get("collapseMode")) {
-          case ('top'):
-            if (indentLvl === 0) {
-              collapsed = collapsedText;
-            }
-            break;
-          case ('none'):
-            // do nothing
-            break;
-          case ('all'):
-            collapsed = collapsedText;
-            break;
-          case ('shallow'):
-            const collapseLvl = conf.get("collapseDepth");
-            if (indentLvl <= collapseLvl - 1) collapsed = collapsedText;
-            break;
-        }
-      }
-      
-      pageBlocks.push(
-        makeBlockNamePrefix(indentSpaces, indentLvl) + marker + name
-        + completed
-        + collapsed
-        + note);
-      
-      // Recurse into children nodes
-      if (n.children) {
-        pageBlocks.push(convertToMd(
-          state,
-          conf,
-          pageName.trim(),
-          n.children,
-          n.children.length,
-          indentLvl + 1,
-        ));
-      }
+    }
+    
+    pageBlocks.push(
+      makeBlockNamePrefix(indentSpaces, indentLvl) + marker + name
+      + completed
+      + collapsed
+      + note);
+    
+    // Recurse into children nodes
+    if (n.hasOwnProperty('children')) {
+      pageBlocks.push(convertToMd(
+        state,
+        conf,
+        pageName.trim(),
+        n.children,
+        n.children.length,
+        indentLvl + 1,
+      ));
     }
     nNodes--;
   };
