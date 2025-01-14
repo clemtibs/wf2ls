@@ -35,6 +35,7 @@ describe('main.js', () => {
       testState = new AppState(undefined, true);
       testConfig = new AppConfig(defaultConfig)
       testConfig.set("defaultPage", "default");
+      testConfig.set("collapseMode", "none");
       testResults = undefined;
       successTestOutput = undefined;
     });
@@ -58,7 +59,6 @@ describe('main.js', () => {
         expect(testResults.pages.get("default")).to.equal(file(successTestOutput));
       });
       it('Deeply nested bullets', () => {
-        testConfig.set("collapseMode", "none");
         runAcceptTest('deeply_nested_bullets');
         expect(testResults.pages.get("default")).to.equal(file(successTestOutput));
       });
@@ -117,7 +117,6 @@ describe('main.js', () => {
             const inputFileName = acceptTestDir + testName + '.json';
             successTestOutput = acceptTestDir + testName + '_default' + '.md';
 
-            testConfig.set("collapseMode", "none");
             const testInputData = readJsonFile(inputFileName);
             testResults = main(testState, testConfig, testInputData);      
             expect(testResults.pages.get("default")).to.equal(file(successTestOutput));
@@ -127,7 +126,6 @@ describe('main.js', () => {
             const inputFileName = acceptTestDir + testName + '.json';
             successTestOutput = acceptTestDir + testName + '_plugin' + '.md';
 
-            testConfig.set("collapseMode", "none");
             const testInputData = readJsonFile(inputFileName);
             testConfig.set("textColorMarkupMode", "plugin");
             testResults = main(testState, testConfig, testInputData);      
@@ -140,7 +138,6 @@ describe('main.js', () => {
             const inputFileName = acceptTestDir + testName + '.json';
             successTestOutput = acceptTestDir + testName + '_default' + '.md';
 
-            testConfig.set("collapseMode", "none");
             const testInputData = readJsonFile(inputFileName);
             testResults = main(testState, testConfig, testInputData);      
             expect(testResults.pages.get("default")).to.equal(file(successTestOutput));
@@ -150,7 +147,6 @@ describe('main.js', () => {
             const inputFileName = acceptTestDir + testName + '.json';
             successTestOutput = acceptTestDir + testName + '_plugin' + '.md';
 
-            testConfig.set("collapseMode", "none");
             const testInputData = readJsonFile(inputFileName);
             testConfig.set("textColorMarkupMode", "plugin");
             testResults = main(testState, testConfig, testInputData);      
@@ -175,7 +171,6 @@ describe('main.js', () => {
         });
       });
       it('Web Links', () => {
-        testConfig.set("collapseMode", "none");
         runAcceptTest('web_link');
         expect(testResults.pages.get("default")).to.equal(file(successTestOutput));
       });
@@ -303,7 +298,6 @@ describe('main.js', () => {
         let testName = 'nested_new_pages';
         let successTestOutputAlt1 = acceptTestDir + testName + '_1' + '.md';
         let successTestOutputAlt2 = acceptTestDir + testName + '_2' + '.md';
-        testConfig.set("collapseMode", "none");
         runAcceptTest(testName);
         expect(testResults.pages.get("default")).to.equal(file(successTestOutput));
         expect(testResults.pages.get("A Nested New LogSeq Page")).to.equal(file(successTestOutputAlt1));
