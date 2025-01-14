@@ -34,6 +34,20 @@ const linkTextToUrl = (text) => {
   return linkifyHtml(text, linkifyOptions);
 }
 
+const mdLinkInText = (str) => {
+  const mdLinkRegex = /\[([^\]]+)\]\(([^)]+)\)/g;
+  if (mdLinkRegex.test(str)) {
+    return true;
+  } else {
+    return false;
+  }
+}
+
+const stripMdLink = (str) => {
+  const mdLinkRegex = /\[([^\]]+)\]\(([^)]+)\)/g;
+  return str.replace(mdLinkRegex, () => { return '' })
+}
+
 const tagInText = (tag, str) => {
   if (tag === '') {
     return false
@@ -81,8 +95,10 @@ export {
   indentLines,
   linkTextToUrl,
   tagInText,
+  stripMdLink,
   stripTag,
   toPageLink,
+  mdLinkInText,
   makeBlockNamePrefix,
   makeBlockNotePrefix
 };

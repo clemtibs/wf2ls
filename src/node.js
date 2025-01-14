@@ -3,6 +3,11 @@
  */
 import { default as _ } from 'lodash';
 
+import { 
+  stripMdLink,
+  mdLinkInText,
+} from './text.js';
+  
 /*
  * @params: 
  *    [empty]
@@ -43,6 +48,30 @@ const nodeIsBacklink = (node) => {
   } else {
     return false;
   }
+}
+
+const nodeIsChildBookmark = (node) => {
+  if (node.children?.length === 1) { // has one child
+    const child = node.children[0];
+    if (!mdLinkInText(node.name) && // no link in name
+        !mdLinkInText(node.note) && // no link in note
+        mdLinkInText(child.name) && // has link in child name
+        (!child.hasOwnProperty('note') || (child.note?.trim() ?? '') === '') && // no child note content
+        !child.hasOwnProperty('children') && // child has no children
+        stripMdLink(child.name).trim() === '') { // if child name has just the link
+      return true;
+    }
+  }
+  return false;
+}
+
+const nodeIsNoteBookmark = (node) => {
+  if (!mdLinkInText(node.name) && mdLinkInText(node.note)) {
+    if (stripMdLink(node.note).trim() === '') {
+      return true;
+    }
+  }
+  return false;
 }
 
 const nodeIsBoard = (node) => {
@@ -113,6 +142,8 @@ export {
   makeNode,
   nodeHasNote,
   nodeIsBacklink,
+  nodeIsChildBookmark,
+  nodeIsNoteBookmark,
   nodeIsBullet,
   nodeIsBoard,
   nodeIsCodeBlock,
