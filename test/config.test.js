@@ -25,41 +25,10 @@ describe('config.js', () => {
   describe('AppConfig instances', () => {
     describe('Have required properties', () => {
       const testConfig = new AppConfig();
-      it('collapseMode', () => {
-        expect(testConfig.get("collapseMode")).to.deep.equal(null);
-      });
-      it('collapseDepth', () => {
-        expect(testConfig.get("collapseDepth")).to.deep.equal(null);
-      });
-      it('confFileLocation', () => {
-        expect(testConfig.get("confFileLocation")).to.deep.equal(null);
-      });
-      it('dateFormat', () => {
-        expect(testConfig.get("dateFormat")).to.deep.equal(null);
-      });
-      it('defaultPage', () => {
-        expect(testConfig.get("defaultPage")).to.deep.equal(null);
-      });
-      it('destDir', () => {
-        expect(testConfig.get("destDir")).to.deep.equal(null);
-      });
-      it('textColorMarkupMode', () => {
-        expect(testConfig.get("textColorMarkupMode")).to.deep.equal(null);
-      });
-      it('indentSpaces', () => {
-        expect(testConfig.get("indentSpaces")).to.deep.equal(null);
-      });
-      it('newPageTag', () => {
-        expect(testConfig.get("newPageTag")).to.deep.equal(null);
-      });
-      it('sourceFile', () => {
-        expect(testConfig.get("sourceFile")).to.deep.equal(null);
-      });
-      it('turndownConfig', () => {
-        expect(testConfig.get("turndownConfig")).to.deep.equal(null);
-      });
-      it('turndownCustomRules', () => {
-        expect(testConfig.get("turndownCustomRules")).to.deep.equal(null);
+      Object.keys(conf).forEach((option) => {
+        it(option, () => {
+          expect(testConfig.get(option)).to.deep.equal(null);
+        });
       });
     });
     describe('Throw errors on nonexistent keys', () => {
@@ -176,41 +145,10 @@ describe('config.js', () => {
     });
     describe('Import configuration object on creation', () => {
       const testConfig = new AppConfig(conf);
-      it('collapseMode not null', () => {
-        expect(testConfig.get("collapseMode")).to.not.deep.equal(null);
-      });
-      it('collapseDepth not null', () => {
-        expect(testConfig.get("collapseDepth")).to.not.deep.equal(null);
-      });
-      it('confFileLocation not null', () => {
-        expect(testConfig.get("confFileLocation")).to.not.deep.equal(null);
-      });
-      it('dateFormat not null', () => {
-        expect(testConfig.get("dateFormat")).to.not.deep.equal(null);
-      });
-      it('defaultPage not null', () => {
-        expect(testConfig.get("defaultPage")).to.not.deep.equal(null);
-      });
-      it('destDir not null', () => {
-        expect(testConfig.get("destDir")).to.not.deep.equal(null);
-      });
-      it('textColorMarkupMode not null', () => {
-        expect(testConfig.get("textColorMarkupMode")).to.not.deep.equal(null);
-      });
-      it('indentSpaces not null', () => {
-        expect(testConfig.get("indentSpaces")).to.not.deep.equal(null);
-      });
-      it('newPageTag not null', () => {
-        expect(testConfig.get("newPageTag")).to.not.deep.equal(null);
-      });
-      it('sourceFile not null', () => {
-        expect(testConfig.get("sourceFile")).to.not.deep.equal(null);
-      });
-      it('turndownConfig not null', () => {
-        expect(testConfig.get("turndownConfig")).to.not.deep.equal(null);
-      });
-      it('turndownCustomRules not null', () => {
-        expect(testConfig.get("turndownCustomRules")).to.not.deep.equal(null);
+      Object.keys(conf).forEach((option) => {
+        it(`${option} not null`, () => {
+          expect(testConfig.get(option)).to.not.deep.equal(null);
+        });
       });
     });
     describe('Can be updated with updateConfigFromCliArgs()', () => {
@@ -228,15 +166,16 @@ describe('config.js', () => {
         expect(testConfig.get("confFileLocation")).to.deep.equal("confFileLocation-changed");
       });
       it('Only updates sourceFile, destDir, confFileLocation', () => {
-        expect(testConfig.get("collapseMode")).to.deep.equal("collapseMode");
-        expect(testConfig.get("collapseDepth")).to.deep.equal(1);
-        expect(testConfig.get("dateFormat")).to.deep.equal("dateFormat");
-        expect(testConfig.get("defaultPage")).to.deep.equal("defaultPage");
-        expect(testConfig.get("textColorMarkupMode")).to.deep.equal("textColorMarkupMode");
-        expect(testConfig.get("indentSpaces")).to.deep.equal(1);
-        expect(testConfig.get("newPageTag")).to.deep.equal("newPageTag");
-        expect(testConfig.get("turndownConfig")).to.deep.equal({"turndown": "Config"});
-        expect(testConfig.get("turndownCustomRules")).to.deep.equal({"turndown": "CustomRules"});
+        Object.entries(conf).forEach(([option, setting]) => {
+          switch (option) {
+            case 'sourceFile':
+            case 'destDir':
+            case 'confFileLocation':
+              break;
+            default:
+              expect(testConfig.get(option)).to.deep.equal(setting);
+          }
+        });
       });
     });
     describe('Can be updated with updateConfigFromFile()', () => {
@@ -256,41 +195,20 @@ describe('config.js', () => {
         turndownCustomRules: {"turndown": "CustomRules-changed"},
       }
       updateConfigFromFile(testConfig, testConfFromFile)
-      it('Updates collapseMode', () => {
-        expect(testConfig.get("collapseMode")).to.deep.equal("none");
-      });
-      it('Updates collapseDepth', () => {
-        expect(testConfig.get("collapseDepth")).to.deep.equal(2);
-      });
+
       it('Does not update confFileLocation', () => {
         expect(testConfig.get("confFileLocation")).to.deep.equal("confFileLocation");
       });
-      it('Updates dateFormat', () => {
-        expect(testConfig.get("dateFormat")).to.deep.equal("MMMM do, yyyy");
-      });
-      it('Updates defaultPage', () => {
-        expect(testConfig.get("defaultPage")).to.deep.equal("defaultPage-changed");
-      });
-      it('Updates destDir', () => {
-        expect(testConfig.get("destDir")).to.deep.equal("destDir-changed");
-      });
-      it('Updates textColorMarkupMode', () => {
-        expect(testConfig.get("textColorMarkupMode")).to.deep.equal("default");
-      });
-      it('Updates indentSpaces', () => {
-        expect(testConfig.get("indentSpaces")).to.deep.equal(2);
-      });
-      it('Updates newPageTag', () => {
-        expect(testConfig.get("newPageTag")).to.deep.equal("newPageTag-changed");
-      });
-      it('Updates sourceFile', () => {
-        expect(testConfig.get("sourceFile")).to.deep.equal("sourceFile-changed");
-      });
-      it('Updates turndownConfig', () => {
-        expect(testConfig.get("turndownConfig")).to.deep.equal({"turndown": "Config-changed"});
-      });
-      it('Updates turndownCustomRules', () => {
-        expect(testConfig.get("turndownCustomRules")).to.deep.equal({"turndown": "CustomRules-changed"});
+
+      Object.entries(testConfFromFile).forEach(([option, setting]) => {
+        switch (option) {
+          case 'confFileLocation':
+            break;
+          default:
+            it(`Updates ${option}`, () => {
+              expect(testConfig.get(option)).to.deep.equal(setting);
+            });
+        }
       });
     });
   });
