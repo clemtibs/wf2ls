@@ -54,6 +54,8 @@ It contains the following:
 
 ```json
 {
+  "collapseMode": "top",
+  "collapseDepth": 3,
   "dateFormat": "yyyy-MM-dd",
   "defaultPage": "Workflowy Imports",
   "destDir": "./output",
