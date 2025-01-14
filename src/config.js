@@ -9,6 +9,7 @@ class AppConfig {
   #option_values = {
     collapseMode: null,
     collapseDepth: null,
+    compressBookmarks: null,
     confFileLocation: null,
     dateFormat: null,
     defaultPage: null,
@@ -24,6 +25,7 @@ class AppConfig {
   #option_types = {
     collapseMode: "string",
     collapseDepth: "number",
+    compressBookmarks: 'boolean',
     confFileLocation: 'string',
     dateFormat: 'string',
     defaultPage: 'string',
@@ -162,6 +164,7 @@ class AppConfig {
 const defaultConfig = {
   collapseMode: "top",
   collapseDepth: 3,
+  compressBookmarks: false,
   confFileLocation: "./config.json",
   dateFormat: 'yyyy-MM-dd',
   defaultPage: "Workflowy Imports",
@@ -187,6 +190,7 @@ const updateConfigFromFile = (appConf, rawConf) => {
   // only mess up debugging.
   if (rawConf.collapseMode) appConf.set("collapseMode", rawConf.collapseMode);
   if (rawConf.collapseDepth) appConf.set("collapseDepth", rawConf.collapseDepth);
+  if (rawConf.compressBookmarks) appConf.set("compressBookmarks", rawConf.compressBookmarks);
   if (rawConf.dateFormat) appConf.set("dateFormat", rawConf.dateFormat);
   if (rawConf.defaultPage) appConf.set("defaultPage", rawConf.defaultPage);
   if (rawConf.destDir) appConf.set("destDir", rawConf.destDir);

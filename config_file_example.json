@@ -1,6 +1,7 @@
 {
   "collapseMode": "top",
   "collapseDepth": 3,
+  "compressBookmarks": false,
   "dateFormat": "yyyy-MM-dd",
   "defaultPage": "Workflowy Imports",
   "destDir": "./output",
