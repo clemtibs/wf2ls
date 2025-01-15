@@ -245,32 +245,35 @@ const convertToMd = (state, conf, pageName, nodes, nNodes, indentLvl) => {
   let indentSpaces = conf.get("indentSpaces");
   for (let n of nodes) {
     state.incrementJobProgress();
-    let name = convertHtmlToMd(conf, linkTextToUrl(n.name.trim()));
-    let note = convertHtmlToMd(conf, linkTextToUrl(n.note ?? ""));
+    n.name = convertHtmlToMd(conf, linkTextToUrl(n.name.trim()));
+    n.note = convertHtmlToMd(conf, linkTextToUrl(n.note ?? ""));
     let completed = "";
     let collapsed = "";
     let marker = "";
 
     // Splitting off new pages.
-    if (tagInText(newPageTag, name) || tagInText(newPageTag, note)) {
-      let pageName = stripTag(newPageTag, name).trim();
-      name = toPageLink(pageName);
-      note = stripTag(newPageTag, note).trim();
-      let childrenNodes = n.children;
-      childrenNodes.unshift(
+    if (tagInText(newPageTag, n.name) || tagInText(newPageTag, n.note)) {
+      let newPageName = stripTag(newPageTag, n.name).trim();
+      let linkToNewPage = toPageLink(newPageName);
+      let newPageTopNodeContent = stripTag(newPageTag, n.note).trim();
+      let newPageChildren = n.children;
+      // Insert this nodes content as a new first child on the new page
+      newPageChildren.unshift(
         makeNode({
-          name: note.split('\n')[0],
-          note: note.split('\n').slice(1).join('\n')
+          name: newPageTopNodeContent.split('\n')[0],
+          note: newPageTopNodeContent.split('\n').slice(1).join('\n')
         })
       );
       state.addJob();
-      pageBlocks.push(makeBlockNamePrefix(indentSpaces, indentLvl) + name);
+      // Push the page link on the source page
+      pageBlocks.push(makeBlockNamePrefix(indentSpaces, indentLvl) + linkToNewPage);
+      // Recurse into the new page path
       convertToMd(
         state,
         conf,
-        pageName.trim(),
-        childrenNodes,
-        childrenNodes.length,
+        newPageName.trim(),
+        newPageChildren,
+        newPageChildren.length,
         0
       );
       nNodes--;
@@ -281,16 +284,16 @@ const convertToMd = (state, conf, pageName, nodes, nNodes, indentLvl) => {
     switch (true) {
       case nodeIsTodo(n):
         marker = "TODO ";
-        if (n.completed) {
+        if (n.hasOwnProperty('completed')) {
           completed = "\n" + makeBlockNotePrefix(indentSpaces, indentLvl) + "completed-on:: " + toPageLink(n.completed);
           marker = "DONE ";
         }
         break;
       case nodeIsH1(n):
-        name = "# " + name;
+        n.name = "# " + n.name;
         break;
       case nodeIsH2(n):
-        name = "## " + name;
+        n.name = "## " + n.name;
         break;
       case nodeIsParagraph(n):
         // do nothing
@@ -302,17 +305,17 @@ const convertToMd = (state, conf, pageName, nodes, nNodes, indentLvl) => {
       //       Splitting the content between name and note is fragile when adding
       //       properties.
       case nodeIsQuoteBlock(n):
-        name = "> " + name + "\n";
+        n.name = "> " + n.name + "\n";
         break;
       case nodeIsCodeBlock(n):
-        let nameContent = name;
-        name = "```";
-        note = nameContent + "\n```\n" + note;
+        let nameContent = n.name;
+        n.name = "```";
+        n.note = nameContent + "\n```\n" + n.note;
         break;
     }
     
-    if (note !== "") {
-      note = indentLines(note, makeBlockNotePrefix(indentSpaces, indentLvl));
+    if (n.note !== "") {
+      n.note = indentLines(n.note, makeBlockNotePrefix(indentSpaces, indentLvl));
     }
     
     // Node collapsing.
@@ -341,10 +344,10 @@ const convertToMd = (state, conf, pageName, nodes, nNodes, indentLvl) => {
     }
     
     pageBlocks.push(
-      makeBlockNamePrefix(indentSpaces, indentLvl) + marker + name
+      makeBlockNamePrefix(indentSpaces, indentLvl) + marker + n.name
       + completed
       + collapsed
-      + note);
+      + n.note);
     
     // Recurse into children nodes
     if (n.hasOwnProperty('children')) {
