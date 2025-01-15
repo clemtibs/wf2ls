@@ -12,12 +12,15 @@ import {
   nodeHasNote,
   nodeIsH1,
   nodeIsH2,
+  nodeIsChildBookmark,
+  nodeIsNoteBookmark,
   nodeIsParagraph,
   nodeIsQuoteBlock,
   nodeIsCodeBlock,
   nodeIsTodo
 } from './node.js';
 import {
+  extractUrlFromMd,
   indentLines,
   linkTextToUrl,
   tagInText,
@@ -311,6 +314,17 @@ const convertToMd = (state, conf, pageName, nodes, nNodes, indentLvl) => {
         let nameContent = n.name;
         n.name = "```";
         n.note = nameContent + "\n```\n" + n.note;
+        break;
+      case nodeIsChildBookmark(conf, n):
+        let childUrlInfo = extractUrlFromMd(convertHtmlToMd(conf, n.children[0].name));
+        n.name = `[${n.name}](${childUrlInfo.url})`;
+        delete n.children;
+        state.incrementJobProgress();
+        break;
+      case nodeIsNoteBookmark(n):
+        let nodeUrlInfo = extractUrlFromMd(n.note);
+        n.name = `[${n.name}](${nodeUrlInfo.url})`;
+        n.note = '';
         break;
     }
     

@@ -56,7 +56,7 @@ const extractUrlFromMd = (str) => {
   /* Match full links and relative paths */
   // const regex = /^\[([\w\s\d]+)\]\(((?:\/|https?:\/\/)[\w\d./?=#]+)\)$/
   const regex = /\[([^\]]+)\]\(([^)]+)\)/;
-  const match = str.match(regex);
+  const match = str.match(regex) ?? [];
   let result = {
     full: match[0],
     text: match[1],

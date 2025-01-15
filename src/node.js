@@ -7,7 +7,9 @@ import {
   stripMdLink,
   mdLinkInText,
 } from './text.js';
-  
+
+import { convertHtmlToMd } from './md.js'
+
 /*
  * @params: 
  *    [empty]
@@ -50,15 +52,20 @@ const nodeIsBacklink = (node) => {
   }
 }
 
-const nodeIsChildBookmark = (node) => {
+// This needs a config to give convertHtmlToMd access to the turndown rules.
+// At this stage in convertToMd(), children nodes haven't been converted yet,
+// so we must do so in order to test for them as MD. I decided to do this
+// rather than some one-off regex to make sure that conversion and detection is
+// consistent.
+const nodeIsChildBookmark = (config, node) => {
   if (node.children?.length === 1) { // has one child
     const child = node.children[0];
     if (!mdLinkInText(node.name) && // no link in name
         !mdLinkInText(node.note) && // no link in note
-        mdLinkInText(child.name) && // has link in child name
+        mdLinkInText(convertHtmlToMd(config, child.name)) && // has link in child name
         (!child.hasOwnProperty('note') || (child.note?.trim() ?? '') === '') && // no child note content
         !child.hasOwnProperty('children') && // child has no children
-        stripMdLink(child.name).trim() === '') { // if child name has just the link
+        stripMdLink(convertHtmlToMd(config, child.name)).trim() === '') { // if child name has just the link
       return true;
     }
   }
