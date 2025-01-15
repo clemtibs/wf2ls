@@ -48,6 +48,23 @@ const stripMdLink = (str) => {
   return str.replace(mdLinkRegex, () => { return '' })
 }
 
+const extractUrlFromMd = (str) => {
+  /* Courtesy of: https://davidwells.io/snippets/regex-match-markdown-links
+  *
+  /* Match only links that are fully qualified with https */
+  // const fullLinkOnlyRegex = /^\[([\w\s\d]+)\]\((https?:\/\/[\w\d./?=#]+)\)$/
+  /* Match full links and relative paths */
+  // const regex = /^\[([\w\s\d]+)\]\(((?:\/|https?:\/\/)[\w\d./?=#]+)\)$/
+  const regex = /\[([^\]]+)\]\(([^)]+)\)/;
+  const match = str.match(regex);
+  let result = {
+    full: match[0],
+    text: match[1],
+    url: match[2]
+  }
+  return result;
+}
+
 const tagInText = (tag, str) => {
   if (tag === '') {
     return false
@@ -92,6 +109,7 @@ const makeBlockNotePrefix = (indentSize, indentLvl) => {
 // }
 
 export {
+  extractUrlFromMd,
   indentLines,
   linkTextToUrl,
   tagInText,

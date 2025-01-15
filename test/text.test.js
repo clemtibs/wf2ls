@@ -1,5 +1,6 @@
 import { expect } from 'chai';
 import {
+  extractUrlFromMd,
   indentLines,
   linkTextToUrl,
   tagInText,
@@ -12,6 +13,16 @@ import {
 } from '../src/text.js';
 
 describe('text.js', () => {
+  describe('extractUrlFromMd()', () => {
+    it('Extracts URL info from markdown link', () => {
+      let testStr = '[Example.com](https://www.example.com)' 
+      let testResult = extractUrlFromMd(testStr)
+
+      expect(testResult.full).to.equal(testStr);
+      expect(testResult.text).to.equal('Example.com');
+      expect(testResult.url).to.equal('https://www.example.com');
+    });
+  });
   describe('indentLines()', () => {
     it('Applies only a newline to node note with empty prefix', () => {
       let testContentPass = "Line 1\nLine 2\nLine 3"
