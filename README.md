@@ -56,6 +56,7 @@ It contains the following:
 {
   "collapseMode": "top",
   "collapseDepth": 3,
+  "compressBookmarks": false,
   "dateFormat": "yyyy-MM-dd",
   "defaultPage": "Workflowy Imports",
   "destDir": "./output",
@@ -284,7 +285,7 @@ backup file and are converted accordingly to the appropriate markdown formatting
 that LogSeq expects. Kanban boards aren't yet implemented but will probably use
 the [logseq-kanban-plugin](https://github.com/benjypng/logseq-kanban-plugin).
 
-### Convert "Bookmarks" to Regular Links *
+### Compress "Bookmarks"
 
 For a very long time, I used Workflowy as location to dump URLs for both
 read-it-later use and for browser bookmarking. Because of browser
@@ -298,12 +299,14 @@ extensions, these ended up in in only 2 formats:
 
 ![](./docs/bookmark-as-note.png)
 
-In either case, the script will convert both to a standard markdown website link
-in the note title of a single new block:
+In either case, the script can collapse and convert both styles to a standard
+markdown website link in the note title of a single new block:
 
 `[Google](https://www.google.com)`
 
-This will be off by default and switched on when needed.
+This will be `false` by default and switched on when needed using
+`compressBookmarks` configuration setting. In the "URL as own bullet" example,
+if the parent node has any note text, it will be preserved.
 
 ### Text Formatting *
 
