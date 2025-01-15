@@ -265,7 +265,7 @@ describe('main.js', () => {
         runAcceptTest('task_lists');
         expect(testResults.pages.get("default")).to.equal(file(successTestOutput));
       });
-      it.skip('Bookmarks', () => {
+      it('Bookmarks', () => {
         runAcceptTest('bookmarks');
         expect(testResults.pages.get("default")).to.equal(file(successTestOutput));
       });

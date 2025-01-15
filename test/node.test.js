@@ -1,4 +1,9 @@
 import { expect } from 'chai';
+
+import {
+  AppConfig,
+  defaultConfig
+} from '../src/config.js';
 import {
   makeNode,
   nodeHasNote,
@@ -89,18 +94,19 @@ describe('node.js', () => {
       });
     });
     describe('nodeIsChildBookmark()', () => {
+      let testConfig = new AppConfig(defaultConfig)
       it('should pass on most common format', () => {
         let testNodePass = {
           "name": "Example Site Name",
           "metadata": {},
           "children": [
               {
-                "name": "[Example](https://www.example.com/)",
+                "name": '<a href=\"https://www.example.com/\">Example</a>', // children will always have unconverted links
                 "metadata": {},
               }
           ]
         }
-        expect(nodeIsChildBookmark(testNodePass)).to.be.true;
+        expect(nodeIsChildBookmark(testConfig, testNodePass)).to.be.true;
       });
       it('should pass only when child note has no real content', () => {
         let testNodePass = {
@@ -109,93 +115,93 @@ describe('node.js', () => {
           "note": '  ', // <-- whitespace
           "children": [
               {
-                "name": "[Example](https://www.example.com/)",
+                "name": '<a href=\"https://www.example.com/\">Example</a>', // children will always have unconverted links
                 "note": '  ', // <-- whitespace
                 "metadata": {},
               }
           ]
         }
-        expect(nodeIsChildBookmark(testNodePass)).to.be.true;
+        expect(nodeIsChildBookmark(testConfig, testNodePass)).to.be.true;
         testNodePass = {
           "name": "Example Site Name",
           "metadata": {},
           "note": '  ', // <-- whitespace
           "children": [
               {
-                "name": "[Example](https://www.example.com/)",
+                "name": '<a href=\"https://www.example.com/\">Example</a>', // children will always have unconverted links
                 "metadata": {},
               }
           ]
         }
-        expect(nodeIsChildBookmark(testNodePass)).to.be.true;
+        expect(nodeIsChildBookmark(testConfig, testNodePass)).to.be.true;
         testNodePass = {
           "name": "Example Site Name",
           "metadata": {},
           "children": [
               {
-                "name": "[Example](https://www.example.com/)",
+                "name": '<a href=\"https://www.example.com/\">Example</a>', // children will always have unconverted links
                 "note": '  ', // <-- whitespace
                 "metadata": {},
               }
           ]
         }
-        expect(nodeIsChildBookmark(testNodePass)).to.be.true;
+        expect(nodeIsChildBookmark(testConfig, testNodePass)).to.be.true;
         testNodePass = {
           "name": "Example Site Name",
           "metadata": {},
           "note": 'Some text',
           "children": [
               {
-                "name": "[Example](https://www.example.com/)",
+                "name": '<a href=\"https://www.example.com/\">Example</a>', // children will always have unconverted links
                 "metadata": {},
               }
           ]
         }
-        expect(nodeIsChildBookmark(testNodePass)).to.be.true;
+        expect(nodeIsChildBookmark(testConfig, testNodePass)).to.be.true;
         testNodePass = {
           "name": "Example Site Name",
           "metadata": {},
           "note": 'Some text',
           "children": [
               {
-                "name": "[Example](https://www.example.com/)",
+                "name": '<a href=\"https://www.example.com/\">Example</a>', // children will always have unconverted links
                 "note": '  ', // <-- whitespace
                 "metadata": {},
               }
           ]
         }
-        expect(nodeIsChildBookmark(testNodePass)).to.be.true;
+        expect(nodeIsChildBookmark(testConfig, testNodePass)).to.be.true;
       });
       it('should fail gracefully when missing name or note fields', () => {
         let testNodeFail = { 'metadata': {}}
-        expect(nodeIsChildBookmark(testNodeFail)).to.be.false;
+        expect(nodeIsChildBookmark(testConfig, testNodeFail)).to.be.false;
       });
-      it('should fail only when child note has content', () => {
+      it('should fail when child note has content', () => {
         let testNodeFail = {
           "name": "Example Site Name",
           "metadata": {},
           "note": 'Some text',
           "children": [
               {
-                "name": "[Example](https://www.example.com/)",
+                "name": '<a href=\"https://www.example.com/\">Example</a>', // children will always have unconverted links
                 "note": 'Some text',
                 "metadata": {},
               }
           ]
         }
-        expect(nodeIsChildBookmark(testNodeFail)).to.be.false;
+        expect(nodeIsChildBookmark(testConfig, testNodeFail)).to.be.false;
         testNodeFail = {
           "name": "Example Site Name",
           "metadata": {},
           "children": [
               {
-                "name": "[Example](https://www.example.com/)",
+                "name": '<a href=\"https://www.example.com/\">Example</a>', // children will always have unconverted links
                 "note": 'Some text',
                 "metadata": {},
               }
           ]
         }
-        expect(nodeIsChildBookmark(testNodeFail)).to.be.false;
+        expect(nodeIsChildBookmark(testConfig, testNodeFail)).to.be.false;
       });
       it('should fail when child node has children', () => {
         let testNodeFail = {
@@ -203,7 +209,7 @@ describe('node.js', () => {
           "metadata": {},
           "children": [
               {
-                "name": "[Example](https://www.example.com/)",
+                "name": '<a href=\"https://www.example.com/\">Example</a>', // children will always have unconverted links
                 "metadata": {},
                 "children": [
                     {
@@ -214,7 +220,7 @@ describe('node.js', () => {
               }
           ]
         }
-        expect(nodeIsChildBookmark(testNodeFail)).to.be.false;
+        expect(nodeIsChildBookmark(testConfig, testNodeFail)).to.be.false;
       });
     });
     describe('nodeIsNoteBookmark()', () => {

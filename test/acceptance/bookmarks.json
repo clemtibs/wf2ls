@@ -22,11 +22,28 @@
           ]
       },
       {
+          "id": "3f057efd-8b58-4a38-bb69-ed201d99e015",
+          "nm": "Example Site Name",
+          "ct": 380635990,
+          "metadata": {},
+          "no": "With non-link text",
+          "lm": 380636017,
+          "ch": [
+              {
+                  "id": "5055dd4d-8c55-4394-a3e7-bd0a343d599f",
+                  "nm": "<a href=\"https://www.example.com\">https://www.example.com</a>",
+                  "ct": 380636017,
+                  "metadata": {},
+                  "lm": 380636018
+              }
+          ]
+      },
+      {
           "id": "6ae7108d-143f-012b-fc73-01ee14f51a0a",
           "nm": "Example Site Name",
           "ct": 380636010,
           "metadata": {},
-          "no": "https://www.example.com/",
+          "no": "https://www.example.com",
           "lm": 380636014
       }
   ]

@@ -133,6 +133,10 @@ describe('text.js', () => {
       expect(mdLinkInText(testStr + ' ' + testStr)).to.be.true;
       expect(mdLinkInText(testStr + '\n' + testStr)).to.be.true;
     });
+    it('Passes when content is also a full link', () => {
+      let testStr = '[https://www.example.com](https://www.example.com)' 
+      expect(mdLinkInText(testStr)).to.be.true;
+    });
     it('Fails when no links are present', () => {
       let testStr = 'Some other text' 
       expect(mdLinkInText(testStr)).to.be.false;
