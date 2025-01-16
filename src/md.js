@@ -13,6 +13,8 @@ import {
   nodeIsH1,
   nodeIsH2,
   nodeIsChildBookmark,
+  nodeIsMirrorRoot,
+  nodeIsMirrorVirtualRoot,
   nodeIsNoteBookmark,
   nodeIsParagraph,
   nodeIsQuoteBlock,
@@ -250,6 +252,7 @@ const convertToMd = (state, conf, pageName, nodes, nNodes, indentLvl) => {
     state.incrementJobProgress();
     n.name = convertHtmlToMd(conf, linkTextToUrl(n.name.trim()));
     n.note = convertHtmlToMd(conf, linkTextToUrl(n.note ?? ""));
+    let id = "";
     let completed = "";
     let collapsed = "";
     let marker = "";
@@ -288,7 +291,7 @@ const convertToMd = (state, conf, pageName, nodes, nNodes, indentLvl) => {
       case nodeIsTodo(n):
         marker = "TODO ";
         if (n.hasOwnProperty('completed')) {
-          completed = "\n" + makeBlockNotePrefix(indentSpaces, indentLvl) + "completed-on:: " + toPageLink(n.completed);
+          completed = `\n${makeBlockNotePrefix(indentSpaces, indentLvl)}completed-on:: ${toPageLink(n.completed)}`;
           marker = "DONE ";
         }
         break;
@@ -326,6 +329,16 @@ const convertToMd = (state, conf, pageName, nodes, nNodes, indentLvl) => {
         n.name = `[${n.name}](${nodeUrlInfo.url})`;
         n.note = '';
         break;
+      case nodeIsMirrorRoot(n):
+        id = `\n${makeBlockNotePrefix(indentSpaces, indentLvl)}id:: ${n.id}`
+        break;
+      case nodeIsMirrorVirtualRoot(n):
+        if (conf.get('mirrorStyle') === 'reference') {
+          n.name = `((${n.metadata.mirror.originalId}))`;
+        } else {
+          n.name = `{{embed ((${n.metadata.mirror.originalId}))}}`;
+        }
+        break;
     }
     
     if (n.note !== "") {
@@ -337,7 +350,7 @@ const convertToMd = (state, conf, pageName, nodes, nNodes, indentLvl) => {
     //       Needs careful implementation though as it will break quote and code
     //       block formatting.
     if (n.hasOwnProperty('children')) {
-      const collapsedText = "\n" + makeBlockNotePrefix(indentSpaces, indentLvl) + "collapsed:: true";
+      const collapsedText = `\n${makeBlockNotePrefix(indentSpaces, indentLvl)}collapsed:: true`;
       switch (conf.get("collapseMode")) {
         case ('top'):
           if (indentLvl === 0) {
@@ -356,9 +369,13 @@ const convertToMd = (state, conf, pageName, nodes, nNodes, indentLvl) => {
           break;
       }
     }
-    
+   
+    // Other than the name field, each single line of the block needs to
+    // arrive here with it's newlines and indenting. If they don't apply to
+    // this block, they will be empty. All could be empty except name.
     pageBlocks.push(
       makeBlockNamePrefix(indentSpaces, indentLvl) + marker + n.name
+      + id
       + completed
       + collapsed
       + n.note);

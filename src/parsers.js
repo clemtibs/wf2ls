@@ -25,7 +25,10 @@ import {
   WF_EPOCH_SECONDS_PST,
   wfTimeToLocalTime
 } from './date.js';
-import { nodeIsBacklink } from './node.js';
+import { 
+  nodeIsBacklink, 
+  nodeIsMirror,
+} from './node.js';
 
 /* Workflowy backup file format and structure.
  *
@@ -38,16 +41,17 @@ import { nodeIsBacklink } from './node.js';
 const parseWfData = (state, data) => {
   let newData = [];
   for (let node of data) {
-    if (node.nm !== "") {
+    if (node.nm !== "" || nodeIsMirror(node)) {
       let newNode = { metadata: {}};
       state.addJob()
       newNode.id = node.id;
       // if (!resultIdMap.get(node.id)) resultIdMap.set(node.id, newNode);
       newNode.name = node.nm.trim();
       // if (node.ct) newNode.created = wfTimeToLocalTime(node.ct, WF_EPOCH_SECONDS_PST);
-      if (node.no) newNode.note = node.no.trim();
-      if (node.cp) newNode.completed = wfTimeToLocalTime(node.cp, WF_EPOCH_SECONDS_PST);
-      if (node.metadata.layoutMode) newNode.metadata.layoutMode = node.metadata.layoutMode;
+      if (node.hasOwnProperty('no')) newNode.note = node.no.trim();
+      if (node.hasOwnProperty('cp')) newNode.completed = wfTimeToLocalTime(node.cp, WF_EPOCH_SECONDS_PST);
+      if (node.metadata.hasOwnProperty('layoutMode')) newNode.metadata.layoutMode = node.metadata.layoutMode;
+      if (node.metadata.hasOwnProperty('mirror')) newNode.metadata.mirror = node.metadata.mirror;
       // newNode.lastModified = wfTimeToLocalTime(node.lm, WF_EPOCH_SECONDS_PST);
       // node.mirrorRootItems?.forEach(item => mirrors.set(item.id, node.id));
       if (node.hasOwnProperty('ch')) {

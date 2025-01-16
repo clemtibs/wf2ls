@@ -121,6 +121,30 @@ const nodeIsH2 = (node) => {
   }
 }
 
+const nodeIsMirror = (node) => {
+  if (node.metadata.hasOwnProperty('mirror')) {
+    return true;
+  } else {
+    return false;
+  }
+}
+
+const nodeIsMirrorRoot = (node) => {
+  if (node.metadata?.mirror?.hasOwnProperty('mirrorRootIds')) {
+    return true;
+  } else {
+    return false;
+  }
+}
+
+const nodeIsMirrorVirtualRoot = (node) => {
+  if (node.metadata?.mirror?.hasOwnProperty('originalId')) {
+    return true;
+  } else {
+    return false;
+  }
+}
+
 const nodeIsParagraph = (node) => {
   if (node.metadata.layoutMode === 'p') {
     return true;
@@ -156,6 +180,9 @@ export {
   nodeIsCodeBlock,
   nodeIsH1,
   nodeIsH2,
+  nodeIsMirror,
+  nodeIsMirrorRoot,
+  nodeIsMirrorVirtualRoot,
   nodeIsParagraph,
   nodeIsQuoteBlock,
   nodeIsTodo

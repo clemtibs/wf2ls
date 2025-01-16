@@ -16,6 +16,7 @@ class AppConfig {
     destDir: null,
     textColorMarkupMode: null,
     indentSpaces: null,
+    mirrorStyle: null,
     newPageTag: null,
     sourceFile: null,
     turndownConfig: null,
@@ -32,6 +33,7 @@ class AppConfig {
     destDir: 'string',
     textColorMarkupMode: 'string',
     indentSpaces: 'number',
+    mirrorStyle: 'string',
     newPageTag: 'string',
     sourceFile: 'string',
     turndownConfig: 'object',
@@ -73,6 +75,7 @@ class AppConfig {
       'yyyy_MM_dd',
       'yyyy年MM月dd日',
     ],
+    mirrorStyle: ['embed', 'reference'],
     textColorMarkupMode: ['default', 'plugin']
   };
 
@@ -167,6 +170,7 @@ const defaultConfig = {
   destDir: "./output",
   textColorMarkupMode: "default",
   indentSpaces: 2,
+  mirrorStyle: "embed",
   newPageTag: "#LS-Page",
   sourceFile: "",
   turndownConfig: turndownDefaultConfig,
@@ -192,6 +196,7 @@ const updateConfigFromFile = (appConf, rawConf) => {
   if (rawConf.destDir) appConf.set("destDir", rawConf.destDir);
   if (rawConf.textColorMarkupMode) appConf.set("textColorMarkupMode", rawConf.textColorMarkupMode);
   if (rawConf.indentSpaces) appConf.set("indentSpaces", rawConf.indentSpaces);
+  if (rawConf.mirrorStyle) appConf.set("mirrorStyle", rawConf.mirrorStyle);
   if (rawConf.newPageTag) appConf.set("newPageTag", rawConf.newPageTag);
   if (rawConf.sourceFile) appConf.set("sourceFile", rawConf.sourceFile);
   if (rawConf.turndownConfig) appConf.set("turndownConfig", rawConf.turndownConfig);

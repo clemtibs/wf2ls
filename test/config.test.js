@@ -17,6 +17,7 @@ describe('config.js', () => {
     defaultPage: "defaultPage",
     destDir: "destDir",
     textColorMarkupMode: "textColorMarkupMode",
+    mirrorStyle: "embed",
     newPageTag: "newPageTag",
     indentSpaces: 1,
     sourceFile: "sourceFile",
@@ -79,6 +80,10 @@ describe('config.js', () => {
         expect(testConfig.set("indentSpaces", 1)).to.be.ok;
         expect(() => testConfig.set("indentSpaces", "a string")).to.throw(/property value type/);
       });
+      it('setting mirrorStyle as string', () => {
+        expect(testConfig.set("mirrorStyle", "embed")).to.be.ok; // enforced list of options
+        expect(() => testConfig.set("mirrorStyle", 1)).to.throw(/property value type/);
+      });
       it('setting newPageTag as string', () => {
         expect(testConfig.set("newPageTag", "a string")).to.be.ok;
         expect(() => testConfig.set("newPageTag", 1)).to.throw(/property value type/);
@@ -103,15 +108,6 @@ describe('config.js', () => {
         });
         it('fails something else', () => {
           expect(() => testConfig.set("collapseMode", "something else")).to.throw(/Invalid option value/);
-        });
-      });
-      describe('textColorMarkupMode', () => {
-        it('passes default, plugin', () => {
-          expect(testConfig.set("textColorMarkupMode", "default")).to.be.ok;
-          expect(testConfig.set("textColorMarkupMode", "plugin")).to.be.ok;
-        });
-        it('fails something else', () => {
-          expect(() => testConfig.set("textColorMarkupMode", "something else")).to.throw(/Invalid option value/);
         });
       });
       describe('dateFormat', () => {
@@ -145,6 +141,24 @@ describe('config.js', () => {
         });
         it('fails something else', () => {
           expect(() => testConfig.set("dateFormat", "something else")).to.throw(/Invalid option value/);
+        });
+      });
+      describe('mirrorStyle', () => {
+        it('passes default, embed', () => {
+          expect(testConfig.set("mirrorStyle", "embed")).to.be.ok;
+          expect(testConfig.set("mirrorStyle", "reference")).to.be.ok;
+        });
+        it('fails something else', () => {
+          expect(() => testConfig.set("mirrorStyle", "something else")).to.throw(/Invalid option value/);
+        });
+      });
+      describe('textColorMarkupMode', () => {
+        it('passes default, plugin', () => {
+          expect(testConfig.set("textColorMarkupMode", "default")).to.be.ok;
+          expect(testConfig.set("textColorMarkupMode", "plugin")).to.be.ok;
+        });
+        it('fails something else', () => {
+          expect(() => testConfig.set("textColorMarkupMode", "something else")).to.throw(/Invalid option value/);
         });
       });
     });
@@ -194,6 +208,7 @@ describe('config.js', () => {
         defaultPage: "defaultPage-changed",
         destDir: "destDir-changed",
         textColorMarkupMode: "default", // enforced list of options
+        mirrorStyle: "reference",
         newPageTag: "newPageTag-changed",
         indentSpaces: 2,
         sourceFile: "sourceFile-changed",

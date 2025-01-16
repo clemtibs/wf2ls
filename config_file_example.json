@@ -7,6 +7,7 @@
   "destDir": "./output",
   "textColorMarkupMode": "default",
   "indentSpaces": 2,
+  "mirrorStyle": "embed",
   "newPageTag": "#LS-Page",
   "sourceFile": ""
 }
