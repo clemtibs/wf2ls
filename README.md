@@ -61,6 +61,7 @@ It contains the following:
   "defaultPage": "Workflowy Imports",
   "destDir": "./output",
   "indentSpaces": 2,
+  "mirrorStyle": "embed",
   "textColorMarkupMode": "default",
   "newPageTag": "#LS-Page",
   "sourceFile": ""
@@ -336,6 +337,27 @@ in your `config.json` file.
 
 Workflowy also supports the use of background colors for `#` tags, but this
 information does not show up in the data itself so it is not extracted.
+
+### Mirrors
+
+Workflowy has a concept of mirrored nodes, where the content of one node can
+live simultaneously in multiple locations as if they were there natively. When
+you update one, the other is updated automatically. Workflowy mirrors are
+read/write by default.
+
+LogSeq has two variants of this. One is block embedding and the other is block
+referencing. References are read-only in view mode, and in edit mode and their
+content looks like `((67882c26-0fd2-430f-a51f-a569b86ac76f))`. Clicking on them
+in view mode will redirect you to the source node for editing. 
+
+Block embedding, however, is a bit clunkier looking, but you can edit it in
+place without having to navigate elsewhere. Its content in edit mode looks
+like `{{embed ((67882c26-0fd2-430f-a51f-a569b86ac76f))}}`, but in edit mode, the
+referenced node is editable. While both styles are supported, the block
+embedding is functionally more equivalent to Workflowys mirrors, so it is the
+default translation here.
+
+The setting `mirrorStyle` accepts either `embed` (_default_) or `reference`.
 
 ### Handling of "@" tags *
 
