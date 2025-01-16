@@ -15,6 +15,9 @@ import {
   nodeIsCodeBlock,
   nodeIsH1,
   nodeIsH2,
+  nodeIsMirror,
+  nodeIsMirrorRoot,
+  nodeIsMirrorVirtualRoot,
   nodeIsParagraph,
   nodeIsQuoteBlock,
   nodeIsTodo
@@ -302,6 +305,59 @@ describe('node.js', () => {
         expect(nodeIsH2(testNodePass)).to.be.true;
         let testNodeFail = { 'metadata': {}}
         expect(nodeIsH2(testNodeFail)).to.be.false;
+      });
+    });
+    describe('Mirrors', () => {
+      let mirrorRootNode = {
+          "id": "58528b02-0c18-bd90-8a4b-9ca8a54acb61",
+          "nm": "Mirrored node",
+          "metadata": {
+              "mirror": {
+                  "mirrorRootIds": {
+                      "38c0e624-94d1-c24a-5ceb-e87f16914f31": true
+                  }
+              },
+              "virtualRootIds": {
+                  "38c0e624-94d1-c24a-5ceb-e87f16914f31": true
+              }
+          }
+      };
+      let mirrorVirtualRootNode = {
+        "id": "38c0e624-94d1-c24a-5ceb-e87f16914f31",
+        "nm": "",
+        "metadata": {
+            "mirror": {
+                "originalId": "58528b02-0c18-bd90-8a4b-9ca8a54acb61",
+                "isMirrorRoot": true
+            },
+            "originalId": "58528b02-0c18-bd90-8a4b-9ca8a54acb61",
+            "isVirtualRoot": true
+        }
+      };
+
+      describe('nodeIsMirror()', () => {
+        it('should detect all mirror node types', () => {
+          expect(nodeIsMirror(mirrorRootNode)).to.be.true;
+          expect(nodeIsMirror(mirrorVirtualRootNode)).to.be.true;
+          let testNodeFail = { 'metadata': {}}
+          expect(nodeIsMirror(testNodeFail)).to.be.false;
+        });
+      });
+      describe('nodeIsMirrorRoot()', () => {
+        it('should detect root source mirrors', () => {
+          expect(nodeIsMirrorRoot(mirrorRootNode)).to.be.true;
+          expect(nodeIsMirrorRoot(mirrorVirtualRootNode)).to.be.false;
+          let testNodeFail = { 'metadata': {}}
+          expect(nodeIsMirrorRoot(testNodeFail)).to.be.false;
+        });
+      });
+      describe('nodeIsMirrorVirtualRoot()', () => {
+        it('should detect virtual mirrors', () => {
+          expect(nodeIsMirrorVirtualRoot(mirrorRootNode)).to.be.false;
+          expect(nodeIsMirrorVirtualRoot(mirrorVirtualRootNode)).to.be.true;
+          let testNodeFail = { 'metadata': {}}
+          expect(nodeIsMirrorVirtualRoot(testNodeFail)).to.be.false;
+        });
       });
     });
     describe('nodeIsParagraph()', () => {

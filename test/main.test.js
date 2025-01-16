@@ -62,9 +62,23 @@ describe('main.js', () => {
         runAcceptTest('deeply_nested_bullets');
         expect(testResults.pages.get("default")).to.equal(file(successTestOutput));
       });
-      it.skip('Mirrors', () => {
-        runAcceptTest('mirrors');
-        expect(testResults.pages.get("default")).to.equal(file(successTestOutput));
+      describe('Mirrors', () => {
+        let testName = 'mirrors';
+        const inputFileName = acceptTestDir + testName + '.json';
+        it('Converts reference style', () => {
+            successTestOutput = acceptTestDir + testName + '_reference' + '.md';
+            const testInputData = readJsonFile(inputFileName);
+            testConfig.set("mirrorStyle", "reference");
+            testResults = main(testState, testConfig, testInputData);      
+            expect(testResults.pages.get("default")).to.equal(file(successTestOutput));
+        });
+        it('Converts embed style', () => {
+            successTestOutput = acceptTestDir + testName + '_embed' + '.md';
+            const testInputData = readJsonFile(inputFileName);
+            testConfig.set("mirrorStyle", "embed");
+            testResults = main(testState, testConfig, testInputData);      
+            expect(testResults.pages.get("default")).to.equal(file(successTestOutput));
+        });
       });
       it.skip('Links to nodes', () => {
         runAcceptTest('links_to_nodes');

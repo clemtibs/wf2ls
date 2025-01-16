@@ -1,39 +1,132 @@
 [{
-  "id": "d46cc471-5319-3bef-8fea-b65869df0868",
-  "nm": "Mirrors",
-  "ct": 380011096,
-  "metadata": {},
-  "lm": 380983514,
-  "ch": [
-      {
-          "id": "58528b02-0c18-bd90-8a4b-9ca8a54acb61",
-          "nm": "Mirrored node",
-          "ct": 380011104,
-          "metadata": {
-              "mirror": {
-                  "mirrorRootIds": {
-                      "38c0e624-94d1-c24a-5ceb-e87f16914f31": true
-                  }
-              },
-              "virtualRootIds": {
-                  "38c0e624-94d1-c24a-5ceb-e87f16914f31": true
-              }
-          },
-          "lm": 380011149
-      },
-      {
-          "id": "38c0e624-94d1-c24a-5ceb-e87f16914f31",
-          "nm": "",
-          "ct": 380011149,
-          "metadata": {
-              "mirror": {
-                  "originalId": "58528b02-0c18-bd90-8a4b-9ca8a54acb61",
-                  "isMirrorRoot": true
-              },
-              "originalId": "58528b02-0c18-bd90-8a4b-9ca8a54acb61",
-              "isVirtualRoot": true
-          },
-          "lm": 380011149
-      }
-  ]
+    "id": "d46cc471-5319-3bef-8fea-b65869df0868",
+    "nm": "Mirrors",
+    "ct": 380011096,
+    "metadata": {},
+    "lm": 380983514,
+    "ch": [
+        {
+            "id": "58528b02-0c18-bd90-8a4b-9ca8a54acb61",
+            "nm": "Original Mirror",
+            "ct": 380011104,
+            "metadata": {},
+            "lm": 386591312,
+            "ch": [
+                {
+                    "id": "231adbec-4bee-b626-7a93-4d3b629bcd8e",
+                    "nm": "Mirrored Node",
+                    "ct": 386591312,
+                    "metadata": {
+                        "mirror": {
+                            "mirrorRootIds": {
+                                "458ad864-a15c-af5a-3555-2c8ddd128ca8": true,
+                                "66233a98-cfe5-68fc-23a0-62ab4e7ac61c": true,
+                                "6c7036e3-77d4-a1f0-9dc7-8a664bc945db": true,
+                                "9bd9de7e-7b68-cfb6-94c7-8a7df33a1bbb": true
+                            }
+                        },
+                        "virtualRootIds": {
+                            "458ad864-a15c-af5a-3555-2c8ddd128ca8": true,
+                            "66233a98-cfe5-68fc-23a0-62ab4e7ac61c": true,
+                            "6c7036e3-77d4-a1f0-9dc7-8a664bc945db": true,
+                            "9bd9de7e-7b68-cfb6-94c7-8a7df33a1bbb": true
+                        }
+                    },
+                    "lm": 386591345
+                }
+            ]
+        },
+        {
+            "id": "b0abf8e6-2813-c61c-a595-cafbfd14339b",
+            "nm": "A mirror to the original",
+            "ct": 386591281,
+            "metadata": {},
+            "lm": 386591322,
+            "ch": [
+                {
+                    "id": "66233a98-cfe5-68fc-23a0-62ab4e7ac61c",
+                    "nm": "",
+                    "ct": 386591322,
+                    "metadata": {
+                        "mirror": {
+                            "originalId": "231adbec-4bee-b626-7a93-4d3b629bcd8e",
+                            "isMirrorRoot": true
+                        },
+                        "originalId": "231adbec-4bee-b626-7a93-4d3b629bcd8e",
+                        "isVirtualRoot": true
+                    },
+                    "lm": 386591322
+                }
+            ]
+        },
+        {
+            "id": "5465f09a-f109-3f84-f213-500d0ec03d6c",
+            "nm": "A second mirror to the original",
+            "ct": 386591288,
+            "metadata": {},
+            "lm": 386591327,
+            "ch": [
+                {
+                    "id": "9bd9de7e-7b68-cfb6-94c7-8a7df33a1bbb",
+                    "nm": "",
+                    "ct": 386591328,
+                    "metadata": {
+                        "mirror": {
+                            "originalId": "231adbec-4bee-b626-7a93-4d3b629bcd8e",
+                            "isMirrorRoot": true
+                        },
+                        "originalId": "231adbec-4bee-b626-7a93-4d3b629bcd8e",
+                        "isVirtualRoot": true
+                    },
+                    "lm": 386591328
+                }
+            ]
+        },
+        {
+            "id": "a76c50e8-8a4a-8b15-10f7-5ba34bd04399",
+            "nm": "A mirror to the first mirror",
+            "ct": 386591293,
+            "metadata": {},
+            "lm": 386591335,
+            "ch": [
+                {
+                    "id": "458ad864-a15c-af5a-3555-2c8ddd128ca8",
+                    "nm": "",
+                    "ct": 386591335,
+                    "metadata": {
+                        "mirror": {
+                            "originalId": "231adbec-4bee-b626-7a93-4d3b629bcd8e",
+                            "isMirrorRoot": true
+                        },
+                        "originalId": "231adbec-4bee-b626-7a93-4d3b629bcd8e",
+                        "isVirtualRoot": true
+                    },
+                    "lm": 386591335
+                }
+            ]
+        },
+        {
+            "id": "01e22e03-1210-4272-5462-59c8a72b2cc7",
+            "nm": "A second mirror to the first mirror",
+            "ct": 386591298,
+            "metadata": {},
+            "lm": 386591344,
+            "ch": [
+                {
+                    "id": "6c7036e3-77d4-a1f0-9dc7-8a664bc945db",
+                    "nm": "",
+                    "ct": 386591345,
+                    "metadata": {
+                        "mirror": {
+                            "originalId": "231adbec-4bee-b626-7a93-4d3b629bcd8e",
+                            "isMirrorRoot": true
+                        },
+                        "originalId": "231adbec-4bee-b626-7a93-4d3b629bcd8e",
+                        "isVirtualRoot": true
+                    },
+                    "lm": 386591345
+                }
+            ]
+        }
+    ]
 }]

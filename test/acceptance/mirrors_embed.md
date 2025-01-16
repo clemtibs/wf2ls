@@ -1,0 +1,12 @@
+- Mirrors
+  - Original Mirror
+    - Mirrored Node
+      id:: 231adbec-4bee-b626-7a93-4d3b629bcd8e
+  - A mirror to the original
+    - {{embed ((231adbec-4bee-b626-7a93-4d3b629bcd8e))}}
+  - A second mirror to the original
+    - {{embed ((231adbec-4bee-b626-7a93-4d3b629bcd8e))}}
+  - A mirror to the first mirror
+    - {{embed ((231adbec-4bee-b626-7a93-4d3b629bcd8e))}}
+  - A second mirror to the first mirror
+    - {{embed ((231adbec-4bee-b626-7a93-4d3b629bcd8e))}}
