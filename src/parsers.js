@@ -21,10 +21,6 @@
  *   to convertToMd() needs to be an array.
  */
 
-import {
-  WF_EPOCH_SECONDS_PST,
-  wfTimeToLocalTime
-} from './date.js';
 import { 
   nodeIsBacklink, 
   nodeIsMirror,
@@ -49,7 +45,7 @@ const parseWfData = (state, data) => {
       newNode.name = node.nm.trim();
       // if (node.ct) newNode.created = wfTimeToLocalTime(node.ct, WF_EPOCH_SECONDS_PST);
       if (node.hasOwnProperty('no')) newNode.note = node.no.trim();
-      if (node.hasOwnProperty('cp')) newNode.completed = wfTimeToLocalTime(node.cp, WF_EPOCH_SECONDS_PST);
+      if (node.hasOwnProperty('cp')) newNode.completed = node.cp;
       if (node.metadata.hasOwnProperty('layoutMode')) newNode.metadata.layoutMode = node.metadata.layoutMode;
       if (node.metadata.hasOwnProperty('mirror')) newNode.metadata.mirror = node.metadata.mirror;
       // newNode.lastModified = wfTimeToLocalTime(node.lm, WF_EPOCH_SECONDS_PST);

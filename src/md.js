@@ -6,7 +6,11 @@
  */
 import { default as TurndownService } from 'turndown';
 
-import { formatDate } from './date.js';
+import { 
+  formatDate,
+  localSecondsToCustomDateObj,
+  wfSecondsToPstSeconds
+} from './date.js';
 import { 
   makeNode,
   nodeHasNote,
@@ -291,7 +295,12 @@ const convertToMd = (state, conf, pageName, nodes, nNodes, indentLvl) => {
       case nodeIsTodo(n):
         marker = "TODO ";
         if (n.hasOwnProperty('completed')) {
-          completed = `\n${makeBlockNotePrefix(indentSpaces, indentLvl)}completed-on:: ${toPageLink(n.completed)}`;
+          let completedDate = 
+            formatDate(
+              localSecondsToCustomDateObj(
+                wfSecondsToPstSeconds(n.completed)),
+            conf.get("dateFormat"));
+          completed = `\n${makeBlockNotePrefix(indentSpaces, indentLvl)}completed-on:: ${toPageLink(completedDate)}`;
           marker = "DONE ";
         }
         break;

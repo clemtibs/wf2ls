@@ -110,6 +110,7 @@ const dateFormats = {
   },
 }
 
+// Date Functions & Tooling
 const addDaySuffix = (day) => {
   if ([11, 12, 13].includes(day)) {
     return `${day}th`;
@@ -135,6 +136,37 @@ const dateUtcToSecondsUtc = (dateStr) => {
   const date = new Date(dateStr);
   const dateSeconds = Math.floor(date.getTime() / 1000);
   return dateSeconds;
+}
+
+const convertTz = (date, tzString) => {
+  // return new Date((typeof date === "string" ? new Date(date) : date).toLocaleString("en-US", {timeZone: tzString}));   
+  let newTz;
+  if (typeof date === "string") {
+    newTz = new Date(date);
+  } else {
+    newTz = date;
+  }
+  return new Date(newTz.toLocaleString("en-US", {timeZone: tzString}))
+}
+
+const formatDate = (date, dFormat) => {
+  const startDate = new Date(
+    date.startYear,
+    date.startMonth - 1,
+    date.startDay,
+    date.startHour,
+    date.startMinute
+  )
+
+  // const endDate = new Date(
+    // date.endYear,
+    // date.endMonth - 1,
+    // date.endDay,
+    // date.endHour,
+    // date.endMinute
+  // )
+
+  return dateFormats[dFormat](startDate);
 }
 
 const getNowSecondsUTC = () => {
@@ -169,58 +201,42 @@ const getWfEpoch = (wfTime, dateUtc) => {
   return wfEpochSecondsUtc;
 }
 
-const convertTz = (date, tzString) => {
-  return new Date((typeof date === "string" ? new Date(date) : date).toLocaleString("en-US", {timeZone: tzString}));   
-}
-
-const secondsUtcToLocalDate = (seconds) => {
+const localSecondsToCustomDateObj = (seconds) => {
   const date = new Date(seconds * 1000);
-  const options = {
-    year: 'numeric',
-    month: 'long',
-    day: 'numeric',
-    // hour: 'numeric',
-    // minute: 'numeric',
-    // second: 'numeric',
-    // hour12: false,
-    timeZone: 'America/Los_Angeles',
-    // timeZone: 'UTC',
-    // timeZoneName: 'short'
-  };
-  return date.toLocaleDateString("en-US", options);
-  // return date.toLocaleDateString("en-CA", options);
+  return {
+    startYear: date.getFullYear(),
+    startMonth: date.getMonth() + 1,
+    startDay: date.getDate(),
+    startHour: date.getHours(),
+    startMinute: date.getMinutes(),
+  }
 }
 
-const formatDate = (date, dFormat) => {
-  const startDate = new Date(
-    date.startYear,
-    date.startMonth - 1,
-    date.startDay,
-    date.startHour,
-    date.startMinute
-  )
+// const utcSecondsToLocalSeconds = (seconds) => {
+  // const date = new Date(seconds * 1000);
+  // const options = {
+    // // year: 'numeric',
+    // // month: 'long',
+    // // day: 'numeric',
+    // // hour: 'numeric',
+    // // minute: 'numeric',
+    // // second: 'numeric',
+    // // hour12: false,
+    // timeZone: 'America/Los_Angeles',
+    // // timeZone: 'UTC',
+    // // timeZoneName: 'short'
+  // };
+  // let localDate = new Date(date.toLocaleDateString("en-CA", options));
+  // return Math.floor(localDate.getTime() / 1000);
+// }
 
-  // const endDate = new Date(
-    // date.endYear,
-    // date.endMonth - 1,
-    // date.endDay,
-    // date.endHour,
-    // date.endMinute
-  // )
-
-  return dateFormats[dFormat](startDate);
-}
-
-// TODO: add ability to pass format/timezone object
-// source: https://stackoverflow.com/a/66234640
-const wfTimeToLocalTime = (wfSeconds, wfEpochSeconds) => {
-  const timestamp = wfSeconds + wfEpochSeconds;
-  return secondsUtcToLocalDate(timestamp);
+const wfSecondsToPstSeconds = (wfSeconds) => {
+  return wfSeconds + WF_EPOCH_SECONDS_PST;
 }
 
 export {
   addDaySuffix,
   formatDate,
-  WF_EPOCH_SECONDS_PST,
-  wfTimeToLocalTime
+  localSecondsToCustomDateObj,
+  wfSecondsToPstSeconds
 };
