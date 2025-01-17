@@ -3,11 +3,10 @@ import { expect } from 'chai';
 import {
   addDaySuffix,
   formatDate,
-  WF_EPOCH_SECONDS_PST,
-  wfTimeToLocalTime
+  localSecondsToCustomDateObj,
+  wfSecondsToPstSeconds
 } from '../src/date.js';
 
-// test number of 376165087 is 2024-09-16T22:30:00 PDT
 describe('date.js', () => {
   describe('addDaySuffix()', () => {
     it('Adds correct suffix for numbers 1-31', () => {
@@ -174,11 +173,31 @@ describe('date.js', () => {
       expect(formatDate(testDateTwo, 'yyyy年MM月dd日')).to.deep.equal('2024年10月30日')
     });
   });
-  describe('wfTimeToLocalTime()', () => {
-    it('Converts time to MMMM dd, yyyy format', () => {
-      expect(
-        wfTimeToLocalTime(376165087, WF_EPOCH_SECONDS_PST))
-        .to.equal("September 16, 2024");
+  describe('WF Timestamp Conversions', () => {
+    // test WF timestamp of 376165087 is 2024-09-16T22:30:00 PDT
+    let wfTimestamp = 376165087;
+    let pstTimestamp = 1726551023;
+    let customDateObject = {
+      startYear: 2024,
+      startMonth: 9,
+      startDay: 16,
+      startHour: 22,
+      startMinute: 30,
+    }
+    describe('wfSecondsToPstSeconds()', () => {
+      it('Converts WF timestamp to PST seconds', () => {
+        expect(wfSecondsToPstSeconds(wfTimestamp)).to.deep.equal(pstTimestamp);
+      });
+    });
+    describe('localSecondsToCustomDateObj()', () => {
+      it('Converts local seconds to custom Date Obj', () => {
+        expect(localSecondsToCustomDateObj(pstTimestamp)).to.deep.equal(customDateObject);
+      });
+    });
+    describe('formatDate()', () => {
+      it('Converts custom Date Obj correctly', () => {
+        expect(formatDate(customDateObject, 'MMMM do, yyyy')).to.deep.equal("September 16th, 2024");
+      });
     });
   });
 });

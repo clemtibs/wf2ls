@@ -1,2 +1,2 @@
 - DONE Todo item complete
-  completed-on:: [[ December 4, 2024 ]]
+  completed-on:: [[ 2024-12-04 ]]
