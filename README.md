@@ -144,15 +144,12 @@ convert these to LogSeq properties for the new page.
 The script is aware of and can convert the internal Workflowy timestamps used
 for marking bullets as modified and completed. Right now, it only transfers the
 "completed" time to the LogSeq results. It uses the `completed-on::` property
-and adds the date in "MMMM dd, yyyy" format as a page link. This isn't currently
-configurable but shouldn't be hard to toggle on/off or change the property used.
-
+and adds the date in format specified in the `dateFormat` setting as a page link.
 Transferring the "last modified" time is currently skipped as it might clutter
 up the LogSeq notes and might not be that useful outside of `LOGBOOK` entries,
 where I could see potential use.
 
-Other formats for the dates can be implemented relatively easily, but are not
-yet. Luckily, LogSeq can still recognize a variety of formats, even if they
+Luckily, LogSeq can still recognize a variety of formats, even if they
 aren't the users selected viewing preference.
 
 Time zones are a whole different animal. View the comments in `date.js` for
@@ -162,6 +159,8 @@ assumes the timestamps are in Pacific time (where I'm located), and outputs them
 to the same. This assumption works accurately for me down to the second. Time
 zones could easily be converted, but more sample data from other time zones is
 needed to know what Workflowy is doing internally.
+
+If you have sample data to contribute from non PST timezones, please share!
 
 ### Dates (built-in tags)
 
