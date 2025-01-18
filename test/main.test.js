@@ -52,15 +52,15 @@ describe('main.js', () => {
     describe('Basic Structure', () => {
       it('Empty Note Name is skipped', () => {
         runAcceptTest('empty_name');
-        expect(testResults.pages.get("default")).to.equal('\n');
+        expect(testResults.getPage("default")).to.equal('\n');
       });
       it('Multiple newlines within note text', () => {
         runAcceptTest('multiple_newlines_within_note_text');
-        expect(testResults.pages.get("default")).to.equal(file(successTestOutput));
+        expect(testResults.getPage("default")).to.equal(file(successTestOutput));
       });
       it('Deeply nested bullets', () => {
         runAcceptTest('deeply_nested_bullets');
-        expect(testResults.pages.get("default")).to.equal(file(successTestOutput));
+        expect(testResults.getPage("default")).to.equal(file(successTestOutput));
       });
       describe('Mirrors', () => {
         let testName = 'mirrors';
@@ -70,57 +70,57 @@ describe('main.js', () => {
             const testInputData = readJsonFile(inputFileName);
             testConfig.set("mirrorStyle", "reference");
             testResults = main(testState, testConfig, testInputData);      
-            expect(testResults.pages.get("default")).to.equal(file(successTestOutput));
+            expect(testResults.getPage("default")).to.equal(file(successTestOutput));
         });
         it('Converts embed style', () => {
             successTestOutput = acceptTestDir + testName + '_embed' + '.md';
             const testInputData = readJsonFile(inputFileName);
             testConfig.set("mirrorStyle", "embed");
             testResults = main(testState, testConfig, testInputData);      
-            expect(testResults.pages.get("default")).to.equal(file(successTestOutput));
+            expect(testResults.getPage("default")).to.equal(file(successTestOutput));
         });
       });
       it.skip('Links to nodes', () => {
         runAcceptTest('links_to_nodes');
-        expect(testResults.pages.get("default")).to.equal(file(successTestOutput));
+        expect(testResults.getPage("default")).to.equal(file(successTestOutput));
       });
     });
     describe('Bullet Types', () => {
       it('Regular', () => {
         runAcceptTest('bullet_type_regular');
-        expect(testResults.pages.get("default")).to.equal(file(successTestOutput));
+        expect(testResults.getPage("default")).to.equal(file(successTestOutput));
       });
       it('TODO', () => {
         runAcceptTest('bullet_type_todo');
-        expect(testResults.pages.get("default")).to.equal(file(successTestOutput));
+        expect(testResults.getPage("default")).to.equal(file(successTestOutput));
       });
       it('TODO complete', () => {
         runAcceptTest('bullet_type_todo_complete');
-        expect(testResults.pages.get("default")).to.equal(file(successTestOutput));
+        expect(testResults.getPage("default")).to.equal(file(successTestOutput));
       });
       it('H1', () => {
         runAcceptTest('bullet_type_h1');
-        expect(testResults.pages.get("default")).to.equal(file(successTestOutput));
+        expect(testResults.getPage("default")).to.equal(file(successTestOutput));
       });
       it('H2', () => {
         runAcceptTest('bullet_type_h2');
-        expect(testResults.pages.get("default")).to.equal(file(successTestOutput));
+        expect(testResults.getPage("default")).to.equal(file(successTestOutput));
       });
       it('Paragraph', () => {
         runAcceptTest('bullet_type_p');
-        expect(testResults.pages.get("default")).to.equal(file(successTestOutput));
+        expect(testResults.getPage("default")).to.equal(file(successTestOutput));
       });
-      it.skip('Board', () => {
+      it('Board', () => {
         runAcceptTest('bullet_type_board');
-        expect(testResults.pages.get("default")).to.equal(file(successTestOutput));
+        expect(testResults.getPage("default")).to.equal(file(successTestOutput));
       });
       it('Quote', () => {
         runAcceptTest('bullet_type_quote');
-        expect(testResults.pages.get("default")).to.equal(file(successTestOutput));
+        expect(testResults.getPage("default")).to.equal(file(successTestOutput));
       });
       it('Codeblock', () => {
         runAcceptTest('bullet_type_codeblock');
-        expect(testResults.pages.get("default")).to.equal(file(successTestOutput));
+        expect(testResults.getPage("default")).to.equal(file(successTestOutput));
       });
     });
     describe('Html -> Md Conversions', () => {
@@ -133,7 +133,7 @@ describe('main.js', () => {
 
             const testInputData = readJsonFile(inputFileName);
             testResults = main(testState, testConfig, testInputData);      
-            expect(testResults.pages.get("default")).to.equal(file(successTestOutput));
+            expect(testResults.getPage("default")).to.equal(file(successTestOutput));
           });
           it('Plugin setting', () => {
             let testName = 'text_color_highlights';
@@ -143,7 +143,7 @@ describe('main.js', () => {
             const testInputData = readJsonFile(inputFileName);
             testConfig.set("textColorMarkupMode", "plugin");
             testResults = main(testState, testConfig, testInputData);      
-            expect(testResults.pages.get("default")).to.equal(file(successTestOutput));
+            expect(testResults.getPage("default")).to.equal(file(successTestOutput));
           });
         });
         describe('Text Color', () => {
@@ -154,7 +154,7 @@ describe('main.js', () => {
 
             const testInputData = readJsonFile(inputFileName);
             testResults = main(testState, testConfig, testInputData);      
-            expect(testResults.pages.get("default")).to.equal(file(successTestOutput));
+            expect(testResults.getPage("default")).to.equal(file(successTestOutput));
           });
           it('Plugin setting', () => {
             let testName = 'text_color';
@@ -164,54 +164,54 @@ describe('main.js', () => {
             const testInputData = readJsonFile(inputFileName);
             testConfig.set("textColorMarkupMode", "plugin");
             testResults = main(testState, testConfig, testInputData);      
-            expect(testResults.pages.get("default")).to.equal(file(successTestOutput));
+            expect(testResults.getPage("default")).to.equal(file(successTestOutput));
           });
         });
         it('Bold Text', () => {
           runAcceptTest('text_bold');
-          expect(testResults.pages.get("default")).to.equal(file(successTestOutput));
+          expect(testResults.getPage("default")).to.equal(file(successTestOutput));
         });
         it('Underline Text', () => {
           runAcceptTest('text_underline');
-          expect(testResults.pages.get("default")).to.equal(file(successTestOutput));
+          expect(testResults.getPage("default")).to.equal(file(successTestOutput));
         });
         it('Italic Text', () => {
           runAcceptTest('text_italic');
-          expect(testResults.pages.get("default")).to.equal(file(successTestOutput));
+          expect(testResults.getPage("default")).to.equal(file(successTestOutput));
         });
         it('Strikethrough Text', () => {
           runAcceptTest('text_strikethrough');
-          expect(testResults.pages.get("default")).to.equal(file(successTestOutput));
+          expect(testResults.getPage("default")).to.equal(file(successTestOutput));
         });
       });
       it('Web Links', () => {
         runAcceptTest('web_link');
-        expect(testResults.pages.get("default")).to.equal(file(successTestOutput));
+        expect(testResults.getPage("default")).to.equal(file(successTestOutput));
       });
       it('Inline Code', () => {
         runAcceptTest('inline_code');
-        expect(testResults.pages.get("default")).to.equal(file(successTestOutput));
+        expect(testResults.getPage("default")).to.equal(file(successTestOutput));
       });
       it.skip('Ampersat Tagging', () => {
         runAcceptTest('tagging_ampersat');
-        expect(testResults.pages.get("default")).to.equal(file(successTestOutput));
+        expect(testResults.getPage("default")).to.equal(file(successTestOutput));
       });
       describe('Date & Time Tags', () => {
         it('Single Date', () => {
           runAcceptTest('dates');
-          expect(testResults.pages.get("default")).to.equal(file(successTestOutput));
+          expect(testResults.getPage("default")).to.equal(file(successTestOutput));
         });
         it.skip('Date range', () => {
           runAcceptTest('dates_range');
-          expect(testResults.pages.get("default")).to.equal(file(successTestOutput));
+          expect(testResults.getPage("default")).to.equal(file(successTestOutput));
         });
         it.skip('Dates with time', () => {
           runAcceptTest('dates_with_time');
-          expect(testResults.pages.get("default")).to.equal(file(successTestOutput));
+          expect(testResults.getPage("default")).to.equal(file(successTestOutput));
         });
         it.skip('Dates with time range', () => {
           runAcceptTest('dates_with_time_range');
-          expect(testResults.pages.get("default")).to.equal(file(successTestOutput));
+          expect(testResults.getPage("default")).to.equal(file(successTestOutput));
         });
       });
       describe('Bullet Collapsing', () => {
@@ -223,7 +223,7 @@ describe('main.js', () => {
           const testInputData = readJsonFile(inputFileName);
           testConfig.set("collapseMode", "top");
           testResults = main(testState, testConfig, testInputData);      
-          expect(testResults.pages.get("default")).to.equal(file(successTestOutput));
+          expect(testResults.getPage("default")).to.equal(file(successTestOutput));
         });
         it('Collapse none', () => {
           let testName = 'collapse_mode';
@@ -233,7 +233,7 @@ describe('main.js', () => {
           const testInputData = readJsonFile(inputFileName);
           testConfig.set("collapseMode", "none");
           testResults = main(testState, testConfig, testInputData);      
-          expect(testResults.pages.get("default")).to.equal(file(successTestOutput));
+          expect(testResults.getPage("default")).to.equal(file(successTestOutput));
         });
         it('Collapse all', () => {
           let testName = 'collapse_mode';
@@ -243,7 +243,7 @@ describe('main.js', () => {
           const testInputData = readJsonFile(inputFileName);
           testConfig.set("collapseMode", "all");
           testResults = main(testState, testConfig, testInputData);      
-          expect(testResults.pages.get("default")).to.equal(file(successTestOutput));
+          expect(testResults.getPage("default")).to.equal(file(successTestOutput));
         });
         describe('Collapse shallow', () => {
           let testName = 'collapse_mode';
@@ -253,7 +253,7 @@ describe('main.js', () => {
             const testInputData = readJsonFile(inputFileName);
             testConfig.set("collapseMode", "shallow");
             testResults = main(testState, testConfig, testInputData);      
-            expect(testResults.pages.get("default")).to.equal(file(successTestOutput));
+            expect(testResults.getPage("default")).to.equal(file(successTestOutput));
           });
           it('collapseDepth = 1', () => {
             successTestOutput = acceptTestDir + testName + '_shallow_1' + '.md';
@@ -261,7 +261,7 @@ describe('main.js', () => {
             testConfig.set("collapseMode", "shallow");
             testConfig.set("collapseDepth", 1);
             testResults = main(testState, testConfig, testInputData);      
-            expect(testResults.pages.get("default")).to.equal(file(successTestOutput));
+            expect(testResults.getPage("default")).to.equal(file(successTestOutput));
           });
           it('collapseDepth = 4', () => {
             successTestOutput = acceptTestDir + testName + '_shallow_4' + '.md';
@@ -269,7 +269,7 @@ describe('main.js', () => {
             testConfig.set("collapseMode", "shallow");
             testConfig.set("collapseDepth", 4);
             testResults = main(testState, testConfig, testInputData);      
-            expect(testResults.pages.get("default")).to.equal(file(successTestOutput));
+            expect(testResults.getPage("default")).to.equal(file(successTestOutput));
           });
         });
       });
@@ -277,27 +277,27 @@ describe('main.js', () => {
     describe('Opinionated Re-organization & Translation', () => {
       it.skip('Tasks Lists', () => {
         runAcceptTest('task_lists');
-        expect(testResults.pages.get("default")).to.equal(file(successTestOutput));
+        expect(testResults.getPage("default")).to.equal(file(successTestOutput));
       });
       it('Bookmarks', () => {
         runAcceptTest('bookmarks');
-        expect(testResults.pages.get("default")).to.equal(file(successTestOutput));
+        expect(testResults.getPage("default")).to.equal(file(successTestOutput));
       });
       it.skip('Tagging Conversions', () => {
         runAcceptTest('');
-        expect(testResults.pages.get("default")).to.equal(file(successTestOutput));
+        expect(testResults.getPage("default")).to.equal(file(successTestOutput));
       });
       it.skip('File Uploads', () => {
         runAcceptTest('file_uploads');
-        expect(testResults.pages.get("default")).to.equal(file(successTestOutput));
+        expect(testResults.getPage("default")).to.equal(file(successTestOutput));
       });
       it.skip('Comments', () => {
         runAcceptTest('comments');
-        expect(testResults.pages.get("default")).to.equal(file(successTestOutput));
+        expect(testResults.getPage("default")).to.equal(file(successTestOutput));
       });
       it.skip('Templates', () => {
         runAcceptTest('templates');
-        expect(testResults.pages.get("default")).to.equal(file(successTestOutput));
+        expect(testResults.getPage("default")).to.equal(file(successTestOutput));
       });
     });
     describe('Multiple Pages', () => {
@@ -305,17 +305,17 @@ describe('main.js', () => {
         let testName = 'single_new_page';
         let successTestOutputAlt1 = acceptTestDir + testName + '_1' + '.md';
         runAcceptTest(testName);
-        expect(testResults.pages.get("default")).to.equal(file(successTestOutput));
-        expect(testResults.pages.get("A New LogSeq Page")).to.equal(file(successTestOutputAlt1));
+        expect(testResults.getPage("default")).to.equal(file(successTestOutput));
+        expect(testResults.getPage("A New LogSeq Page")).to.equal(file(successTestOutputAlt1));
       });
       it('Nested, multiple new pages with new page tags in the notes', () => {
         let testName = 'nested_new_pages';
         let successTestOutputAlt1 = acceptTestDir + testName + '_1' + '.md';
         let successTestOutputAlt2 = acceptTestDir + testName + '_2' + '.md';
         runAcceptTest(testName);
-        expect(testResults.pages.get("default")).to.equal(file(successTestOutput));
-        expect(testResults.pages.get("A Nested New LogSeq Page")).to.equal(file(successTestOutputAlt1));
-        expect(testResults.pages.get("Another New LogSeq Page Nested Deeper")).to.equal(file(successTestOutputAlt2));
+        expect(testResults.getPage("default")).to.equal(file(successTestOutput));
+        expect(testResults.getPage("A Nested New LogSeq Page")).to.equal(file(successTestOutputAlt1));
+        expect(testResults.getPage("Another New LogSeq Page Nested Deeper")).to.equal(file(successTestOutputAlt2));
       });
     });
     describe.skip('Journals', () => {
@@ -323,11 +323,11 @@ describe('main.js', () => {
     describe('Anomalies', () => {
       it.skip('Inline Code Ignores empty children', () => {
         runAcceptTest('inline_code');
-        expect(testResults.pages.get("default")).to.equal(file(successTestOutput));
+        expect(testResults.getPage("default")).to.equal(file(successTestOutput));
       });
       it.skip('Ascii "Arrows"', () => { // linkify stumbles on this one. These are rare but definitely are used.
         runAcceptTest('ascii_arrows');
-        expect(testResults.pages.get("default")).to.equal(file(successTestOutput));
+        expect(testResults.getPage("default")).to.equal(file(successTestOutput));
       });
     });
   });

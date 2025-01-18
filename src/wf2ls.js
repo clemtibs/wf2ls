@@ -45,6 +45,6 @@ const mainState = new AppState(mainProgressBar);
 
 main(mainState, mainConfig, rawData);
 
-for (let [page, content] of mainState.pages) {
+for (let [page, content] of mainState.getAllPages()) {
   writeFile(content, page + ".md", mainConfig.get("destDir"));
 }
