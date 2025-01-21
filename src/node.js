@@ -4,8 +4,9 @@
 import { default as _ } from 'lodash';
 
 import { 
-  stripMdLink,
   mdLinkInText,
+  stripMdLink,
+  tagInText
 } from './text.js';
 
 import { convertHtmlToMd } from './md.js'
@@ -27,11 +28,20 @@ const makeNode = (props) => {
   props = (props ?? {});
   let newNode = { metadata: {}};
 
+  // must always have id
   props.id ? newNode.id = props.id : newNode.id = crypto.randomUUID();
-  props.name ? newNode.name = props.name : newNode.name = '';
+  // must always have name if not specfically using 'nm'.
+  if (props.hasOwnProperty('nm')) {
+    props.nm ? newNode.nm = props.nm : newNode.nm = '';
+  } else {
+    props.name ? newNode.name = props.name : newNode.name = '';
+  }
   if (props.note) newNode.note = props.note;
+  if (props.no) newNode.no = props.no;
   if (props.completed) newNode.completed = props.completed;
+  if (props.cp) newNode.cp = props.cp;
   if (props.children) newNode.children = props.children;
+  if (props.ch) newNode.ch = props.ch;
 
   return newNode;
 }
@@ -161,6 +171,22 @@ const nodeIsQuoteBlock = (node) => {
   }
 }
 
+const nodeIsTemplate = (node) => {
+  if (tagInText('#template', node.name)) {
+    return true;
+  } else {
+    return false;
+  }
+}
+
+const nodeIsTemplateButton = (node) => {
+  if (tagInText('#use-template:', node.name)) {
+    return true;
+  } else {
+    return false;
+  }
+}
+
 const nodeIsTodo = (node) => {
   if (node.metadata.layoutMode === 'todo') {
     return true;
@@ -185,5 +211,7 @@ export {
   nodeIsMirrorVirtualRoot,
   nodeIsParagraph,
   nodeIsQuoteBlock,
+  nodeIsTemplate,
+  nodeIsTemplateButton,
   nodeIsTodo
 }

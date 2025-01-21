@@ -36,23 +36,40 @@ describe('node.js', () => {
         expect(testNode.id).to.be.a('string').and.not.empty;
         expect(testNode.name).to.be.a('string').and.empty;
       });
-      it('New node has all defined properties', () => {
-        let testNode = makeNode({
+      it('New node has all defined properties in both styles', () => {
+        let testNodeStyleOne = makeNode({
           id: "1a2b3c4d",
           name: "name",
           note: "note",
           completed: "today"
         });
-        expect(testNode).to.include.all.keys(
+        expect(testNodeStyleOne).to.include.all.keys(
           "id",
           "name",
           "note",
           "completed"
         );
-        expect(testNode.id).to.be.a('string').and.equal("1a2b3c4d");
-        expect(testNode.name).to.be.a('string').and.equal("name");
-        expect(testNode.note).to.be.a('string').and.equal("note");
-        expect(testNode.completed).to.be.a('string').and.equal("today");
+        expect(testNodeStyleOne.id).to.be.a('string').and.equal("1a2b3c4d");
+        expect(testNodeStyleOne.name).to.be.a('string').and.equal("name");
+        expect(testNodeStyleOne.note).to.be.a('string').and.equal("note");
+        expect(testNodeStyleOne.completed).to.be.a('string').and.equal("today");
+
+        let testNodeStyleTwo = makeNode({
+          id: "1a2b3c4d",
+          nm: "name",
+          no: "note",
+          cp: "today"
+        });
+        expect(testNodeStyleTwo).to.include.all.keys(
+          "id",
+          "nm",
+          "no",
+          "cp"
+        );
+        expect(testNodeStyleTwo.id).to.be.a('string').and.equal("1a2b3c4d");
+        expect(testNodeStyleTwo.nm).to.be.a('string').and.equal("name");
+        expect(testNodeStyleTwo.no).to.be.a('string').and.equal("note");
+        expect(testNodeStyleTwo.cp).to.be.a('string').and.equal("today");
       });
       describe('Can be nested to create children nodes', () => {
         let testNodeWithChildren = makeNode(
