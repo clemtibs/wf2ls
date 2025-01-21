@@ -86,15 +86,21 @@ class AppState {
   }
 
   getTemplateButtonName(node) {
-    const templateButtonRegex = /^([\w\s]+) #use-template:([0-9a-fA-F]{12}$)/;
-    const matches = templateButtonRegex.exec(node.name);
-    const lookupId = matches[2];
-    const templateButtonDesc = matches[1];
-    const templateName = this.#templates.get(lookupId);
-    if (templateName || templateName !== '') {
+    const fullTemplateButtonRegex = /^([\w\s]+)\s#use-template:([0-9a-fA-F]{12}$)/;
+    // I could probably do this in one regex pattern, but didn't have the energy.
+    const partialTemplateButtonRegex = /^\s?#use-template:([0-9a-fA-F]{12}$)/;
+    let matches;
+    let lookupId;
+    let templateName;
+    if (matches = fullTemplateButtonRegex.exec(node.name)) {
+      lookupId = matches[2];
+      const templateButtonDesc = matches[1];
+      templateName = this.#templates.get(lookupId);
       return [ templateButtonDesc, templateName ]
-    } else {
-      return [ templateButtonDesc, templateButtonDesc ]
+    } else if (matches = partialTemplateButtonRegex.exec(node.name)) {
+      lookupId = matches[1];
+      templateName = this.#templates.get(lookupId);
+      return [ templateName, templateName ]
     }
   }
 
