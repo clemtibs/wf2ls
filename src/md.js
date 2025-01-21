@@ -23,6 +23,8 @@ import {
   nodeIsParagraph,
   nodeIsQuoteBlock,
   nodeIsCodeBlock,
+  nodeIsTemplate,
+  nodeIsTemplateButton,
   nodeIsTodo
 } from './node.js';
 import {
@@ -260,6 +262,7 @@ const convertToMd = (state, conf, pageName, nodes, nNodes, indentLvl) => {
     let completed = "";
     let collapsed = "";
     let marker = "";
+    let template = "";
 
     // Splitting off new pages.
     if (tagInText(newPageTag, n.name) || tagInText(newPageTag, n.note)) {
@@ -348,6 +351,18 @@ const convertToMd = (state, conf, pageName, nodes, nNodes, indentLvl) => {
           n.name = `{{embed ((${n.metadata.mirror.originalId}))}}`;
         }
         break;
+      case nodeIsTemplate(n):
+        n.name = stripTag("#template", n.name).trim()
+        template = [
+          '',
+          `${makeBlockNotePrefix(indentSpaces, indentLvl)}template:: ${n.name}`,
+          `${makeBlockNotePrefix(indentSpaces, indentLvl)}template-including-parent:: true`
+        ].join("\n");
+        break;
+      case nodeIsTemplateButton(n):
+        const [ tDesc, tName ] = state.getTemplateButtonName(n);
+        n.name = "{{renderer :template-button, " + tName + ', :title " + ' + `${tDesc}` + '", :action append}}';
+        break;
     }
     
     if (n.note !== "") {
@@ -384,6 +399,7 @@ const convertToMd = (state, conf, pageName, nodes, nNodes, indentLvl) => {
     // this block, they will be empty. All could be empty except name.
     pageBlocks.push(
       makeBlockNamePrefix(indentSpaces, indentLvl) + marker + n.name
+      + template
       + id
       + completed
       + collapsed

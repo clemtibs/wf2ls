@@ -1,10 +1,13 @@
 import { default as _ } from 'lodash';
 
+import { stripTag } from './text.js';
+
 class AppState {
   #totalNumJobs;
   #jobProgress;
   #progressBar;
   #pages;
+  #templates;
   isTestInstance = false;
 
 /*
@@ -16,6 +19,7 @@ class AppState {
     this.#totalNumJobs = 0;
     this.#jobProgress = 0;
     this.#pages = new Map();
+    this.#templates = new Map();
     if (appProgressBar) this.#progressBar = appProgressBar;
     if (testing) this.isTestInstance = testing;
   }
@@ -81,9 +85,26 @@ class AppState {
     return filteredPages;
   }
 
+  getTemplateButtonName(node) {
+    const templateButtonRegex = /^([\w\s]+) #use-template:([0-9a-fA-F]{12}$)/;
+    const matches = templateButtonRegex.exec(node.name);
+    const lookupId = matches[2];
+    const templateButtonDesc = matches[1];
+    const templateName = this.#templates.get(lookupId);
+    if (templateName || templateName !== '') {
+      return [ templateButtonDesc, templateName ]
+    } else {
+      return [ templateButtonDesc, templateButtonDesc ]
+    }
+  }
+
   incrementJobProgress() {
     this.#jobProgress++;
     if (!this.isTestInstance) this.#progressBar.update(this.#jobProgress);
+  }
+
+  registerTemplateName(node) {
+    this.#templates.set(node.id.split("-")[4], stripTag('#template', node.name).trim());
   }
 
   startProgressBar() {

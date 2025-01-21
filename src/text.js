@@ -24,10 +24,6 @@ const indentLines = (content, prefix) => {
 }
 
 const linkTextToUrl = (text) => {
-  // var urlRegex = /^(http:\/\/www\.|https:\/\/www\.|http:\/\/|https:\/\/)?[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,5}(:[0-9]{1,5})?(\/.*)?$/gm;
-  // return text.replace(urlRegex, (url) => {
-    // return '<a href="' + url + '">' + url + '</a>';
-  // })
   const linkifyOptions = {
     defaultProtocol: 'https'
   };
