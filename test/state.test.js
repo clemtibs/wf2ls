@@ -1,6 +1,7 @@
 import { expect } from 'chai';
 
 import { AppState } from '../src/state.js';
+import { makeNode } from '../src/node.js';
 
 const largeSampleDataLoc = "./test/data/wf_data_sample.json";
 
@@ -18,12 +19,20 @@ describe('state.js', () => {
       expect(testState.getPage).to.be.an.instanceOf(Function);
       expect(testState.getAllPages).to.be.an.instanceOf(Function);
       expect(testState.getAllPagesExcept).to.be.an.instanceOf(Function);
+      expect(testState.getTemplateButtonName).to.be.an.instanceOf(Function);
       expect(testState.incrementJobProgress).to.be.an.instanceOf(Function);
+      expect(testState.registerTemplateName).to.be.an.instanceOf(Function);
       expect(testState.startProgressBar).to.be.an.instanceOf(Function);
       expect(testState.stopProgressBar).to.be.an.instanceOf(Function);
     });
     it('Does not show internal properties', () => {
-      expect(testState).to.not.have.all.keys('totalNumJobs', 'jobProgress', 'progressBar', 'pages');
+      expect(testState).to.not.have.all.keys(
+        'totalNumJobs',
+        'jobProgress',
+        'progressBar',
+        'pages',
+        'templates'
+      );
     });
     describe('Console output', () => {
       const testState = new AppState(undefined, true);
@@ -34,6 +43,13 @@ describe('state.js', () => {
         expect(testState.incrementJobProgress()).to.be.undefined;
         expect(testState.stopProgressBar()).to.be.undefined;
       });
+    });
+  });
+  describe('addPage()', () => {
+    it('Can add a new page', () => {
+      const pageContent = "Test\ncontent\nhere."
+      testState.addPage('Page Name', pageContent);
+      expect(testState.getPage('Page Name')).to.deep.equal(pageContent + "\n");
     });
   });
   describe('appendPage()', () => {
@@ -136,6 +152,42 @@ describe('state.js', () => {
       expect(allPages.get('Test Page One')).to.deep.equal(pageOneContent)
       expect(allPages.get('Test Page Two')).to.deep.equal(undefined)
       expect(allPages.get('Test Page Three')).to.deep.equal(pageThreeContent)
+    });
+  });
+  describe('registerTemplateName(), getTemplateButtonName()', () => {
+    const templateNode = makeNode({
+      id: 'ca4a1062-3c04-4cfc-ad74-b85be3ef7907',
+      name: 'Some kind of template #template'
+    });
+
+    let templateButtonNode = makeNode({
+      id: 'b52a06a5-6b09-4bcc-91c7-f71ce5e0416c',
+      name: 'My template button #use-template:b85be3ef7907'
+    });
+    it('Return description and template name seperately when button has description', () => {
+      testState.registerTemplateName(templateNode);
+      const [ tDesc, tName ] = testState.getTemplateButtonName(templateButtonNode);
+      expect(tDesc).to.deep.equal('My template button');
+      expect(tName).to.deep.equal('Some kind of template');
+    });
+    it('Use template name as button description when button does not have a description', () => {
+      templateButtonNode = makeNode({
+        id: 'b52a06a5-6b09-4bcc-91c7-f71ce5e0416c',
+        name: '#use-template:b85be3ef7907'
+      });
+      testState.registerTemplateName(templateNode);
+      let [ tDesc, tName ] = testState.getTemplateButtonName(templateButtonNode);
+      expect(tDesc).to.deep.equal('Some kind of template');
+      expect(tName).to.deep.equal('Some kind of template');
+
+      templateButtonNode = makeNode({
+        id: 'b52a06a5-6b09-4bcc-91c7-f71ce5e0416c',
+        name: ' #use-template:b85be3ef7907' // <-leading whitespace
+      });
+      testState.registerTemplateName(templateNode);
+      [ tDesc, tName ] = testState.getTemplateButtonName(templateButtonNode);
+      expect(tDesc).to.deep.equal('Some kind of template');
+      expect(tName).to.deep.equal('Some kind of template');
     });
   });
 });

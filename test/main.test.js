@@ -295,7 +295,7 @@ describe('main.js', () => {
         runAcceptTest('comments');
         expect(testResults.getPage("default")).to.equal(file(successTestOutput));
       });
-      it.skip('Templates', () => {
+      it('Templates', () => {
         runAcceptTest('templates');
         expect(testResults.getPage("default")).to.equal(file(successTestOutput));
       });

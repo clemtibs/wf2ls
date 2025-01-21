@@ -20,6 +20,8 @@ import {
   nodeIsMirrorVirtualRoot,
   nodeIsParagraph,
   nodeIsQuoteBlock,
+  nodeIsTemplate,
+  nodeIsTemplateButton,
   nodeIsTodo
 } from '../src/node.js';
 
@@ -393,6 +395,22 @@ describe('node.js', () => {
         expect(nodeIsQuoteBlock(testNodePass)).to.be.true;
         let testNodeFail = { 'metadata': {}}
         expect(nodeIsQuoteBlock(testNodeFail)).to.be.false;
+      });
+    });
+    describe('nodeIsTemplate()', () => {
+      it('should detect template nodes', () => {
+        let testNodePass = {'name': 'Some name text #template'}
+        expect(nodeIsTemplate(testNodePass)).to.be.true;
+        let testNodeFail = {'name': 'Some name text'}
+        expect(nodeIsTemplate(testNodeFail)).to.be.false;
+      });
+    });
+    describe('nodeIsTemplateButton()', () => {
+      it('should detect template button nodes', () => {
+        let testNodePass = {'name': 'Some name text #use-template:c780314ecc28'}
+        expect(nodeIsTemplateButton(testNodePass)).to.be.true;
+        let testNodeFail = {'name': 'Some name text'}
+        expect(nodeIsTemplateButton(testNodeFail)).to.be.false;
       });
     });
     describe('nodeIsTodo()', () => {
