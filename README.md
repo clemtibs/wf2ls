@@ -378,14 +378,29 @@ convert all the instances.
 Not yet implemented. Luckily these are stored as children to the node, so it's a
 question of how to display them in LogSeq.
 
-### Templates *
+### Templates
 
-Workflowy doesn't do much internally with templates. It seems the `#template`
-and `#use-template` tags could be enough to convert to LogSeq templates by
-adding appropriate properties. Note: the hash after `#use-template` tags are the
-last segment of the UUID id that it is referencing. So
-`#use-template:c780314ecc28` is pointing to a node with an id of
-`6189a3c9-3093-5579-664e-c780314ecc28`.
+Workflowy uses a `#template` tag to make any bullet a template. Once detected,
+not only does that note itself become a button to created instances of that
+template, but it makes a button available to copy elsewhere.
+
+LoqSeq has it's own template features, but are accessed by the `/Template`
+command, and doesn't have built-in buttons. This script converts template
+definitions just fine, in place. But to recreate the button functionality, you
+will need to install the third party plugin
+[logseq13-full-house-plugin](logseq13-full-house-plugin). When buttons to
+templates are detected, this script will create buttons in the following format:
+
+`{{renderer :template-button, unique template name here, :title " + This a button for my unique template", :action append}}`
+
+Which should be detected and work immediately after plugin installation.
+
+One note: in Workflowy, the template source, when collapsed, _itself_ becomes a
+button with which to create more instances. LogSeq doesn't do that. So this
+script will convert the source, then create an additional node after the
+template definition for the button. That way the button functionality is still
+in the same location as one expects. You can then move the template definition
+elsewhere if you prefer.
 
 ### File Uploads *
 
