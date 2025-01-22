@@ -280,6 +280,7 @@ describe('main.js', () => {
         expect(testResults.getPage("default")).to.equal(file(successTestOutput));
       });
       it('Bookmarks', () => {
+        testConfig.set("compressBookmarks", true)
         runAcceptTest('bookmarks');
         expect(testResults.getPage("default")).to.equal(file(successTestOutput));
       });

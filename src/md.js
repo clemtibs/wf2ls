@@ -331,15 +331,19 @@ const convertToMd = (state, conf, pageName, nodes, nNodes, indentLvl) => {
         n.note = nameContent + "\n```\n" + n.note;
         break;
       case nodeIsChildBookmark(conf, n):
-        let childUrlInfo = extractUrlFromMd(convertHtmlToMd(conf, n.children[0].name));
-        n.name = `[${n.name}](${childUrlInfo.url})`;
-        delete n.children;
-        state.incrementJobProgress();
+        if (conf.get('compressBookmarks')) {
+          let childUrlInfo = extractUrlFromMd(convertHtmlToMd(conf, n.children[0].name));
+          n.name = `[${n.name}](${childUrlInfo.url})`;
+          delete n.children;
+          state.incrementJobProgress();
+        }
         break;
       case nodeIsNoteBookmark(n):
-        let nodeUrlInfo = extractUrlFromMd(n.note);
-        n.name = `[${n.name}](${nodeUrlInfo.url})`;
-        n.note = '';
+        if (conf.get('compressBookmarks')) {
+          let nodeUrlInfo = extractUrlFromMd(n.note);
+          n.name = `[${n.name}](${nodeUrlInfo.url})`;
+          n.note = '';
+        }
         break;
       case nodeIsMirrorRoot(n):
         id = `\n${makeBlockNotePrefix(indentSpaces, indentLvl)}id:: ${n.id}`
