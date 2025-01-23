@@ -61,6 +61,29 @@ const extractUrlFromMd = (str) => {
   return result;
 }
 
+const replacePageRefWithUuid = (state, str) => {
+  // Can't figure out how to combine these into one go...don't care.
+  const pageRefRegex = /\(\(([0-9a-fA-F]{12})\)\)/g;
+  const pageRefMdRegex = /\[[^\]]+\]\(([0-9a-fA-F]{12})\)/g;
+  let modStr = str;
+
+  let refMatches = str.matchAll(pageRefRegex);
+  if (refMatches) {
+    for (const m of refMatches) {
+      modStr = modStr.replace(`((${m[1]}))`, `((${state.getNodeIdByPageRef(m[1])}))`);
+    }
+  }
+
+  let mdMatches = str.matchAll(pageRefMdRegex);
+  if (mdMatches) {
+    for (const m of mdMatches) {
+      modStr = modStr.replace(`](${m[1]})`, `](${state.getNodeIdByPageRef(m[1])})`);
+    }
+  }
+
+  return modStr
+}
+
 const tagInText = (tag, str) => {
   if (tag === '') {
     return false
@@ -109,6 +132,7 @@ export {
   indentLines,
   linkTextToUrl,
   tagInText,
+  replacePageRefWithUuid,
   stripMdLink,
   stripTag,
   toPageLink,

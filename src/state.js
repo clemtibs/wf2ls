@@ -8,6 +8,7 @@ class AppState {
   #progressBar;
   #pages;
   #templates;
+  #pageRefs;
   isTestInstance = false;
 
 /*
@@ -19,6 +20,7 @@ class AppState {
     this.#totalNumJobs = 0;
     this.#jobProgress = 0;
     this.#pages = new Map();
+    this.#pageRefs = new Map();
     this.#templates = new Map();
     if (appProgressBar) this.#progressBar = appProgressBar;
     if (testing) this.isTestInstance = testing;
@@ -85,6 +87,10 @@ class AppState {
     return filteredPages;
   }
 
+  getNodeIdByPageRef(pRefStr) {
+    return this.#pageRefs.get(pRefStr);
+  }
+
   getTemplateButtonName(node) {
     const fullTemplateButtonRegex = /^([\w\s]+)\s#use-template:([0-9a-fA-F]{12}$)/;
     // I could probably do this in one regex pattern, but didn't have the energy.
@@ -107,6 +113,10 @@ class AppState {
   incrementJobProgress() {
     this.#jobProgress++;
     if (!this.isTestInstance) this.#progressBar.update(this.#jobProgress);
+  }
+
+  registerPageRef(node) {
+    this.#pageRefs.set(node.id.split("-")[4], node.id);
   }
 
   registerTemplateName(node) {

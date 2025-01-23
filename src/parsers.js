@@ -53,6 +53,7 @@ const parseWfData = (state, data) => {
       let newNode = { metadata: {}};
       let templateButtonNode;
       state.addJob()
+      state.registerPageRef(node);
       newNode.id = node.id;
       // if (!resultIdMap.get(node.id)) resultIdMap.set(node.id, newNode);
       newNode.name = node.nm.trim();
@@ -71,6 +72,11 @@ const parseWfData = (state, data) => {
         })
       }
       if (node.hasOwnProperty('ch')) {
+        // If children nodes are backlinks, then we need to turn have this node
+        // show it's ID so that others can reference them. This is only for
+        // internal workflowy links. Mirrors are handled seperately and contain
+        // the targets in thier metadata already.
+        if (nodeIsBacklink(node.ch[0])) newNode.metadata.isReferencesRoot = true;
         if (!(node.ch.length === 1 && nodeIsBacklink(node.ch[0])) &&
             !(node.ch.length === 1 && nodeIsTemplateButton(newNode))) {
           newNode.children = parseWfData(state, node.ch); 

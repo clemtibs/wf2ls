@@ -13,6 +13,7 @@ import {
 } from './date.js';
 import { 
   makeNode,
+  nodeIsBacklink, 
   nodeHasNote,
   nodeIsH1,
   nodeIsH2,
@@ -32,6 +33,7 @@ import {
   indentLines,
   linkTextToUrl,
   tagInText,
+  replacePageRefWithUuid,
   stripTag,
   toPageLink,
   makeBlockNamePrefix,
@@ -214,6 +216,36 @@ const turndownDefaultCustomRules = {
       
       return `[[ ${formatDate(d, dFormat)} ]]`
     }
+  },
+  internalWfLinks: {
+    filter: function (node, options) {
+      return (
+        node.nodeName === 'A' &&
+        node.getAttribute('href').includes('https://workflowy.com/#/')
+      )
+    },
+    replacement: function (content, node, options) {
+      // I can't get an AppState object in here, so I can't finish the
+      // conversion.  Instead, I'll just doing everything but the lookup, then
+      // I'll just replace the 12 digit page ref with the full UUID later in
+      // convertToMd() with replacePageRefWithUuid(). The last 12 digits of a
+      // UUID is unique enough to not cause too many false positives I would
+      // imagine.
+      const internalWfLinkRegex = /workflowy.com\/#\/([0-9a-fA-F]{12})/;
+      const href = node.getAttribute('href');
+      const match = href.match(internalWfLinkRegex);
+
+      if (match) {
+        if (node.innerHTML === '' ) {
+          return `((${match[1]})) `;
+        } else {
+          if (node.innerHTML === href) {
+            return `((${match[1]}))`;
+          }
+          return `[${content}](${match[1]})`;
+        }
+      }
+    }
   }
 }
 
@@ -264,6 +296,9 @@ const convertToMd = (state, conf, pageName, nodes, nNodes, indentLvl) => {
     let marker = "";
     let template = "";
 
+    // Replace any page references with the full UUID of that node
+    n.name = replacePageRefWithUuid(state, n.name);
+    n.note = replacePageRefWithUuid(state, n.note);
     // Splitting off new pages.
     if (tagInText(newPageTag, n.name) || tagInText(newPageTag, n.note)) {
       let newPageName = stripTag(newPageTag, n.name).trim();
@@ -329,6 +364,13 @@ const convertToMd = (state, conf, pageName, nodes, nNodes, indentLvl) => {
         let nameContent = n.name;
         n.name = "```";
         n.note = nameContent + "\n```\n" + n.note;
+        // For some reason, every codeblock example I exported from Workflowy
+        // always had a backlink child in the data. Not only did I never
+        // manually reference it (with internal workflowy links), but it never
+        // showed up in the app itself either. I'm making note of it here that
+        // it will trigger nodeIsBacklink() below and reveal the id for that
+        // node. It's harmless, but annoying. I don't feel it's worth deleting
+        // and risk deleting children with actual content.
         break;
       case nodeIsChildBookmark(conf, n):
         if (conf.get('compressBookmarks')) {
@@ -366,6 +408,9 @@ const convertToMd = (state, conf, pageName, nodes, nNodes, indentLvl) => {
       case nodeIsTemplateButton(n):
         const [ tDesc, tName ] = state.getTemplateButtonName(n);
         n.name = "{{renderer :template-button, " + tName + ', :title " + ' + `${tDesc}` + '", :action append}}';
+        break;
+      case nodeIsBacklink(n):
+        id = `\n${makeBlockNotePrefix(indentSpaces, indentLvl)}id:: ${n.id}`
         break;
     }
     
