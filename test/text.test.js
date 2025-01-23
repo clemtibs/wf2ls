@@ -1,9 +1,13 @@
 import { expect } from 'chai';
+
+import { makeNode } from '../src/node.js';
+import { AppState } from '../src/state.js';
 import {
   extractUrlFromMd,
   indentLines,
   linkTextToUrl,
   tagInText,
+  replacePageRefWithUuid,
   stripMdLink,
   stripTag,
   toPageLink,
@@ -146,6 +150,61 @@ describe('text.js', () => {
 
       testStr = undefined;
       expect(mdLinkInText(testStr)).to.be.false;
+    });
+  });
+  describe('replacePageRefWithUuid()', () => {
+    let testState;
+    const testNodeOne = makeNode({
+      id: 'aff57398-663f-bad1-09fb-982e8186ff23'
+    });
+    const testNodeTwo = makeNode({
+      id: '711e639d-9e77-4c17-8589-be91492efb04'
+    });
+
+    beforeEach(() => {
+      testState = new AppState(undefined, true);
+      testState.registerPageRef(testNodeOne);
+      testState.registerPageRef(testNodeTwo);
+    });
+    it('Works with a LogSeq block ref example', () => {
+      let testContentPass = '((982e8186ff23))';
+      let testContentPassResult = '((aff57398-663f-bad1-09fb-982e8186ff23))';
+      expect(replacePageRefWithUuid(testState, testContentPass)).to.deep.equal(testContentPassResult);
+
+      testContentPass = ' ((982e8186ff23)) '; // <-- whitespace
+      testContentPassResult = ' ((aff57398-663f-bad1-09fb-982e8186ff23)) ';
+      expect(replacePageRefWithUuid(testState, testContentPass)).to.deep.equal(testContentPassResult);
+    });
+    it('Works with a MD link example', () => {
+      let testContentPass = '[Descriptive text](982e8186ff23)';
+      let testContentPassResult = '[Descriptive text](aff57398-663f-bad1-09fb-982e8186ff23)';
+      expect(replacePageRefWithUuid(testState, testContentPass)).to.deep.equal(testContentPassResult);
+
+      testContentPass = ' [Descriptive text](982e8186ff23) ';
+      testContentPassResult = ' [Descriptive text](aff57398-663f-bad1-09fb-982e8186ff23) '; // <-- whitespace
+      expect(replacePageRefWithUuid(testState, testContentPass)).to.deep.equal(testContentPassResult);
+    });
+    it('Works with multiple LogSeq block ref style matches and filler text', () => {
+      const fillerPre = 'Some text';
+      const fillerPost = 'Some text';
+      const linkOne = '((982e8186ff23))';
+      const linkTwo = '((be91492efb04))';
+      const linkOneResult = '((aff57398-663f-bad1-09fb-982e8186ff23))';
+      const linkTwoResult = '((711e639d-9e77-4c17-8589-be91492efb04))';
+      const testContentPass = `${fillerPre}\n${linkOne}\n${linkTwo}\n${fillerPost}`
+      const testContentPassResult = `${fillerPre}\n${linkOneResult}\n${linkTwoResult}\n${fillerPost}`;
+      expect(replacePageRefWithUuid(testState, testContentPass)).to.deep.equal(testContentPassResult);
+    });
+    it('Works with multiple MD style matches and filler text', () => {
+      const fillerPre = 'Some text';
+      const fillerPost = 'Some text';
+      const linkOne = '[Descriptive text](982e8186ff23)';
+      const linkTwo = '[Descriptive text](be91492efb04)';
+      const linkOneResult = '[Descriptive text](aff57398-663f-bad1-09fb-982e8186ff23)';
+      const linkTwoResult = '[Descriptive text](711e639d-9e77-4c17-8589-be91492efb04)';
+      const testContentPass = `${fillerPre}\n${linkOne}\n${linkTwo}\n${fillerPost}`
+      const testContentPassResult = `${fillerPre}\n${linkOneResult}\n${linkTwoResult}\n${fillerPost}`;
+      expect(replacePageRefWithUuid(testState, testContentPass)).to.deep.equal(testContentPassResult);
     });
   });
   describe('stripMdLink()', () => {

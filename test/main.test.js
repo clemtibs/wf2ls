@@ -80,7 +80,7 @@ describe('main.js', () => {
             expect(testResults.getPage("default")).to.equal(file(successTestOutput));
         });
       });
-      it.skip('Links to nodes', () => {
+      it('Internal links to other WF nodes', () => {
         runAcceptTest('links_to_nodes');
         expect(testResults.getPage("default")).to.equal(file(successTestOutput));
       });

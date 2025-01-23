@@ -105,6 +105,36 @@ describe('md.js', () => {
       testContentPassResult = 'Non-html filler [[$blue]]==blue text== more filler'
       expect(convertHtmlToMd(testConfig, testContentPass)).to.deep.equal(testContentPassResult);
     });
+    describe('Internal Workflowy links', () => {
+      let linkHtml;
+      let linkHtmlResult;
+      let fillerPre = 'Non-html filler';
+      let fillerPost = 'more filler'; 
+      it('Makes MD link with innerHTML when present', () => {
+        linkHtml = '<a href=\"https://workflowy.com/#/982e8186ff23\">Link text here</a>';
+        linkHtmlResult = '[Link text here](982e8186ff23)';
+        let testContentPass = `${fillerPre} ${linkHtml} ${fillerPost}`;
+        let testContentPassResult = `${fillerPre} ${linkHtmlResult} ${fillerPost}`;
+        expect(convertHtmlToMd(testConfig, linkHtml)).to.deep.equal(linkHtmlResult);
+        expect(convertHtmlToMd(testConfig, testContentPass)).to.deep.equal(testContentPassResult);
+      });
+      it('Uses a block reference when innerHTML is not present', () => {
+        linkHtml = '<a href=\"https://workflowy.com/#/982e8186ff23\"></a>';
+        linkHtmlResult = '((982e8186ff23))';
+        let testContentPass = `${fillerPre} ${linkHtml} ${fillerPost}`;
+        let testContentPassResult = `${fillerPre} ${linkHtmlResult} ${fillerPost}`;
+        expect(convertHtmlToMd(testConfig, linkHtml)).to.deep.equal(linkHtmlResult);
+        expect(convertHtmlToMd(testConfig, testContentPass)).to.deep.equal(testContentPassResult);
+      });
+      it('Uses a block reference when innerHTML is same as href', () => {
+        linkHtml = '<a href=\"https://workflowy.com/#/982e8186ff23\">https://workflowy.com/#/982e8186ff23</a>';
+        linkHtmlResult = '((982e8186ff23))';
+        let testContentPass = `${fillerPre} ${linkHtml} ${fillerPost}`;
+        let testContentPassResult = `${fillerPre} ${linkHtmlResult} ${fillerPost}`;
+        expect(convertHtmlToMd(testConfig, linkHtml)).to.deep.equal(linkHtmlResult);
+        expect(convertHtmlToMd(testConfig, testContentPass)).to.deep.equal(testContentPassResult);
+      });
+    });
     describe('Dates', () => {
       // TODO: rewrite all above with string literals
       let dateHtml;

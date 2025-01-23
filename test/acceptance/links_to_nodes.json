@@ -10,7 +10,7 @@
           "nm": "Node 1",
           "ct": 380011219,
           "metadata": {},
-          "no": "This note has a backlink child node.\n",
+          "no": "This note has a backlink child node which is ignored in conversion.\nThis is the node being referenced.",
           "lm": 382255901,
           "ch": [
               {
@@ -55,7 +55,7 @@
                   }
               }
           },
-          "no": "<a href=\"https://workflowy.com/#/982e8186ff23\">Link to node 1</a>",
+          "no": "This internal link has content which is used for the name: <a href=\"https://workflowy.com/#/982e8186ff23\">Link to node 1</a>\nWhen the href is the same as the content, the LogSeq style references are used: <a href=\"https://workflowy.com/#/982e8186ff23\">https://workflowy.com/#/982e8186ff23</a>",
           "lm": 380041084
       }
   ]

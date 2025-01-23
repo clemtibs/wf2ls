@@ -1,7 +1,7 @@
 import { expect } from 'chai';
 
-import { AppState } from '../src/state.js';
 import { makeNode } from '../src/node.js';
+import { AppState } from '../src/state.js';
 
 const largeSampleDataLoc = "./test/data/wf_data_sample.json";
 
@@ -19,8 +19,10 @@ describe('state.js', () => {
       expect(testState.getPage).to.be.an.instanceOf(Function);
       expect(testState.getAllPages).to.be.an.instanceOf(Function);
       expect(testState.getAllPagesExcept).to.be.an.instanceOf(Function);
+      expect(testState.getNodeIdByPageRef).to.be.an.instanceOf(Function);
       expect(testState.getTemplateButtonName).to.be.an.instanceOf(Function);
       expect(testState.incrementJobProgress).to.be.an.instanceOf(Function);
+      expect(testState.registerPageRef).to.be.an.instanceOf(Function);
       expect(testState.registerTemplateName).to.be.an.instanceOf(Function);
       expect(testState.startProgressBar).to.be.an.instanceOf(Function);
       expect(testState.stopProgressBar).to.be.an.instanceOf(Function);
@@ -31,7 +33,8 @@ describe('state.js', () => {
         'jobProgress',
         'progressBar',
         'pages',
-        'templates'
+        'templates',
+        'pageRefs',
       );
     });
     describe('Console output', () => {
@@ -152,6 +155,22 @@ describe('state.js', () => {
       expect(allPages.get('Test Page One')).to.deep.equal(pageOneContent)
       expect(allPages.get('Test Page Two')).to.deep.equal(undefined)
       expect(allPages.get('Test Page Three')).to.deep.equal(pageThreeContent)
+    });
+  });
+  describe('registerPageRef(), getNodeIdByPageRef()', () => {
+    const testNodeOne = makeNode({
+      id: 'aff57398-663f-bad1-09fb-982e8186ff23'
+    });
+    const testNodeTwo = makeNode({
+      id: '711e639d-9e77-4c17-8589-be91492efb04'
+    });
+    beforeEach(() => {
+      testState.registerPageRef(testNodeOne);
+      testState.registerPageRef(testNodeTwo);
+    });
+    it('Returns correct full id', () => {
+      expect(testState.getNodeIdByPageRef('982e8186ff23')).to.deep.equal('aff57398-663f-bad1-09fb-982e8186ff23');
+      expect(testState.getNodeIdByPageRef('be91492efb04')).to.deep.equal('711e639d-9e77-4c17-8589-be91492efb04');
     });
   });
   describe('registerTemplateName(), getTemplateButtonName()', () => {
