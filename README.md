@@ -358,6 +358,18 @@ default translation here.
 
 The setting `mirrorStyle` accepts either `embed` (_default_) or `reference`.
 
+### Internal Links
+
+Workflowy allows you to reference a node with it's FQDN,
+(`https://workflowy.com/#/982e8186ff23`, for example). This shows up as a
+hyperlink. On the node being referenced, a list of "Backlinks" are created to
+show what other nodes are referencing this one directly. LogSeq has this
+functionality built in, but the Workflowy URLs just need to be converted to page
+refs in `((aff57398-663f-bad1-09fb-982e8186ff23))` format, or, if the original
+Workflowy link reference has some sort of inner content (`<a
+href=\"https://workflowy.com/#/982e8186ff23\">Frienly Name</a>`), it's presented
+in `[Friendly Name](aff57398-663f-bad1-09fb-982e8186ff23)` format.
+
 ### Handling of "@" tags *
 
 At some point, when Workflowy started adding the comments functionality, these
