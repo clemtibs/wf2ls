@@ -78,7 +78,7 @@ const extractUrlFromMd = (str) => {
 const replacePageRefWithUuid = (state, str) => {
   // Can't figure out how to combine these into one go...don't care.
   const pageRefRegex = /\(\(([0-9a-fA-F]{12})\)\)/g;
-  const pageRefMdRegex = /\[[^\]]+\]\(([0-9a-fA-F]{12})\)/g;
+  const pageRefMdRegex = /\[([^\]]+)\]\(([0-9a-fA-F]{12})\)/g;
   let modStr = str;
 
   let refMatches = str.matchAll(pageRefRegex);
@@ -91,7 +91,7 @@ const replacePageRefWithUuid = (state, str) => {
   let mdMatches = str.matchAll(pageRefMdRegex);
   if (mdMatches) {
     for (const m of mdMatches) {
-      modStr = modStr.replace(`](${m[1]})`, `](${state.getNodeIdByPageRef(m[1])})`);
+      modStr = modStr.replace(`[${m[1]}](${m[2]})`, `[${m[1]}](${state.getNodeIdByPageRef(m[2])})`);
     }
   }
 
