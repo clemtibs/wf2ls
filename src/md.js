@@ -31,6 +31,7 @@ import {
 import {
   extractUrlFromMd,
   indentLines,
+  linkifyAmpersatTags,
   linkTextToUrl,
   tagInText,
   replacePageRefWithUuid,
@@ -39,6 +40,26 @@ import {
   makeBlockNamePrefix,
   makeBlockNotePrefix
 } from './text.js';
+
+
+// "mention" tags have empty or whitespace content, so needed to handle them
+// here rather than a custom rule. Use of blankReplacement courtesy of:
+// https://github.com/mixmark-io/turndown/issues/293#issuecomment-588984202
+const blankReplacement = (content, node) => {
+  switch (node.nodeName) {
+    case 'MENTION':
+      const id = node.getAttribute('id');
+      if (id === '0') {
+        return `[[@/everyone]] `;
+      } else {
+        return `[[@/${id}]] `;
+      }
+      break;
+    default:
+      // I think I want everything to make it through. 
+      return node.outerHTML;
+  }
+}
 
 // defined here, loaded in config.js, accessed via config object
 const turndownDefaultConfig = {
@@ -49,7 +70,8 @@ const turndownDefaultConfig = {
   fence: '```',
   emDelimiter: '_',
   strongDelimmiter: '**',
-  linkStyle: 'inlined'
+  linkStyle: 'inlined',
+  blankReplacement: blankReplacement
 }
 
 // defined here, loaded dynamically in config.js based on value of 'textColorMarkupMode'
@@ -299,6 +321,11 @@ const convertToMd = (state, conf, pageName, nodes, nNodes, indentLvl) => {
     // Replace any page references with the full UUID of that node
     n.name = replacePageRefWithUuid(state, n.name);
     n.note = replacePageRefWithUuid(state, n.note);
+
+    // Convert any ampersat tags, ("@everyone") as text to page refs, ([[@/everyone]])
+    n.name = linkifyAmpersatTags(n.name);
+    n.note = linkifyAmpersatTags(n.note);
+
     // Splitting off new pages.
     if (tagInText(newPageTag, n.name) || tagInText(newPageTag, n.note)) {
       let newPageName = stripTag(newPageTag, n.name).trim();

@@ -23,6 +23,20 @@ const indentLines = (content, prefix) => {
   return output;
 }
 
+const linkifyAmpersatTags = (content) => {
+  const ampRegex = /@([a-zA-z]+)/g;
+  let modContent = content;
+
+  let matches = content.matchAll(ampRegex);
+  if (matches) {
+    for (const m of matches) {
+      modContent = modContent.replace(`@${m[1]}`, `[[@/${m[1]}]]`)
+    }
+  }
+
+  return modContent;
+}
+
 const linkTextToUrl = (text) => {
   const linkifyOptions = {
     defaultProtocol: 'https'
@@ -130,6 +144,7 @@ const makeBlockNotePrefix = (indentSize, indentLvl) => {
 export {
   extractUrlFromMd,
   indentLines,
+  linkifyAmpersatTags,
   linkTextToUrl,
   tagInText,
   replacePageRefWithUuid,
