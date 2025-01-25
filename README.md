@@ -370,20 +370,46 @@ Workflowy link reference has some sort of inner content (`<a
 href=\"https://workflowy.com/#/982e8186ff23\">Frienly Name</a>`), it's presented
 in `[Friendly Name](aff57398-663f-bad1-09fb-982e8186ff23)` format.
 
-### Handling of "@" tags *
+### Handling of Ampersat "@" tags
 
-At some point, when Workflowy started adding the comments functionality, these
-tags stopped being simple text and started looking like: `<mention id="0"
-by="286081" ts="78190234"> </mention>`. I don't see any way yet to extract the
-actual content of these custom tags from the backup files. Perhaps in the
-future, I'll be able to make this tool work in the browser on top of a logged-in
-instance of the webapp, but that is not my focus right now as I did not really
-use the tags or any multi-user features.
+Workflowy is a bit inconsistent with "@" tags. I have examples that are left as
+plain text "@errands" and some that are converted into an empty html element
+that has looks like this: `<mention id="0" by="286081" ts="78190234">
+</mention>`.  Unfortunately, there is no way to extract the actual name that is
+rendered in Workflowy from the backup files alone. That tag above was actually
+rendered to my name in my own Workflowy. You can see from this example that all
+we have to work with is a number representing an individual. I suspect, if the
+"@" example is linked to an actual account, then the `<mention>` element is used
+so that comments between real humans can be recorded. All other tags are left as
+plain text.
 
-This script will handle these by inserting the `by` information with the `@`
-tag. This the above example, this would be `@286081`. This way, one can at least
-figure out via context who was referenced and then via find/replace text tools,
-convert all the instances.
+LogSeq doesn't treat "@" tags as anything special at all. So my proposed
+solution is a bit unconventional, but it at least preserves all the information
+in conversion and is worth consideration. It is up to the user to later rework
+it if they see fit.
+
+My solution is to use the value of `id`, representing a user, and making it a
+hierarchical page link. So any instances of the above tag will be converted into
+`[[@/286081]]`. After conversion, you can go to that page and rename it
+(`[[@/me]]`, for example), and any instance of it in your data will
+automatically get converted for you.
+
+This system scales pretty well. You can categorize individuals by surname,
+`[[@/Doe/John]]` and `[[@/Doe/Jane]]`, as well as sort into domains,
+`[[@/Personal/Doe/John]]`, `[[@/Personal/Doe/Jane]]` and `[[@/Work/Doe/Jake]]`.
+If you think that's a lot of typing just to tag someone, you're right! That's
+why you can simplify it with aliases and make use of automatch. In the first
+block of John Doe's page, you include `alias:: @John` or in Jake Doe's `alias::
+@WorkJake` and reference them in page tags like `[[@John]]` or `[[@WorkJake]]`.
+
+Tags that are plain text get converted the same way, so `@JohnSmith` will be
+converted to `[[@/JohnSmith]]`. Notice how this example isn't split into
+a last/first hierarchy. It's impossible to know which name is first or last, so make
+sure to edit these after the conversion to your liking. Simply changing the page
+name to `[[@/Smith/John]]` will do the trick.
+
+In my testing, user id "0" represented "@everyone". That seems pretty unique and
+specific, so I hard-coded this conversion already.
 
 ### Comments *
 
