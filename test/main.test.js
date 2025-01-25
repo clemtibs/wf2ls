@@ -192,7 +192,7 @@ describe('main.js', () => {
         runAcceptTest('inline_code');
         expect(testResults.getPage("default")).to.equal(file(successTestOutput));
       });
-      it.skip('Ampersat Tagging', () => {
+      it('Ampersat Tagging', () => {
         runAcceptTest('tagging_ampersat');
         expect(testResults.getPage("default")).to.equal(file(successTestOutput));
       });

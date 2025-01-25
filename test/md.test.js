@@ -147,5 +147,27 @@ describe('md.js', () => {
         expect(convertHtmlToMd(testConfig, testContentPass)).to.deep.equal(testContentPassResult);
       });
     });
+    describe('Ampersat Tags', () => {
+      let tagHtml;
+      let tagHtmlResult;
+      let fillerPre = 'Non-html filler';
+      let fillerPost = 'more filler'; 
+      it('Converts mention tags using "id" number', () => {
+        tagHtml = '<mention id=\"286081\" by=\"286081\" ts=\"78804316\"> </mention>';
+        tagHtmlResult = '[[@/286081]]';
+        let testContentPass = `${fillerPre} ${tagHtml} ${fillerPost}`;
+        let testContentPassResult = `${fillerPre} ${tagHtmlResult} ${fillerPost}`;
+        expect(convertHtmlToMd(testConfig, tagHtml)).to.deep.equal(tagHtmlResult);
+        expect(convertHtmlToMd(testConfig, testContentPass)).to.deep.equal(testContentPassResult);
+      });
+      it('Converts hardcoded "everyone" tags', () => {
+        tagHtml = '<mention id=\"0\" by=\"286081\" ts=\"78804316\"> </mention>';
+        tagHtmlResult = '[[@/everyone]]';
+        let testContentPass = `${fillerPre} ${tagHtml} ${fillerPost}`;
+        let testContentPassResult = `${fillerPre} ${tagHtmlResult} ${fillerPost}`;
+        expect(convertHtmlToMd(testConfig, tagHtml)).to.deep.equal(tagHtmlResult);
+        expect(convertHtmlToMd(testConfig, testContentPass)).to.deep.equal(testContentPassResult);
+      });
+    });
   });
 });

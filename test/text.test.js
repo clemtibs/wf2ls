@@ -5,6 +5,7 @@ import { AppState } from '../src/state.js';
 import {
   extractUrlFromMd,
   indentLines,
+  linkifyAmpersatTags,
   linkTextToUrl,
   tagInText,
   replacePageRefWithUuid,
@@ -67,6 +68,28 @@ describe('text.js', () => {
       expect(indentLines(testContentPassTwo, '')).to.deep.equal(testContentPassResult);
       expect(indentLines(testContentPassThree, '')).to.deep.equal(testContentPassResult);
       expect(indentLines(testContentPassFour, '')).to.deep.equal(testContentPassResult);
+    });
+  });
+  describe('linkifyAmpersatTags()', () => {
+    it('Turns @Tag into a page reference', () => {
+      let testTag = '@JohnDoe';
+      let testTagResult = '[[@/JohnDoe]]';
+      expect(linkifyAmpersatTags(testTag)).to.deep.equal(testTagResult);
+
+      testTag = ' @JohnDoe '; // <-- whitespace
+      testTagResult = ' [[@/JohnDoe]] ';
+      expect(linkifyAmpersatTags(testTag)).to.deep.equal(testTagResult);
+    });
+    it('Works with multiple examples and lines', () => {
+      const fillerPre = 'Some text';
+      const fillerPost = 'Some text';
+      const tagOne = '@JohnDoe'
+      const tagTwo = '@JaneDoe';
+      const tagOneResult = '[[@/JohnDoe]]';
+      const tagTwoResult = '[[@/JaneDoe]]';
+      const testContentPass = `${fillerPre}\n${tagOne}\n${tagTwo}\n${fillerPost}`
+      const testContentPassResult = `${fillerPre}\n${tagOneResult}\n${tagTwoResult}\n${fillerPost}`;
+      expect(linkifyAmpersatTags(testContentPass)).to.deep.equal(testContentPassResult);
     });
   });
   describe('linkTextToUrl()', () => {
