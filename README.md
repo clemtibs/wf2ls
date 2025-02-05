@@ -1,7 +1,30 @@
-# Workflowy to LogSeq Converter Utility
+<h1 align="center">
+  Workflowy to LogSeq Converter Utility
+  <span align="right" height="30">&nbsp;</span>
+  <a href="https://www.buymeacoffee.com/clemtibs" target="_blank">
+    <img src="https://cdn.buymeacoffee.com/buttons/v2/default-red.png" alt="Buy Me A Coffee" style="height: 30px !important;width: 108px !important;" ></a>
+  </a>
+</h1>
 
-![version](https://img.shields.io/badge/version-0.23.0-yellowgreen) ![status - alpha](https://img.shields.io/badge/status-alpha-orange) [![GitHub tag](https://img.shields.io/github/tag/brianclements/wf2ls?include_prereleases=&sort=semver&color=blue)](https://github.com/brianclements/wf2ls/releases/)
+<p align="center">
+  <a href="#usage">Usage</a> |
+  <a href="#configuration">Configuration</a> |
+  <a href="#background">Background</a>
+</p>
+
+<div align="center">
+
+![status-alpha](https://img.shields.io/badge/status-alpha-e89829)
+![version](https://img.shields.io/badge/version-0.23.0-5895C9)
+[![release](https://img.shields.io/github/v/release/clemtibs/wf2ls?color=5895C9)](https://github.com/clemtibs/wf2ls/releases)
+
+</div>
+<div align="center">
+
 [![License](https://img.shields.io/badge/License-MIT-blue)](#license)
+![Downloads](https://img.shields.io/github/downloads/clemtibs/wf2ls/total.svg?color=D25584)
+
+</div>
 
 This tool takes Workflowy backup files (the Dropbox sync files with *.backup
 suffixes), and convert them into LogSeq friendly markdown files.  It uses
@@ -14,7 +37,7 @@ detection.
 1) Download source
 
     ```
-    git clone https://github.com/brianclements/wf2ls.git wf2ls
+    git clone https://github.com/clemtibs/wf2ls.git wf2ls
     cd wf2ls
     ```
 
@@ -45,7 +68,7 @@ These are the only three CLI arguments possible. There are many configuration
 options pertaining to script behavior and conversions, and they are best
 contained in a configuration file.
 
-### Configuration
+## Configuration
 
 A sample configuration can be found in the root of the source directory, called
 `config_file_example.json`.
@@ -330,7 +353,7 @@ These mappings cannot be changed at this time.
 
 Work to support all the colors and handle text color and highlights in a unified
 way will be handled with support of a plugin,
-[logseq-color-markup](https://github.com/brianclements/logseq-color-markup). To
+[logseq-color-markup](https://github.com/clemtibs/logseq-color-markup). To
 make use of the plugin during conversion, set `"textColorMarkupMode": "plugin"`
 in your `config.json` file.
 
@@ -457,4 +480,4 @@ Initial inspiration from [@banjerluke/workflowy-to-logseq](https://github.com/ba
 
 ## License
 
-Released under [MIT](/LICENSE) by [@brianclements](https://github.com/brianclements).
+Released under [MIT](/LICENSE) by [@clemtibs](https://github.com/clemtibs).
