@@ -6,6 +6,8 @@
   </a>
 </h1>
 
+![WF2LS Logo](./logo.png)
+
 <p align="center">
   <a href="#usage">Usage</a> |
   <a href="#configuration">Configuration</a> |
