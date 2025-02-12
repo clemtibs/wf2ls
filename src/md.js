@@ -309,190 +309,199 @@ const convertToMd = (state, conf, pageName, nodes, nNodes, indentLvl) => {
   let newPageTag = conf.get("newPageTag");
   let indentSpaces = conf.get("indentSpaces");
   for (let n of nodes) {
-    state.incrementJobProgress();
-    n.name = convertHtmlToMd(conf, linkTextToUrl(n.name.trim()));
-    n.note = convertHtmlToMd(conf, linkTextToUrl(n.note ?? ""));
-    let id = "";
-    let completed = "";
-    let collapsed = "";
-    let marker = "";
-    let template = "";
+    try {
+      state.incrementJobProgress();
+      n.name = convertHtmlToMd(conf, linkTextToUrl(n.name.trim()));
+      n.note = convertHtmlToMd(conf, linkTextToUrl(n.note ?? ""));
+      let id = "";
+      let completed = "";
+      let collapsed = "";
+      let marker = "";
+      let template = "";
 
-    // Replace any page references with the full UUID of that node
-    n.name = replacePageRefWithUuid(state, n.name);
-    n.note = replacePageRefWithUuid(state, n.note);
+      // Replace any page references with the full UUID of that node
+      n.name = replacePageRefWithUuid(state, n.name);
+      n.note = replacePageRefWithUuid(state, n.note);
 
-    // Convert any ampersat tags, ("@everyone") as text to page refs, ([[@/everyone]])
-    n.name = linkifyAmpersatTags(n.name);
-    n.note = linkifyAmpersatTags(n.note);
+      // Convert any ampersat tags, ("@everyone") as text to page refs, ([[@/everyone]])
+      n.name = linkifyAmpersatTags(n.name);
+      n.note = linkifyAmpersatTags(n.note);
 
-    // Splitting off new pages.
-    if (tagInText(newPageTag, n.name) || tagInText(newPageTag, n.note)) {
-      let newPageName = stripTag(newPageTag, n.name).trim();
-      let linkToNewPage = toPageLink(newPageName);
-      let newPageTopNodeContent = stripTag(newPageTag, n.note).trim();
-      let newPageChildren = n.children;
-      // Insert this nodes content as a new first child on the new page
-      newPageChildren.unshift(
-        makeNode({
-          name: newPageTopNodeContent.split('\n')[0],
-          note: newPageTopNodeContent.split('\n').slice(1).join('\n')
-        })
-      );
-      state.addJob();
-      // Push the page link on the source page
-      pageBlocks.push(makeBlockNamePrefix(indentSpaces, indentLvl) + linkToNewPage);
-      // Recurse into the new page path
-      convertToMd(
-        state,
-        conf,
-        newPageName.trim(),
-        newPageChildren,
-        newPageChildren.length,
-        0
-      );
-      nNodes--;
-      continue;
-    }
-    
-    // Special node types
-    switch (true) {
-      case nodeIsTodo(n):
-        marker = "TODO ";
-        if (n.hasOwnProperty('completed')) {
-          let completedDate = 
-            formatDate(
-              localSecondsToCustomDateObj(
-                wfSecondsToPstSeconds(n.completed)),
-            conf.get("dateFormat"));
-          completed = `\n${makeBlockNotePrefix(indentSpaces, indentLvl)}completed-on:: ${toPageLink(completedDate)}`;
-          marker = "DONE ";
-        }
-        break;
-      case nodeIsH1(n):
-        n.name = "# " + n.name;
-        break;
-      case nodeIsH2(n):
-        n.name = "## " + n.name;
-        break;
-      case nodeIsParagraph(n):
-        // do nothing
-        break;
-      // case nodeIsBoard(n):
-        // not implemented yet
-        // break;
-      // TODO: multi-line quotes and codeblocks? This needs some revisiting.
-      //       Splitting the content between name and note is fragile when adding
-      //       properties.
-      case nodeIsQuoteBlock(n):
-        n.name = "> " + n.name + "\n";
-        break;
-      case nodeIsCodeBlock(n):
-        let nameContent = n.name;
-        n.name = "```";
-        n.note = nameContent + "\n```\n" + n.note;
-        // For some reason, every codeblock example I exported from Workflowy
-        // always had a backlink child in the data. Not only did I never
-        // manually reference it (with internal workflowy links), but it never
-        // showed up in the app itself either. I'm making note of it here that
-        // it will trigger nodeIsBacklink() below and reveal the id for that
-        // node. It's harmless, but annoying. I don't feel it's worth deleting
-        // and risk deleting children with actual content.
-        break;
-      case nodeIsChildBookmark(conf, n):
-        if (conf.get('compressBookmarks')) {
-          let childUrlInfo = extractUrlFromMd(convertHtmlToMd(conf, n.children[0].name));
-          n.name = `[${n.name}](${childUrlInfo.url})`;
-          delete n.children;
-          state.incrementJobProgress();
-        }
-        break;
-      case nodeIsNoteBookmark(n):
-        if (conf.get('compressBookmarks')) {
-          let nodeUrlInfo = extractUrlFromMd(n.note);
-          n.name = `[${n.name}](${nodeUrlInfo.url})`;
-          n.note = '';
-        }
-        break;
-      case nodeIsMirrorRoot(n):
-        id = `\n${makeBlockNotePrefix(indentSpaces, indentLvl)}id:: ${n.id}`
-        break;
-      case nodeIsMirrorVirtualRoot(n):
-        if (conf.get('mirrorStyle') === 'reference') {
-          n.name = `((${n.metadata.mirror.originalId}))`;
-        } else {
-          n.name = `{{embed ((${n.metadata.mirror.originalId}))}}`;
-        }
-        break;
-      case nodeIsTemplate(n):
-        n.name = stripTag("#template", n.name).trim()
-        template = [
-          '',
-          `${makeBlockNotePrefix(indentSpaces, indentLvl)}template:: ${n.name}`,
-          `${makeBlockNotePrefix(indentSpaces, indentLvl)}template-including-parent:: true`
-        ].join("\n");
-        break;
-      case nodeIsTemplateButton(n):
-        const [ tDesc, tName ] = state.getTemplateButtonName(n);
-        n.name = "{{renderer :template-button, " + tName + ', :title " + ' + `${tDesc}` + '", :action append}}';
-        break;
-      case nodeIsBacklink(n):
-        id = `\n${makeBlockNotePrefix(indentSpaces, indentLvl)}id:: ${n.id}`
-        break;
-    }
-    
-    if (n.note !== "") {
-      n.note = indentLines(n.note, makeBlockNotePrefix(indentSpaces, indentLvl));
-    }
-    
-    // Node collapsing.
-    // TODO: including nodes with no children but have notes would be nice.
-    //       Needs careful implementation though as it will break quote and code
-    //       block formatting.
-    if (n.hasOwnProperty('children')) {
-      const collapsedText = `\n${makeBlockNotePrefix(indentSpaces, indentLvl)}collapsed:: true`;
-      switch (conf.get("collapseMode")) {
-        case ('top'):
-          if (indentLvl === 0) {
-            collapsed = collapsedText;
+      // Splitting off new pages.
+      if (tagInText(newPageTag, n.name) || tagInText(newPageTag, n.note)) {
+        let newPageName = stripTag(newPageTag, n.name).trim();
+        let linkToNewPage = toPageLink(newPageName);
+        let newPageTopNodeContent = stripTag(newPageTag, n.note).trim();
+        let newPageChildren = n.children;
+        // Insert this nodes content as a new first child on the new page
+        newPageChildren.unshift(
+          makeNode({
+            name: newPageTopNodeContent.split('\n')[0],
+            note: newPageTopNodeContent.split('\n').slice(1).join('\n')
+          })
+        );
+        state.addJob();
+        // Push the page link on the source page
+        pageBlocks.push(makeBlockNamePrefix(indentSpaces, indentLvl) + linkToNewPage);
+        // Recurse into the new page path
+        convertToMd(
+          state,
+          conf,
+          newPageName.trim(),
+          newPageChildren,
+          newPageChildren.length,
+          0
+        );
+        nNodes--;
+        continue;
+      }
+      
+      // Special node types
+      switch (true) {
+        case nodeIsTodo(n):
+          marker = "TODO ";
+          if (n.hasOwnProperty('completed')) {
+            let completedDate = 
+              formatDate(
+                localSecondsToCustomDateObj(
+                  wfSecondsToPstSeconds(n.completed)),
+              conf.get("dateFormat"));
+            completed = `\n${makeBlockNotePrefix(indentSpaces, indentLvl)}completed-on:: ${toPageLink(completedDate)}`;
+            marker = "DONE ";
           }
           break;
-        case ('none'):
+        case nodeIsH1(n):
+          n.name = "# " + n.name;
+          break;
+        case nodeIsH2(n):
+          n.name = "## " + n.name;
+          break;
+        case nodeIsParagraph(n):
           // do nothing
           break;
-        case ('all'):
-          collapsed = collapsedText;
+        // case nodeIsBoard(n):
+          // not implemented yet
+          // break;
+        // TODO: multi-line quotes and codeblocks? This needs some revisiting.
+        //       Splitting the content between name and note is fragile when adding
+        //       properties.
+        case nodeIsQuoteBlock(n):
+          n.name = "> " + n.name + "\n";
           break;
-        case ('shallow'):
-          const collapseLvl = conf.get("collapseDepth");
-          if (indentLvl <= collapseLvl - 1) collapsed = collapsedText;
+        case nodeIsCodeBlock(n):
+          let nameContent = n.name;
+          n.name = "```";
+          n.note = nameContent + "\n```\n" + n.note;
+          // For some reason, every codeblock example I exported from Workflowy
+          // always had a backlink child in the data. Not only did I never
+          // manually reference it (with internal workflowy links), but it never
+          // showed up in the app itself either. I'm making note of it here that
+          // it will trigger nodeIsBacklink() below and reveal the id for that
+          // node. It's harmless, but annoying. I don't feel it's worth deleting
+          // and risk deleting children with actual content.
+          break;
+        case nodeIsChildBookmark(conf, n):
+          if (conf.get('compressBookmarks')) {
+            let childUrlInfo = extractUrlFromMd(convertHtmlToMd(conf, n.children[0].name));
+            n.name = `[${n.name}](${childUrlInfo.url})`;
+            delete n.children;
+            state.incrementJobProgress();
+          }
+          break;
+        case nodeIsNoteBookmark(n):
+          if (conf.get('compressBookmarks')) {
+            let nodeUrlInfo = extractUrlFromMd(n.note);
+            n.name = `[${n.name}](${nodeUrlInfo.url})`;
+            n.note = '';
+          }
+          break;
+        case nodeIsMirrorRoot(n):
+          id = `\n${makeBlockNotePrefix(indentSpaces, indentLvl)}id:: ${n.id}`
+          break;
+        case nodeIsMirrorVirtualRoot(n):
+          if (conf.get('mirrorStyle') === 'reference') {
+            n.name = `((${n.metadata.mirror.originalId}))`;
+          } else {
+            n.name = `{{embed ((${n.metadata.mirror.originalId}))}}`;
+          }
+          break;
+        case nodeIsTemplate(n):
+          n.name = stripTag("#template", n.name).trim()
+          template = [
+            '',
+            `${makeBlockNotePrefix(indentSpaces, indentLvl)}template:: ${n.name}`,
+            `${makeBlockNotePrefix(indentSpaces, indentLvl)}template-including-parent:: true`
+          ].join("\n");
+          break;
+        case nodeIsTemplateButton(n):
+          const [ tDesc, tName ] = state.getTemplateButtonName(n);
+          n.name = "{{renderer :template-button, " + tName + ', :title " + ' + `${tDesc}` + '", :action append}}';
+          break;
+        case nodeIsBacklink(n):
+          id = `\n${makeBlockNotePrefix(indentSpaces, indentLvl)}id:: ${n.id}`
           break;
       }
-    }
-   
-    // Other than the name field, each single line of the block needs to
-    // arrive here with it's newlines and indenting. If they don't apply to
-    // this block, they will be empty. All could be empty except name.
-    pageBlocks.push(
-      makeBlockNamePrefix(indentSpaces, indentLvl) + marker + n.name
-      + template
-      + id
-      + completed
-      + collapsed
-      + n.note);
+      
+      if (n.note !== "") {
+        n.note = indentLines(n.note, makeBlockNotePrefix(indentSpaces, indentLvl));
+      }
+      
+      // Node collapsing.
+      // TODO: including nodes with no children but have notes would be nice.
+      //       Needs careful implementation though as it will break quote and code
+      //       block formatting.
+      if (n.hasOwnProperty('children')) {
+        const collapsedText = `\n${makeBlockNotePrefix(indentSpaces, indentLvl)}collapsed:: true`;
+        switch (conf.get("collapseMode")) {
+          case ('top'):
+            if (indentLvl === 0) {
+              collapsed = collapsedText;
+            }
+            break;
+          case ('none'):
+            // do nothing
+            break;
+          case ('all'):
+            collapsed = collapsedText;
+            break;
+          case ('shallow'):
+            const collapseLvl = conf.get("collapseDepth");
+            if (indentLvl <= collapseLvl - 1) collapsed = collapsedText;
+            break;
+        }
+      }
     
-    // Recurse into children nodes
-    if (n.hasOwnProperty('children')) {
-      pageBlocks.push(convertToMd(
-        state,
-        conf,
-        pageName.trim(),
-        n.children,
-        n.children.length,
-        indentLvl + 1,
-      ));
+      // Other than the name field, each single line of the block needs to
+      // arrive here with it's newlines and indenting. If they don't apply to
+      // this block, they will be empty. All could be empty except name.
+      pageBlocks.push(
+        makeBlockNamePrefix(indentSpaces, indentLvl) + marker + n.name
+        + template
+        + id
+        + completed
+        + collapsed
+        + n.note);
+      
+      // Recurse into children nodes
+      if (n.hasOwnProperty('children')) {
+        pageBlocks.push(convertToMd(
+          state,
+          conf,
+          pageName.trim(),
+          n.children,
+          n.children.length,
+          indentLvl + 1,
+        ));
+      }
+
+      nNodes--;
+    } catch ({ name, message }) {
+      const fullError = 
+        `\n${name}` + 
+        `\n${message}` + 
+        `\nNode involved had name content of: ${n.name}`;
+      console.error(fullError);
     }
-    nNodes--;
   };
 
   if (nNodes === 0 && indentLvl > 0) {
