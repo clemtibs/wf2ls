@@ -92,7 +92,7 @@ class AppState {
   }
 
   getTemplateButtonName(node) {
-    const fullTemplateButtonRegex = /^([\w\s]+)\s#use-template:([0-9a-fA-F]{12}$)/;
+    const fullTemplateButtonRegex = /^(.+)\s#use-template:([0-9a-fA-F]{12}$)/;
     // I could probably do this in one regex pattern, but didn't have the energy.
     const partialTemplateButtonRegex = /^\s?#use-template:([0-9a-fA-F]{12}$)/;
     let matches;

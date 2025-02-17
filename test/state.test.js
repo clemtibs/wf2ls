@@ -183,6 +183,10 @@ describe('state.js', () => {
       id: 'b52a06a5-6b09-4bcc-91c7-f71ce5e0416c',
       name: 'My template button #use-template:b85be3ef7907'
     });
+    let templateButtonNodeWithAmpersat = makeNode({
+      id: '6b4d6f75-d513-4ea5-bb85-e2059c2ab05e',
+      name: '@My template button #use-template:b85be3ef7907'
+    });
     it('Return description and template name seperately when button has description', () => {
       testState.registerTemplateName(templateNode);
       const [ tDesc, tName ] = testState.getTemplateButtonName(templateButtonNode);
@@ -206,6 +210,12 @@ describe('state.js', () => {
       testState.registerTemplateName(templateNode);
       [ tDesc, tName ] = testState.getTemplateButtonName(templateButtonNode);
       expect(tDesc).to.deep.equal('Some kind of template');
+      expect(tName).to.deep.equal('Some kind of template');
+    });
+    it('Work correctly when buttons have ampersat in the name', () => {
+      testState.registerTemplateName(templateNode);
+      const [ tDesc, tName ] = testState.getTemplateButtonName(templateButtonNodeWithAmpersat);
+      expect(tDesc).to.deep.equal('@My template button');
       expect(tName).to.deep.equal('Some kind of template');
     });
   });

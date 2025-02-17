@@ -399,7 +399,10 @@ describe('node.js', () => {
     });
     describe('nodeIsTemplate()', () => {
       it('should detect template nodes', () => {
-        let testNodePass = {'name': 'Some name text #template'}
+        let testNodePass;
+        testNodePass = {'name': 'Some name text #template'}
+        expect(nodeIsTemplate(testNodePass)).to.be.true;
+        testNodePass = {'name': 'Some @name text #template'}
         expect(nodeIsTemplate(testNodePass)).to.be.true;
         let testNodeFail = {'name': 'Some name text'}
         expect(nodeIsTemplate(testNodeFail)).to.be.false;
@@ -407,7 +410,12 @@ describe('node.js', () => {
     });
     describe('nodeIsTemplateButton()', () => {
       it('should detect template button nodes', () => {
-        let testNodePass = {'name': 'Some name text #use-template:c780314ecc28'}
+        let testNodePass;
+        testNodePass = {'name': 'Some name text #use-template:c780314ecc28'}
+        expect(nodeIsTemplateButton(testNodePass)).to.be.true;
+        testNodePass = {'name': 'Some @name text #use-template:c780314ecc28'}
+        expect(nodeIsTemplateButton(testNodePass)).to.be.true;
+        testNodePass = {'name': 'Some [[@/name]] text #use-template:c780314ecc28'}
         expect(nodeIsTemplateButton(testNodePass)).to.be.true;
         let testNodeFail = {'name': 'Some name text'}
         expect(nodeIsTemplateButton(testNodeFail)).to.be.false;

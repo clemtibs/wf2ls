@@ -300,6 +300,10 @@ describe('main.js', () => {
         runAcceptTest('templates');
         expect(testResults.getPage("default")).to.equal(file(successTestOutput));
       });
+      it('Template buttons with ampersat (@)', () => {
+        runAcceptTest('templates-with-ampersat');
+        expect(testResults.getPage("default")).to.equal(file(successTestOutput));
+      });
     });
     describe('Multiple Pages', () => {
       it('Single new page with new page tag in name', () => {

@@ -1,0 +1,55 @@
+[{
+  "id": "0082b0bd-d1bf-48cf-984b-32a6b316bb73",
+  "nm": "Template Buttons with Ampersat",
+  "ct": 382198408,
+  "metadata": {},
+  "lm": 382198415,
+  "ch": [
+      {
+          "id": "70a00bfe-7de4-44b1-9cd8-cd9952644a73",
+          "nm": "This is a template #template",
+          "ct": 382198379,
+          "metadata": {},
+          "lm": 382198411,
+          "ch": [
+              {
+                  "id": "0167f04e-8993-4a7e-818b-288525d88ca5",
+                  "nm": "with",
+                  "ct": 382198391,
+                  "metadata": {},
+                  "lm": 382198393
+              },
+              {
+                  "id": "0167f04e-8993-4a7e-818b-288525d88ca5",
+                  "nm": "some",
+                  "ct": 382198393,
+                  "metadata": {},
+                  "lm": 382198395
+              },
+              {
+                  "id": "0167f04e-8993-4a7e-818b-288525d88ca5",
+                  "nm": "children",
+                  "ct": 382198395,
+                  "metadata": {},
+                  "lm": 382198397
+              }
+          ]
+      },
+      {
+          "id": "0167f04e-8993-4a7e-818b-288525d88ca5",
+          "nm": "This template button is for @everyone #use-template:cd9952644a73",
+          "ct": 382198414,
+          "metadata": {},
+          "lm": 382198430,
+          "ch": [
+              {
+                  "id": "0167f04e-8993-4a7e-818b-288525d88ca5",
+                  "nm": "",
+                  "ct": 382198416,
+                  "metadata": {},
+                  "lm": 382198416
+              }
+          ]
+      }
+  ]
+}]
