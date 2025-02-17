@@ -80,7 +80,7 @@ const turndownSpanPluginRules = {
     filter: function (node, options) {
       return (
         node.nodeName === 'SPAN' &&
-        node.getAttribute('class').split(" ")[1].split("-")[0] === 'c'
+        node.getAttribute('class')?.split(" ")[1]?.split("-")[0] === 'c'
       )
     },
     replacement: function (content, node, options) {
@@ -92,7 +92,7 @@ const turndownSpanPluginRules = {
     filter: function (node, options) {
       return (
         node.nodeName === 'SPAN' &&
-        node.getAttribute('class').split(" ")[1].split("-")[0] === 'bc'
+        node.getAttribute('class')?.split(" ")[1]?.split("-")[0] === 'bc'
       )
     },
     replacement: function (content, node, options) {
@@ -109,7 +109,7 @@ const turndownSpanDefaultRules = {
     filter: function (node, options) {
       return (
         node.nodeName === 'SPAN' &&
-        node.getAttribute('class').split(" ")[1].split("-")[0] === 'c'
+        node.getAttribute('class')?.split(" ")[1]?.split("-")[0] === 'c'
       )
     },
     replacement: function (content, node, options) {
@@ -152,7 +152,7 @@ const turndownSpanDefaultRules = {
     filter: function (node, options) {
       return (
         node.nodeName === 'SPAN' &&
-        node.getAttribute('class').split(" ")[1].split("-")[0] === 'bc'
+        node.getAttribute('class')?.split(" ")[1]?.split("-")[0] === 'bc'
       )
     },
     replacement: function (content, node, options) {

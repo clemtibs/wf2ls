@@ -1,0 +1,3 @@
+- Malformed Highlight Spans
+  - span with zero attributes
+  - span with one class

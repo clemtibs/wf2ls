@@ -1,0 +1,23 @@
+[{
+  "id": "a6a02ea6-654f-41a9-a3ce-1c286be4aa75",
+  "nm": "Malformed Highlight Spans",
+  "ct": 382967477,
+  "metadata": {},
+  "lm": 382967531,
+  "ch": [
+      {
+        "id": "fb6336db-479f-406a-8ff7-fb0ab64354d1",
+        "nm": "<span>span with zero attributes</span>",
+        "ct": 382967477,
+        "metadata": {},
+        "lm": 382967531
+      },
+      {
+        "id": "10e5855f-9150-4668-9efe-b8013a920d36",
+        "nm": "<span class=\"one\">span with one class</span>",
+        "ct": 382967477,
+        "metadata": {},
+        "lm": 382967531
+      }
+  ]
+}]

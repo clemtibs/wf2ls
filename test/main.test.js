@@ -48,6 +48,9 @@ describe('main.js', () => {
       expect(testResults).to.be.an.instanceOf(AppState);
     });
   });
+  // Unlike all the other tests which are defined inside their respective
+  // files, these acceptance tests require actual json source files in the
+  // 'test/acceptance' directory.
   describe('Acceptance tests', () => {
     describe('Basic Structure', () => {
       it('Empty Note Name is skipped', () => {
@@ -143,6 +146,14 @@ describe('main.js', () => {
             const testInputData = readJsonFile(inputFileName);
             testConfig.set("textColorMarkupMode", "plugin");
             testResults = main(testState, testConfig, testInputData);      
+            expect(testResults.getPage("default")).to.equal(file(successTestOutput));
+          });
+          it('Handles malformed spans with zero class membership or missing classes', () => {
+            // A variety of malformed spans were found in some of my data. These
+            // are bugs from Workflowy. These were color highlight spans that
+            // either had zero class membership at all, or that were missing the
+            // "colored" class.
+            runAcceptTest('malformed_highlight_spans');
             expect(testResults.getPage("default")).to.equal(file(successTestOutput));
           });
         });
