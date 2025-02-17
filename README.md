@@ -6,13 +6,11 @@
   </a>
 </h1>
 
+<div align="center">
+
 ![WF2LS Logo](./logo.png)
 
-<p align="center">
-  <a href="#usage">Usage</a> |
-  <a href="#configuration">Configuration</a> |
-  <a href="#background">Background</a>
-</p>
+</div>
 
 <div align="center">
 
@@ -27,6 +25,12 @@
 ![Downloads](https://img.shields.io/github/downloads/clemtibs/wf2ls/total.svg?color=D25584)
 
 </div>
+
+<p align="center">
+  <a href="#usage">Usage</a> |
+  <a href="#configuration">Configuration</a> |
+  <a href="#background">Background</a>
+</p>
 
 This tool takes Workflowy backup files (the Dropbox sync files with *.backup
 suffixes), and convert them into LogSeq friendly markdown files.  It uses
