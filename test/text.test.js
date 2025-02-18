@@ -6,6 +6,7 @@ import {
   indentLines,
   extractUrlFromMd,
   linkifyAmpersatTags,
+  linkifyTelephoneNumbers,
   linkifyUrls,
   makeBlockNamePrefix,
   makeBlockNotePrefix,
@@ -120,6 +121,20 @@ describe('text.js', () => {
       let testUrl = 'www.example.com';
       let testUrlPass = '<a href="https://' + testUrl + '">' + testUrl + '</a>';
       expect(linkifyUrls(testUrl)).to.deep.equal(testUrlPass);
+    });
+  });
+  describe('linkifyTelephoneNumbers()', () => {
+    it('US Style full with hyphens', () => {
+      let testNum = '+1-800-555-5555';
+      let testNumResult = '+18005555555';
+      let testNumPass = `<a href="tel:${testNumResult}">${testNum}</a>`;
+      expect(linkifyTelephoneNumbers(testNum)).to.deep.equal(testNumPass);
+    });
+    it('US Style full with spaces', () => {
+      let testNum = '+1 800 555 5555';
+      let testNumResult = '+18005555555';
+      let testNumPass = `<a href="tel:${testNumResult}">${testNum}</a>`;
+      expect(linkifyTelephoneNumbers(testNum)).to.deep.equal(testNumPass);
     });
   });
   describe('makeBlockNamePrefix()', () => {

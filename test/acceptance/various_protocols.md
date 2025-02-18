@@ -1,5 +1,5 @@
 - Various protocols
   - Email
-    [test@example.com](mailto:test@example.com)
+    <a href="mailto:test@example.com">test@example.com</a>
   - Telephone
-    1-800-555-5555
+    <a href="tel:+18005555555">+1-800-555-5555</a>

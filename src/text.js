@@ -4,6 +4,7 @@
 
 import * as linkify from 'linkifyjs';
 import linkifyHtml from 'linkify-html';
+import { findPhoneNumbersInText } from 'libphonenumber-js'
 
 /*
  * @params:
@@ -55,7 +56,22 @@ const linkifyAmpersatTags = (content) => {
   return modContent;
 }
 
-const linkTextToUrl = (text) => {
+const linkifyTelephoneNumbers = (origText) => {
+  // courtesy of: https://github.com/nfrasser/linkifyjs/issues/133#issuecomment-707170796
+  // const telRegex = /^(?:(?:\(?(?:00|\+)([1-4]\d\d|[1-9]\d*)\)?)[\-\.\ \\\/]?)?((?:\(?\d{1,}\)?[\-\.\ \\\/]?)+)(?:[\-\.\ \\\/]?(?:#|ext\.?|extension|x)[\-\.\ \\\/]?(\d+))?$/i;
+  let newText = origText
+  const getPhoneNum = findPhoneNumbersInText(newText);
+
+  if (newText?.length) {
+    getPhoneNum.forEach((match) => {
+      const pattern = origText.substring(match.startsAt, match.endsAt);
+      newText = newText.replace(pattern, `<a href="tel:${match.number.number}">${pattern}</a>`);
+    });
+  }
+  return newText;
+}
+
+const linkifyUrls = (text) => {
   const linkifyOptions = {
     defaultProtocol: 'https'
   };
@@ -146,6 +162,7 @@ export {
   indentLines,
   extractUrlFromMd,
   linkifyAmpersatTags,
+  linkifyTelephoneNumbers,
   linkifyUrls,
   makeBlockNamePrefix,
   makeBlockNotePrefix,

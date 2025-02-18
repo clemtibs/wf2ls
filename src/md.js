@@ -32,6 +32,7 @@ import {
   extractUrlFromMd,
   indentLines,
   linkifyAmpersatTags,
+  linkifyTelephoneNumbers,
   linkifyUrls,
   tagInText,
   replacePageRefWithUuid,
@@ -268,6 +269,29 @@ const turndownDefaultCustomRules = {
         }
       }
     }
+  },
+  emailAddresses: {
+    filter: function (node, options) {
+      return (
+        node.nodeName === 'A' &&
+        node.getAttribute('href').includes('mailto:')
+      )
+    },
+    replacement: function (content, node, options) {
+      return `<a href="mailto:${content}">${content}</a>`;
+    }
+  },
+  telephoneNumbers: {
+    filter: function (node, options) {
+      return (
+        node.nodeName === 'A' &&
+        node.getAttribute('href').includes('tel:')
+      )
+    },
+    replacement: function (content, node, options) {
+      let num = content.replaceAll('-','');
+      return `<a href="tel:${num}">${content}</a>`;
+    }
   }
 }
 
@@ -322,6 +346,10 @@ const convertToMd = (state, conf, pageName, nodes, nNodes, indentLvl) => {
       // Convert plain text URLs to html
       n.name = linkifyUrls(n.name);
       n.note = linkifyUrls(n.note);
+
+      // Convert plain text phone numbers to html
+      n.name = linkifyTelephoneNumbers(n.name);
+      n.note = linkifyTelephoneNumbers(n.note);
 
       // Convert all html into markdown
       n.name = convertHtmlToMd(conf, n.name);
