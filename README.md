@@ -15,13 +15,13 @@
 <div align="center">
 
 ![status-alpha](https://img.shields.io/badge/status-alpha-e89829)
-![version](https://img.shields.io/badge/version-0.23.0-5895C9)
+![version](https://img.shields.io/badge/version-v0.24.0-5895C9)
 [![release](https://img.shields.io/github/v/release/clemtibs/wf2ls?color=5895C9)](https://github.com/clemtibs/wf2ls/releases)
 
 </div>
 <div align="center">
 
-[![License](https://img.shields.io/badge/License-MIT-blue)](#license)
+[![License](https://img.shields.io/badge/license-MIT-blue)](#license)
 ![Downloads](https://img.shields.io/github/downloads/clemtibs/wf2ls/total.svg?color=D25584)
 
 </div>
