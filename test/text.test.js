@@ -71,13 +71,21 @@ describe('text.js', () => {
     });
   });
   describe('linkifyAmpersatTags()', () => {
-    it('Turns @Tag into a page reference', () => {
-      let testTag = '@JohnDoe';
-      let testTagResult = '[[@/JohnDoe]]';
+    let testTag;
+    let testTagResult;
+    it('Turns @Tag into a page reference at string start/end', () => {
+      testTag = '@JohnDoe';
+      testTagResult = '[[@/JohnDoe]]';
       expect(linkifyAmpersatTags(testTag)).to.deep.equal(testTagResult);
-
+    });
+    it('Works with leading/ending whitespace', () => {
       testTag = ' @JohnDoe '; // <-- whitespace
       testTagResult = ' [[@/JohnDoe]] ';
+      expect(linkifyAmpersatTags(testTag)).to.deep.equal(testTagResult);
+    });
+    it('Does not catch emails', () => {
+      testTag = 'someone@example.com'; // <-- email
+      testTagResult = 'someone@example.com';
       expect(linkifyAmpersatTags(testTag)).to.deep.equal(testTagResult);
     });
     it('Works with multiple examples and lines', () => {

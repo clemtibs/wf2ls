@@ -24,7 +24,7 @@ const indentLines = (content, prefix) => {
 }
 
 const linkifyAmpersatTags = (content) => {
-  const ampRegex = /@([a-zA-z]+)/g;
+  const ampRegex = /(?<=\s|^)@([a-zA-Z]+)/g;
   let modContent = content;
 
   let matches = content.matchAll(ampRegex);

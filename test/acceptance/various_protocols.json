@@ -1,0 +1,25 @@
+[{
+  "id": "2949d196-9df4-33e5-dc14-b6400dcf26a9",
+  "nm": "Various protocols",
+  "ct": 387785957,
+  "metadata": {},
+  "lm": 387785971,
+  "ch": [
+      {
+          "id": "3db9c2d9-324e-c598-cf6e-0cc12323dfa6",
+          "nm": "Email",
+          "ct": 387785971,
+          "metadata": {},
+          "no": "test@example.com",
+          "lm": 387785984
+      },
+      {
+          "id": "36f8870a-5c5d-9e3c-4123-fe0c9390b8d8",
+          "nm": "Telephone",
+          "ct": 387785986,
+          "metadata": {},
+          "no": "1-800-555-5555",
+          "lm": 387786034
+      }
+  ]
+}]

@@ -337,6 +337,10 @@ describe('main.js', () => {
     describe.skip('Journals', () => {
     });
     describe('Anomalies', () => {
+      it('Email Addresses and Telephone Numbers', () => {
+        runAcceptTest('various_protocols');
+        expect(testResults.getPage("default")).to.equal(file(successTestOutput));
+      });
       it.skip('Inline Code Ignores empty children', () => {
         runAcceptTest('inline_code');
         expect(testResults.getPage("default")).to.equal(file(successTestOutput));
