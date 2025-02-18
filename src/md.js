@@ -32,7 +32,7 @@ import {
   extractUrlFromMd,
   indentLines,
   linkifyAmpersatTags,
-  linkTextToUrl,
+  linkifyUrls,
   tagInText,
   replacePageRefWithUuid,
   stripTag,
@@ -319,11 +319,11 @@ const convertToMd = (state, conf, pageName, nodes, nNodes, indentLvl) => {
       let marker = "";
       let template = "";
 
-      // Convert any website references in plain text to proper html
-      n.name = linkTextToUrl(n.name);
-      n.note = linkTextToUrl(n.note);
+      // Convert plain text URLs to html
+      n.name = linkifyUrls(n.name);
+      n.note = linkifyUrls(n.note);
 
-      // Convert html into markdown
+      // Convert all html into markdown
       n.name = convertHtmlToMd(conf, n.name);
       n.note = convertHtmlToMd(conf, n.note);
 

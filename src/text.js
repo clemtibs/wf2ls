@@ -1,6 +1,7 @@
 /* Text Tools
  *
  */
+
 import * as linkify from 'linkifyjs';
 import linkifyHtml from 'linkify-html';
 
@@ -21,6 +22,23 @@ const indentLines = (content, prefix) => {
   });
   output = '\n' + prefixedLines.join(`\n`);
   return output;
+}
+
+const extractUrlFromMd = (str) => {
+  /* Courtesy of: https://davidwells.io/snippets/regex-match-markdown-links
+  *
+  /* Match only links that are fully qualified with https */
+  // const fullLinkOnlyRegex = /^\[([\w\s\d]+)\]\((https?:\/\/[\w\d./?=#]+)\)$/
+  /* Match full links and relative paths */
+  // const regex = /^\[([\w\s\d]+)\]\(((?:\/|https?:\/\/)[\w\d./?=#]+)\)$/
+  const regex = /\[([^\]]+)\]\(([^)]+)\)/;
+  const match = str.match(regex) ?? [];
+  let result = {
+    full: match[0],
+    text: match[1],
+    url: match[2]
+  }
+  return result;
 }
 
 const linkifyAmpersatTags = (content) => {
@@ -44,6 +62,14 @@ const linkTextToUrl = (text) => {
   return linkifyHtml(text, linkifyOptions);
 }
 
+const makeBlockNamePrefix = (indentSize, indentLvl) => {
+  return " ".repeat(indentSize * indentLvl) + "- ";
+}
+
+const makeBlockNotePrefix = (indentSize, indentLvl) => {
+  return " ".repeat(indentSize * indentLvl) + "  ";
+}
+
 const mdLinkInText = (str) => {
   const mdLinkRegex = /\[([^\]]+)\]\(([^)]+)\)/g;
   if (mdLinkRegex.test(str)) {
@@ -51,28 +77,6 @@ const mdLinkInText = (str) => {
   } else {
     return false;
   }
-}
-
-const stripMdLink = (str) => {
-  const mdLinkRegex = /\[([^\]]+)\]\(([^)]+)\)/g;
-  return str.replace(mdLinkRegex, () => { return '' })
-}
-
-const extractUrlFromMd = (str) => {
-  /* Courtesy of: https://davidwells.io/snippets/regex-match-markdown-links
-  *
-  /* Match only links that are fully qualified with https */
-  // const fullLinkOnlyRegex = /^\[([\w\s\d]+)\]\((https?:\/\/[\w\d./?=#]+)\)$/
-  /* Match full links and relative paths */
-  // const regex = /^\[([\w\s\d]+)\]\(((?:\/|https?:\/\/)[\w\d./?=#]+)\)$/
-  const regex = /\[([^\]]+)\]\(([^)]+)\)/;
-  const match = str.match(regex) ?? [];
-  let result = {
-    full: match[0],
-    text: match[1],
-    url: match[2]
-  }
-  return result;
 }
 
 const replacePageRefWithUuid = (state, str) => {
@@ -98,16 +102,21 @@ const replacePageRefWithUuid = (state, str) => {
   return modStr
 }
 
+const stripMdLink = (str) => {
+  const mdLinkRegex = /\[([^\]]+)\]\(([^)]+)\)/g;
+  return str.replace(mdLinkRegex, () => { return '' })
+}
+
+const stripTag = (tag, str) => {
+  return (str ?? '').replace(tag, '');
+}
+
 const tagInText = (tag, str) => {
   if (tag === '') {
     return false
   } else {
     return (str ?? '').includes(tag);
   }
-}
-
-const stripTag = (tag, str) => {
-  return (str ?? '').replace(tag, '');
 }
 
 const toPageLink = (str) => {
@@ -117,14 +126,6 @@ const toPageLink = (str) => {
     let trimmed = str.trim();
     return `[[ ${trimmed} ]]` 
   }
-}
-
-const makeBlockNamePrefix = (indentSize, indentLvl) => {
-  return " ".repeat(indentSize * indentLvl) + "- ";
-}
-
-const makeBlockNotePrefix = (indentSize, indentLvl) => {
-  return " ".repeat(indentSize * indentLvl) + "  ";
 }
 
 /**
@@ -142,16 +143,16 @@ const makeBlockNotePrefix = (indentSize, indentLvl) => {
 // }
 
 export {
-  extractUrlFromMd,
   indentLines,
+  extractUrlFromMd,
   linkifyAmpersatTags,
-  linkTextToUrl,
-  tagInText,
+  linkifyUrls,
+  makeBlockNamePrefix,
+  makeBlockNotePrefix,
+  mdLinkInText,
   replacePageRefWithUuid,
   stripMdLink,
   stripTag,
-  toPageLink,
-  mdLinkInText,
-  makeBlockNamePrefix,
-  makeBlockNotePrefix
+  tagInText,
+  toPageLink
 };

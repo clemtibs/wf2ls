@@ -3,31 +3,21 @@ import { expect } from 'chai';
 import { makeNode } from '../src/node.js';
 import { AppState } from '../src/state.js';
 import {
-  extractUrlFromMd,
   indentLines,
+  extractUrlFromMd,
   linkifyAmpersatTags,
-  linkTextToUrl,
-  tagInText,
+  linkifyUrls,
+  makeBlockNamePrefix,
+  makeBlockNotePrefix,
+  mdLinkInText,
   replacePageRefWithUuid,
   stripMdLink,
   stripTag,
-  toPageLink,
-  mdLinkInText,
-  makeBlockNamePrefix,
-  makeBlockNotePrefix
+  tagInText,
+  toPageLink
 } from '../src/text.js';
 
 describe('text.js', () => {
-  describe('extractUrlFromMd()', () => {
-    it('Extracts URL info from markdown link', () => {
-      let testStr = '[Example.com](https://www.example.com)' 
-      let testResult = extractUrlFromMd(testStr)
-
-      expect(testResult.full).to.equal(testStr);
-      expect(testResult.text).to.equal('Example.com');
-      expect(testResult.url).to.equal('https://www.example.com');
-    });
-  });
   describe('indentLines()', () => {
     it('Applies only a newline to node note with empty prefix', () => {
       let testContentPass = "Line 1\nLine 2\nLine 3"
@@ -70,6 +60,16 @@ describe('text.js', () => {
       expect(indentLines(testContentPassFour, '')).to.deep.equal(testContentPassResult);
     });
   });
+  describe('extractUrlFromMd()', () => {
+    it('Extracts URL info from markdown link', () => {
+      let testStr = '[Example.com](https://www.example.com)' 
+      let testResult = extractUrlFromMd(testStr)
+
+      expect(testResult.full).to.equal(testStr);
+      expect(testResult.text).to.equal('Example.com');
+      expect(testResult.url).to.equal('https://www.example.com');
+    });
+  });
   describe('linkifyAmpersatTags()', () => {
     let testTag;
     let testTagResult;
@@ -100,26 +100,26 @@ describe('text.js', () => {
       expect(linkifyAmpersatTags(testContentPass)).to.deep.equal(testContentPassResult);
     });
   });
-  describe('linkTextToUrl()', () => {
+  describe('linkifyUrls()', () => {
     it('Unencrypted link', () => {
       let testUrl = 'http://www.example.com';
       let testUrlPass = '<a href="' + testUrl + '">' + testUrl + '</a>';
-      expect(linkTextToUrl(testUrl)).to.deep.equal(testUrlPass);
+      expect(linkifyUrls(testUrl)).to.deep.equal(testUrlPass);
     });
     it('Encrypted link', () => {
       let testUrl = 'https://www.example.com';
       let testUrlPass = '<a href="' + testUrl + '">' + testUrl + '</a>';
-      expect(linkTextToUrl(testUrl)).to.deep.equal(testUrlPass);
+      expect(linkifyUrls(testUrl)).to.deep.equal(testUrlPass);
     });
     it('Missing subdomain', () => {
       let testUrl = 'https://example.com';
       let testUrlPass = '<a href="' + testUrl + '">' + testUrl + '</a>';
-      expect(linkTextToUrl(testUrl)).to.deep.equal(testUrlPass);
+      expect(linkifyUrls(testUrl)).to.deep.equal(testUrlPass);
     });
     it('Missing protocol', () => {
       let testUrl = 'www.example.com';
       let testUrlPass = '<a href="https://' + testUrl + '">' + testUrl + '</a>';
-      expect(linkTextToUrl(testUrl)).to.deep.equal(testUrlPass);
+      expect(linkifyUrls(testUrl)).to.deep.equal(testUrlPass);
     });
   });
   describe('makeBlockNamePrefix()', () => {
