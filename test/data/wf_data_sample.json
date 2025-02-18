@@ -125,14 +125,14 @@
                 "nm": "Todo",
                 "ct": 381250423,
                 "metadata": {},
-                "lm": 381250434,
+                "lm": 385900859,
                 "ch": [
                     {
                         "id": "dfe72b02-b168-6f0b-2517-e31f21e3cb60",
                         "nm": "A TODO displayed as a bullet",
                         "ct": 381250433,
                         "metadata": {},
-                        "lm": 381250451
+                        "lm": 385900859
                     },
                     {
                         "id": "19d9b12f-b7b0-de98-fc27-bce1dd38e081",
@@ -141,7 +141,7 @@
                         "metadata": {
                             "layoutMode": "todo"
                         },
-                        "lm": 381250468
+                        "lm": 385900859
                     }
                 ]
             },
@@ -175,7 +175,8 @@
                 "nm": "Today",
                 "ct": 381250492,
                 "metadata": {},
-                "lm": 381250544,
+                "no": " #waiting | #urgent | #important | #contact\n@errand\n#header \n",
+                "lm": 385900936,
                 "ch": [
                     {
                         "id": "8ec5818c-7c4b-2916-e2b2-38d39c887b53",
@@ -192,6 +193,56 @@
                             "layoutMode": "todo"
                         },
                         "lm": 381250544
+                    },
+                    {
+                        "id": "14f8d767-30a8-c30c-c1d6-53418b15ee36",
+                        "nm": "A #waiting task",
+                        "ct": 385901254,
+                        "metadata": {
+                            "layoutMode": "todo"
+                        },
+                        "no": "#waiting ",
+                        "lm": 385901291
+                    },
+                    {
+                        "id": "827fffd6-5852-d6e7-7309-ffafa7e3080a",
+                        "nm": "An #urgent task",
+                        "ct": 385901276,
+                        "metadata": {
+                            "layoutMode": "todo"
+                        },
+                        "no": "#urgent ",
+                        "lm": 385901300
+                    },
+                    {
+                        "id": "30912532-e4cf-cda1-deb7-a4b0eab11ad0",
+                        "nm": "An #important task",
+                        "ct": 385901301,
+                        "metadata": {
+                            "layoutMode": "todo"
+                        },
+                        "no": "#important ",
+                        "lm": 385901307
+                    },
+                    {
+                        "id": "2ea08fd2-ee50-4ac9-0ad3-ce159f7ef98a",
+                        "nm": "A #contact task",
+                        "ct": 385901311,
+                        "metadata": {
+                            "layoutMode": "todo"
+                        },
+                        "no": "#contact ",
+                        "lm": 385901325
+                    },
+                    {
+                        "id": "5d8a1f74-e3f2-1d51-74ae-6032109349e5",
+                        "nm": "An @errand ",
+                        "ct": 385901332,
+                        "metadata": {
+                            "layoutMode": "todo"
+                        },
+                        "no": "@errand \n",
+                        "lm": 385901342
                     }
                 ]
             },
@@ -200,14 +251,16 @@
                 "nm": "Scheduled",
                 "ct": 381250518,
                 "metadata": {},
-                "lm": 381250546,
+                "no": "#header #scheduled ",
+                "lm": 385900917,
                 "ch": [
                     {
                         "id": "4a9dd735-4ca6-cb24-7488-d097de98671a",
                         "nm": "A TODO displayed as a bullet",
                         "ct": 381250546,
                         "metadata": {},
-                        "lm": 381250546
+                        "no": "#scheduled <time startYear=\"2024\" startMonth=\"10\" startDay=\"31\">Thu, Oct 31, 2024</time> ",
+                        "lm": 385900723
                     },
                     {
                         "id": "bcfcc19e-4eef-e632-8077-9d7ce1a8a91d",
@@ -216,7 +269,8 @@
                         "metadata": {
                             "layoutMode": "todo"
                         },
-                        "lm": 381250546
+                        "no": "#scheduled <time startYear=\"2024\" startMonth=\"10\" startDay=\"31\">Thu, Oct 31, 2024</time> ",
+                        "lm": 385900732
                     }
                 ]
             },
@@ -225,7 +279,8 @@
                 "nm": "Recurring",
                 "ct": 381250528,
                 "metadata": {},
-                "lm": 381250549,
+                "no": "#daily | #weekly | #monthly | #quarterly | #biannually | #annually\n#header #recurring \n",
+                "lm": 385901217,
                 "ch": [
                     {
                         "id": "9a404828-4f22-2ce6-accc-6f2d0b1b40ff",
@@ -242,6 +297,46 @@
                             "layoutMode": "todo"
                         },
                         "lm": 381250549
+                    },
+                    {
+                        "id": "0ae41011-3f72-d989-8272-20d588f5d924",
+                        "nm": "Recurring Weekly",
+                        "ct": 385901010,
+                        "metadata": {
+                            "layoutMode": "todo"
+                        },
+                        "no": "#important\n#recurring #weekly <time startYear=\"2023\" startMonth=\"7\" startDay=\"9\">Sun, Jul 9, 2023</time> \n",
+                        "lm": 385901108
+                    },
+                    {
+                        "id": "1dfd28d9-6831-efd9-6e0e-7e310ad59f38",
+                        "nm": "Recurring Monthly",
+                        "ct": 385901010,
+                        "metadata": {
+                            "layoutMode": "todo"
+                        },
+                        "no": "#urgent\n#recurring #monthly <time startYear=\"2023\" startMonth=\"8\" startDay=\"1\">Tue, Aug 1, 2023</time> ",
+                        "lm": 385901114
+                    },
+                    {
+                        "id": "ebf6d441-560e-df3d-e2e6-5971c85f3aed",
+                        "nm": "Recurring Quarterly",
+                        "ct": 385901010,
+                        "metadata": {
+                            "layoutMode": "todo"
+                        },
+                        "no": "#important #urgent\n#recurring #quarterly <time startYear=\"2023\" startMonth=\"8\" startDay=\"1\">Tue, Aug 1, 2023</time> ",
+                        "lm": 385901123
+                    },
+                    {
+                        "id": "3dae635b-86f1-9988-cde4-132bc4668ead",
+                        "nm": "Recurring Annually",
+                        "ct": 385901010,
+                        "metadata": {
+                            "layoutMode": "todo"
+                        },
+                        "no": "\n#recurring #annually <time startYear=\"2024\" startMonth=\"3\" startDay=\"1\">Fri, Mar 1, 2024</time>\n",
+                        "lm": 385901136
                     }
                 ]
             },
@@ -250,14 +345,16 @@
                 "nm": "Unscheduled",
                 "ct": 381250524,
                 "metadata": {},
-                "lm": 381250551,
+                "no": "#waiting | #urgent | #important | #contact\n#header #unscheduled \n",
+                "lm": 385900961,
                 "ch": [
                     {
                         "id": "b5180bbc-9443-4479-df1b-d7d61133ea44",
                         "nm": "A TODO displayed as a bullet",
                         "ct": 381250551,
                         "metadata": {},
-                        "lm": 381250551
+                        "no": "#unscheduled\n",
+                        "lm": 385901175
                     },
                     {
                         "id": "de4e1172-c57f-a93d-e59f-8f79c454ae27",
@@ -266,7 +363,8 @@
                         "metadata": {
                             "layoutMode": "todo"
                         },
-                        "lm": 381250551
+                        "no": "#unscheduled\n",
+                        "lm": 385901180
                     }
                 ]
             }
@@ -347,7 +445,7 @@
                                 "9bd9de7e-7b68-cfb6-94c7-8a7df33a1bbb": true
                             }
                         },
-                        "lm": 386591345
+                        "lm": 386598899
                     }
                 ]
             },
@@ -356,12 +454,12 @@
                 "nm": "A mirror to the original",
                 "ct": 386591281,
                 "metadata": {},
-                "lm": 386591322,
+                "lm": 386598102,
                 "ch": [
                     {
                         "id": "66233a98-cfe5-68fc-23a0-62ab4e7ac61c",
                         "nm": "",
-                        "ct": 386591322,
+                        "ct": 386598104,
                         "metadata": {
                             "mirror": {
                                 "originalId": "231adbec-4bee-b626-7a93-4d3b629bcd8e",
@@ -370,7 +468,7 @@
                             "originalId": "231adbec-4bee-b626-7a93-4d3b629bcd8e",
                             "isVirtualRoot": true
                         },
-                        "lm": 386591322
+                        "lm": 386598104
                     }
                 ]
             },
@@ -508,21 +606,35 @@
         ]
     },
     {
-        "id": "a93f8e99-34d8-f018-9871-ec29b6cdaae0",
+        "id": "1cc37591-b6f8-1516-c47d-0ed3a7b2fdc4",
         "nm": "Code",
-        "ct": 380043924,
+        "ct": 384857533,
         "metadata": {},
-        "no": "<code>Code is here</code>\n",
-        "lm": 380983514,
+        "no": "<code>Code is here</code> ",
+        "lm": 384857551
+    },
+    {
+        "id": "2949d196-9df4-33e5-dc14-b6400dcf26a9",
+        "nm": "Various protocols",
+        "ct": 387785957,
+        "metadata": {},
+        "lm": 387785971,
         "ch": [
             {
-                "id": "150cae8f-7050-a6ea-ef42-dced78c7874d",
-                "nm": "",
-                "ct": 380044692,
-                "metadata": {
-                    "isReferencesRoot": true
-                },
-                "lm": 380044692
+                "id": "3db9c2d9-324e-c598-cf6e-0cc12323dfa6",
+                "nm": "Email",
+                "ct": 387785971,
+                "metadata": {},
+                "no": "test@example.com",
+                "lm": 387785984
+            },
+            {
+                "id": "36f8870a-5c5d-9e3c-4123-fe0c9390b8d8",
+                "nm": "Telephone",
+                "ct": 387785986,
+                "metadata": {},
+                "no": "1-800-555-5555",
+                "lm": 387786034
             }
         ]
     },
@@ -657,7 +769,7 @@
         "nm": "Bullet Types",
         "ct": 380045673,
         "metadata": {},
-        "lm": 382967526,
+        "lm": 384959671,
         "ch": [
             {
                 "id": "5cd32b08-fcb2-e12b-f18e-118ac0fe97ff",
@@ -710,7 +822,7 @@
                 "metadata": {
                     "layoutMode": "p"
                 },
-                "lm": 380045824
+                "lm": 384956972
             },
             {
                 "id": "3a6d5b12-4c9c-82ea-0ddb-c749166d1a16",
@@ -739,13 +851,13 @@
             },
             {
                 "id": "b88039b2-ad5f-33f4-b224-6736a88e80e0",
-                "nm": "Quote\n",
+                "nm": "Quote",
                 "ct": 380092180,
                 "metadata": {
                     "layoutMode": "quote-block"
                 },
                 "no": "Note text should not be in the quote",
-                "lm": 380092198
+                "lm": 384959183
             },
             {
                 "id": "e5260b27-0616-8462-b4ca-584a780d7403",
@@ -769,160 +881,160 @@
             {
                 "id": "7705bc8e-2fde-8b0d-9bcc-0731d9540795",
                 "nm": "Color highlights",
-                "ct": 382967477,
+                "ct": 385554022,
                 "metadata": {},
-                "lm": 382967531,
+                "lm": 385821886,
                 "ch": [
                     {
                         "id": "5b71c1a4-6635-414c-bffb-bed5c0751837",
                         "nm": "<span class=\"colored bc-red\">red highlight</span>",
-                        "ct": 382967477,
+                        "ct": 385821885,
                         "metadata": {},
-                        "lm": 382967531
+                        "lm": 385821928
                     },
                     {
                         "id": "e273526d-68b8-49b8-b5be-2135c6d71c73",
                         "nm": "<span class=\"colored bc-orange\">orange highlight</span>",
-                        "ct": 382967477,
+                        "ct": 385821895,
                         "metadata": {},
-                        "lm": 382967531
+                        "lm": 385821932
                     },
                     {
                         "id": "020f7194-290a-4f98-899d-181d00481088",
                         "nm": "<span class=\"colored bc-yellow\">yellow highlight</span>",
-                        "ct": 382967477,
+                        "ct": 385821904,
                         "metadata": {},
-                        "lm": 382967531
+                        "lm": 385821936
                     },
                     {
                         "id": "db360765-b61e-429d-bdbd-1497d3b4ba0a",
                         "nm": "<span class=\"colored bc-green\">green highlight</span>",
-                        "ct": 382967477,
+                        "ct": 385821907,
                         "metadata": {},
-                        "lm": 382967531
+                        "lm": 385821939
                     },
                     {
                         "id": "f091dcc5-2d04-4dbf-af5c-6d69e531336f",
                         "nm": "<span class=\"colored bc-teal\">teal highlight</span>",
-                        "ct": 382967477,
+                        "ct": 385821909,
                         "metadata": {},
-                        "lm": 382967531
+                        "lm": 385821955
                     },
                     {
                         "id": "3b8f21e5-86e4-4cfc-bffc-45f2fe41a542",
                         "nm": "<span class=\"colored bc-sky\">sky highlight</span>",
-                        "ct": 382967477,
+                        "ct": 385821911,
                         "metadata": {},
-                        "lm": 382967531
+                        "lm": 385821961
                     },
                     {
                         "id": "7fba008c-d9a8-4072-8fde-52ee81716a0e",
                         "nm": "<span class=\"colored bc-blue\">blue highlight</span>",
-                        "ct": 382967477,
+                        "ct": 385821913,
                         "metadata": {},
-                        "lm": 382967531
+                        "lm": 385821965
                     },
                     {
                         "id": "beeded1c-5485-48a4-9b0d-43d34c1ad71a",
                         "nm": "<span class=\"colored bc-purple\">purple highlight</span>",
-                        "ct": 382967477,
+                        "ct": 385821916,
                         "metadata": {},
-                        "lm": 382967531
+                        "lm": 385821969
                     },
                     {
                         "id": "f7be620f-9195-4137-a075-ea7a428f8bd7",
                         "nm": "<span class=\"colored bc-pink\">pink highlight</span>",
-                        "ct": 382967477,
+                        "ct": 385821919,
                         "metadata": {},
-                        "lm": 382967531
+                        "lm": 385821972
                     },
                     {
                         "id": "5c939ab8-0c06-4268-a2ee-40fee79d4215",
                         "nm": "<span class=\"colored bc-gray\">gray highlight</span>",
-                        "ct": 382967477,
+                        "ct": 385821921,
                         "metadata": {},
-                        "lm": 382967531
+                        "lm": 385821975
                     }
-                    ]
+                ]
             },
             {
                 "id": "5d4b534c-379e-275f-5cf3-3c235cc3f513",
                 "nm": "Color text",
-                "ct": 382967483,
+                "ct": 385823740,
                 "metadata": {},
-                "lm": 382967536,
+                "lm": 385823747,
                 "ch": [
                     {
                         "id": "f27708e7-5fec-40b2-846e-c3227d63e4b4",
                         "nm": "<span class=\"colored c-red\">red text</span>",
-                        "ct": 382967477,
+                        "ct": 385823740,
                         "metadata": {},
-                        "lm": 382967531
+                        "lm": 385828028
                     },
                     {
                         "id": "714d38d0-5a02-457f-a623-2e58d90b43a1",
                         "nm": "<span class=\"colored c-orange\">orange text</span>",
-                        "ct": 382967477,
+                        "ct": 385823740,
                         "metadata": {},
-                        "lm": 382967531
+                        "lm": 385823812
                     },
                     {
                         "id": "4c5a8557-a900-4e4a-b52f-d275fe12eb94",
                         "nm": "<span class=\"colored c-yellow\">yellow text</span>",
-                        "ct": 382967477,
+                        "ct": 385823740,
                         "metadata": {},
-                        "lm": 382967531
+                        "lm": 385823819
                     },
                     {
                         "id": "0ae6c929-3833-434a-a7b8-e8871e6d36ab",
                         "nm": "<span class=\"colored c-green\">green text</span>",
-                        "ct": 382967477,
+                        "ct": 385823740,
                         "metadata": {},
-                        "lm": 382967531
+                        "lm": 385823822
                     },
                     {
                         "id": "0433736e-105d-43df-b764-b8f225a239ab",
                         "nm": "<span class=\"colored c-teal\">teal text</span>",
-                        "ct": 382967477,
+                        "ct": 385823740,
                         "metadata": {},
-                        "lm": 382967531
+                        "lm": 385823826
                     },
                     {
                         "id": "9d3745dd-8f66-471e-b584-f1272ccd0d78",
                         "nm": "<span class=\"colored c-sky\">sky text</span>",
-                        "ct": 382967477,
+                        "ct": 385823740,
                         "metadata": {},
-                        "lm": 382967531
+                        "lm": 385823830
                     },
                     {
                         "id": "afc04eb1-e86f-4b47-9612-8561082d318f",
                         "nm": "<span class=\"colored c-blue\">blue text</span>",
-                        "ct": 382967477,
+                        "ct": 385823740,
                         "metadata": {},
-                        "lm": 382967531
+                        "lm": 385823860
                     },
                     {
                         "id": "7de28f42-5e25-4081-b527-5804be79063b",
                         "nm": "<span class=\"colored c-purple\">purple text</span>",
-                        "ct": 382967477,
+                        "ct": 385823740,
                         "metadata": {},
-                        "lm": 382967531
+                        "lm": 385823863
                     },
                     {
                         "id": "a1a965ff-cec7-4540-bf06-ef80d8e62b65",
                         "nm": "<span class=\"colored c-pink\">pink text</span>",
-                        "ct": 382967477,
+                        "ct": 385823740,
                         "metadata": {},
-                        "lm": 382967531
+                        "lm": 385823853
                     },
                     {
                         "id": "3fd3fb11-1185-4796-a32b-e13b4c7b3e00",
                         "nm": "<span class=\"colored c-gray\">gray text</span>",
-                        "ct": 382967477,
+                        "ct": 385823740,
                         "metadata": {},
-                        "lm": 382967531
+                        "lm": 385823857
                     }
-                    ]
+                ]
             },
             {
                 "id": "1c26b02d-0273-5679-3e76-fe7e173a60fd",
@@ -1000,7 +1112,7 @@
                 "ct": 381250371,
                 "metadata": {},
                 "no": "@JohnSmith\n",
-                "lm": 381250392
+                "lm": 387290917
             }
         ]
     },
@@ -1009,7 +1121,7 @@
         "nm": "Dates and Times",
         "ct": 380044000,
         "metadata": {},
-        "lm": 380983514,
+        "lm": 385895302,
         "ch": [
             {
                 "id": "138a57a3-54b2-4d86-8548-784b224f997e",
@@ -1130,7 +1242,7 @@
         "nm": "Comments",
         "ct": 380092312,
         "metadata": {},
-        "lm": 380983514,
+        "lm": 387021292,
         "ch": [
             {
                 "id": "037699cd-1178-09bb-bcf7-f2f031fa2156",
@@ -1227,7 +1339,7 @@
                 "nm": "This is the template as a button #use-template:c780314ecc28",
                 "ct": 382198414,
                 "metadata": {},
-                "lm": 382198430,
+                "lm": 387091237,
                 "ch": [
                     {
                         "id": "6f4cd54d-ff12-6abe-557f-c81377662b8f",

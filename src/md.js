@@ -311,13 +311,21 @@ const convertToMd = (state, conf, pageName, nodes, nNodes, indentLvl) => {
   for (let n of nodes) {
     try {
       state.incrementJobProgress();
-      n.name = convertHtmlToMd(conf, linkTextToUrl(n.name.trim()));
-      n.note = convertHtmlToMd(conf, linkTextToUrl(n.note ?? ""));
+      n.name = n.name.trim();
+      n.note = n.note ?? "";
       let id = "";
       let completed = "";
       let collapsed = "";
       let marker = "";
       let template = "";
+
+      // Convert any website references in plain text to proper html
+      n.name = linkTextToUrl(n.name);
+      n.note = linkTextToUrl(n.note);
+
+      // Convert html into markdown
+      n.name = convertHtmlToMd(conf, n.name);
+      n.note = convertHtmlToMd(conf, n.note);
 
       // Replace any page references with the full UUID of that node
       n.name = replacePageRefWithUuid(state, n.name);
