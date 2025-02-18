@@ -399,6 +399,16 @@ Workflowy link reference has some sort of inner content (`<a
 href=\"https://workflowy.com/#/982e8186ff23\">Frienly Name</a>`), it's presented
 in `[Friendly Name](aff57398-663f-bad1-09fb-982e8186ff23)` format.
 
+### Emails and Telephone Numbers
+
+Logseq doesn't really have a best practice for viewing or handling emails or
+telephone numbers using `tel:` or `mailto:` protocols. Until then, leaving these
+as full html is the best bet for eventually getting the "click+launch" behavior
+one expects. So an email found in plaintext in a workflowy source file will show
+up as `<a href="mailto:test@example.com">test@example.com</a>` and a telephone
+number will be `<a href="tel:+18005555555">+1-800-555-5555</a>`. Both will
+display properly.
+
 ### Handling of Ampersat "@" tags
 
 Workflowy is a bit inconsistent with "@" tags. I have examples that are left as
