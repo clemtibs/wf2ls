@@ -72,10 +72,10 @@ const parseWfData = (state, data) => {
         })
       }
       if (node.hasOwnProperty('ch')) {
-        // If children nodes are backlinks, then we need to turn have this node
-        // show it's ID so that others can reference them. This is only for
-        // internal workflowy links. Mirrors are handled seperately and contain
-        // the targets in thier metadata already.
+        // If children nodes are backlinks, then we need to have this node show
+        // it's ID so that others can reference them. This is only for internal
+        // workflowy links. Mirrors are handled seperately and contain the
+        // targets in thier metadata already.
         if (nodeIsBacklink(node.ch[0])) newNode.metadata.isReferencesRoot = true;
         if (!(node.ch.length === 1 && nodeIsBacklink(node.ch[0])) &&
             !(node.ch.length === 1 && nodeIsTemplateButton(newNode))) {
