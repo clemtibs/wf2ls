@@ -9,6 +9,7 @@ import { default as TurndownService } from 'turndown';
 import { 
   formatDate,
   localSecondsToCustomDateObj,
+  pstSecondsToUnixTimestampMs,
   wfSecondsToPstSeconds
 } from './date.js';
 import { 
@@ -343,6 +344,8 @@ const convertToMd = ({
         n.name = n.name.trim();
         n.note = n.note ?? "";
         let id = "";
+        let created = "";
+        let modified = "";
         let completed = "";
         let collapsed = "";
         let marker = "";
@@ -397,6 +400,16 @@ const convertToMd = ({
           continue;
         }
         
+        // Add creation/modified metadata
+        if (conf.get('includeCreationMetadata') && n.hasOwnProperty('created')) {
+          let creationDate =  pstSecondsToUnixTimestampMs(wfSecondsToPstSeconds(n.created));
+          created = `\n${makeBlockNotePrefix(indentSpaces, indentLvl)}created-at:: ${creationDate}`;
+        }
+        if (conf.get('includeCreationMetadata') && n.hasOwnProperty('modified')) {
+          let modifiedDate =  pstSecondsToUnixTimestampMs(wfSecondsToPstSeconds(n.modified));
+          modified = `\n${makeBlockNotePrefix(indentSpaces, indentLvl)}updated-at:: ${modifiedDate}`;
+        }
+
         // Special node types
         switch (true) {
           case nodeIsTodo(n):
@@ -519,6 +532,8 @@ const convertToMd = ({
           makeBlockNamePrefix(indentSpaces, indentLvl) + marker + n.name
           + template
           + id
+          + created
+          + modified
           + completed
           + collapsed
           + n.note);

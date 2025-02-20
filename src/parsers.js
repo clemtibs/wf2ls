@@ -55,15 +55,13 @@ const parseWfData = (state, data) => {
       state.addJob()
       state.registerPageRef(node);
       newNode.id = node.id;
-      // if (!resultIdMap.get(node.id)) resultIdMap.set(node.id, newNode);
       newNode.name = node.nm.trim();
-      // if (node.ct) newNode.created = wfTimeToLocalTime(node.ct, WF_EPOCH_SECONDS_PST);
+      if (node.hasOwnProperty('ct')) newNode.created = node.ct;
+      if (node.hasOwnProperty('lm')) newNode.modified = node.lm;
       if (node.hasOwnProperty('no')) newNode.note = node.no.trim();
       if (node.hasOwnProperty('cp')) newNode.completed = node.cp;
       if (node.metadata.hasOwnProperty('layoutMode')) newNode.metadata.layoutMode = node.metadata.layoutMode;
       if (node.metadata.hasOwnProperty('mirror')) newNode.metadata.mirror = node.metadata.mirror;
-      // newNode.lastModified = wfTimeToLocalTime(node.lm, WF_EPOCH_SECONDS_PST);
-      // node.mirrorRootItems?.forEach(item => mirrors.set(item.id, node.id));
       if (nodeIsTemplate(newNode)) {
         state.registerTemplateName(newNode);
         // Make a new node for the template button

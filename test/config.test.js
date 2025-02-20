@@ -19,6 +19,8 @@ describe('config.js', () => {
     textColorMarkupMode: "textColorMarkupMode",
     mirrorStyle: "embed",
     newPageTag: "newPageTag",
+    includeCreationMetadata: false,
+    includeModifiedMetadata: false,
     indentSpaces: 1,
     sourceFile: "sourceFile",
     turndownConfig: {"turndown": "Config"},
@@ -75,6 +77,14 @@ describe('config.js', () => {
       it('setting textColorMarkupMode as string', () => {
         expect(testConfig.set("textColorMarkupMode", "default")).to.be.ok; // enforced list of options
         expect(() => testConfig.set("textColorMarkupMode", 1)).to.throw(/property value type/);
+      });
+      it('setting includeCreationMetadata as boolean', () => {
+        expect(testConfig.set("includeCreationMetadata", true)).to.be.ok;
+        expect(() => testConfig.set("includeCreationMetadata", "a string")).to.throw(/property value type/);
+      });
+      it('setting includeModifiedMetadata as boolean', () => {
+        expect(testConfig.set("includeModifiedMetadata", true)).to.be.ok;
+        expect(() => testConfig.set("includeModifiedMetadata", "a string")).to.throw(/property value type/);
       });
       it('setting indentSpaces as number', () => {
         expect(testConfig.set("indentSpaces", 1)).to.be.ok;
@@ -210,6 +220,8 @@ describe('config.js', () => {
         textColorMarkupMode: "default", // enforced list of options
         mirrorStyle: "reference",
         newPageTag: "newPageTag-changed",
+        includeCreationMetadata: true,
+        includeModifiedMetadata: true,
         indentSpaces: 2,
         sourceFile: "sourceFile-changed",
         turndownConfig: {"turndown": "Config-changed"},

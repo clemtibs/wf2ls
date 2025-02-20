@@ -234,9 +234,14 @@ const wfSecondsToPstSeconds = (wfSeconds) => {
   return wfSeconds + WF_EPOCH_SECONDS_PST;
 }
 
+const pstSecondsToUnixTimestampMs = (pstSeconds) => {
+  return pstSeconds * 1000
+}
+
 export {
   addDaySuffix,
   formatDate,
   localSecondsToCustomDateObj,
+  pstSecondsToUnixTimestampMs,
   wfSecondsToPstSeconds
 };

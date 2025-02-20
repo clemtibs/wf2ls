@@ -15,6 +15,8 @@ class AppConfig {
     defaultPage: null,
     destDir: null,
     textColorMarkupMode: null,
+    includeCreationMetadata: null,
+    includeModifiedMetadata: null,
     indentSpaces: null,
     mirrorStyle: null,
     newPageTag: null,
@@ -32,6 +34,8 @@ class AppConfig {
     defaultPage: 'string',
     destDir: 'string',
     textColorMarkupMode: 'string',
+    includeCreationMetadata: 'boolean',
+    includeModifiedMetadata: 'boolean',
     indentSpaces: 'number',
     mirrorStyle: 'string',
     newPageTag: 'string',
@@ -169,6 +173,8 @@ const defaultConfig = {
   defaultPage: "Workflowy Imports",
   destDir: "./output",
   textColorMarkupMode: "default",
+  includeCreationMetadata: false,
+  includeModifiedMetadata: false,
   indentSpaces: 2,
   mirrorStyle: "embed",
   newPageTag: "#LS-Page",
@@ -195,6 +201,8 @@ const updateConfigFromFile = (appConf, rawConf) => {
   if (rawConf.defaultPage) appConf.set("defaultPage", rawConf.defaultPage);
   if (rawConf.destDir) appConf.set("destDir", rawConf.destDir);
   if (rawConf.textColorMarkupMode) appConf.set("textColorMarkupMode", rawConf.textColorMarkupMode);
+  if (rawConf.includeCreationMetadata) appConf.set("includeCreationMetadata", rawConf.includeCreationMetadata);
+  if (rawConf.includeModifiedMetadata) appConf.set("includeModifiedMetadata", rawConf.includeModifiedMetadata);
   if (rawConf.indentSpaces) appConf.set("indentSpaces", rawConf.indentSpaces);
   if (rawConf.mirrorStyle) appConf.set("mirrorStyle", rawConf.mirrorStyle);
   if (rawConf.newPageTag) appConf.set("newPageTag", rawConf.newPageTag);
