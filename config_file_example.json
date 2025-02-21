@@ -5,6 +5,8 @@
   "dateFormat": "yyyy-MM-dd",
   "defaultPage": "Workflowy Imports",
   "destDir": "./output",
+  "includeCreationMetadata": false,
+  "includeModifiedMetadata": false,
   "textColorMarkupMode": "default",
   "indentSpaces": 2,
   "mirrorStyle": "embed",

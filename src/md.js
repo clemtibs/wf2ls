@@ -405,7 +405,7 @@ const convertToMd = ({
           let creationDate =  pstSecondsToUnixTimestampMs(wfSecondsToPstSeconds(n.created));
           created = `\n${makeBlockNotePrefix(indentSpaces, indentLvl)}created-at:: ${creationDate}`;
         }
-        if (conf.get('includeCreationMetadata') && n.hasOwnProperty('modified')) {
+        if (conf.get('includeModifiedMetadata') && n.hasOwnProperty('modified')) {
           let modifiedDate =  pstSecondsToUnixTimestampMs(wfSecondsToPstSeconds(n.modified));
           modified = `\n${makeBlockNotePrefix(indentSpaces, indentLvl)}updated-at:: ${modifiedDate}`;
         }
