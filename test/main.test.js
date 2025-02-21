@@ -87,6 +87,49 @@ describe('main.js', () => {
         runAcceptTest('links_to_nodes');
         expect(testResults.getPage("default")).to.equal(file(successTestOutput));
       });
+      describe('Creation/Modification metadata', () => {
+        it('Default setting (both off)', () => {
+          let testName = 'metadata';
+          const inputFileName = acceptTestDir + testName + '.json';
+          successTestOutput = acceptTestDir + testName + '_default' + '.md';
+
+          const testInputData = readJsonFile(inputFileName);
+          testResults = main(testState, testConfig, testInputData);      
+          expect(testResults.getPage("default")).to.equal(file(successTestOutput));
+        });
+        it('Creation time only', () => {
+          let testName = 'metadata';
+          const inputFileName = acceptTestDir + testName + '.json';
+          successTestOutput = acceptTestDir + testName + '_creation' + '.md';
+
+          const testInputData = readJsonFile(inputFileName);
+          testConfig.set('includeCreationMetadata', true)
+          testResults = main(testState, testConfig, testInputData);      
+          expect(testResults.getPage("default")).to.equal(file(successTestOutput));
+        });
+        it('Modification time only', () => {
+          let testName = 'metadata';
+          const inputFileName = acceptTestDir + testName + '.json';
+          successTestOutput = acceptTestDir + testName + '_modified' + '.md';
+
+          const testInputData = readJsonFile(inputFileName);
+          testConfig.set('includeCreationMetadata', false)
+          testConfig.set('includeModifiedMetadata', true)
+          testResults = main(testState, testConfig, testInputData);      
+          expect(testResults.getPage("default")).to.equal(file(successTestOutput));
+        });
+        it('Creation & Modification time on', () => {
+          let testName = 'metadata';
+          const inputFileName = acceptTestDir + testName + '.json';
+          successTestOutput = acceptTestDir + testName + '_both_on' + '.md';
+
+          const testInputData = readJsonFile(inputFileName);
+          testConfig.set('includeCreationMetadata', true)
+          testConfig.set('includeModifiedMetadata', true)
+          testResults = main(testState, testConfig, testInputData);      
+          expect(testResults.getPage("default")).to.equal(file(successTestOutput));
+        });
+      });
     });
     describe('Bullet Types', () => {
       it('Regular', () => {
