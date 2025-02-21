@@ -351,6 +351,47 @@ const convertToMd = ({
         let marker = "";
         let template = "";
 
+        // Split off new pages.
+        if (tagInText(newPageTag, n.name) || tagInText(newPageTag, n.note)) {
+          let newPageName = stripTag(newPageTag, n.name).trim();
+          let linkToNewPage = toPageLink(newPageName);
+          let newPageTopNodeContent = stripTag(newPageTag, n.note).trim();
+          let newPageChildren = n.children;
+          // Insert this nodes content as a new first child on the new page
+          newPageChildren.unshift(
+            makeNode({
+              name: newPageTopNodeContent.split('\n')[0],
+              note: newPageTopNodeContent.split('\n').slice(1).join('\n')
+            })
+          );
+          state.addJob();
+          // NOTE: The content of the page link on the source page doesn't get
+          // the formatting and conversion treatment (linkification, html->md
+          // conversion, node types etc.) listed in the rest of this loop as
+          // it's written now to pageBlock.  Hopefully, this should be fine as
+          // page names SHOULD be simple text and not need converting or
+          // special formatting. But noting here that this need could arrise if
+          // people try to make pages with nodes of mixed content.
+          //
+          // The new page, its note content, and its children however will
+          // get the full treatment just fine as they get a fresh loop to
+          // themselves.
+          //
+          // Push the page link on the source page
+          pageBlocks.push(makeBlockNamePrefix(indentSpaces, indentLvl) + linkToNewPage);
+          // Recurse into the new page path
+          convertToMd({
+            state: state,
+            conf: conf,
+            pageName: newPageName.trim(),
+            nodes: newPageChildren,
+            nNodes: newPageChildren.length,
+            indentLvl: 0
+          });
+          nNodes--;
+          continue;
+        }
+
         // Convert plain text URLs to html
         n.name = linkifyUrls(n.name);
         n.note = linkifyUrls(n.note);
@@ -371,35 +412,6 @@ const convertToMd = ({
         n.name = linkifyAmpersatTags(n.name);
         n.note = linkifyAmpersatTags(n.note);
 
-        // Splitting off new pages.
-        if (tagInText(newPageTag, n.name) || tagInText(newPageTag, n.note)) {
-          let newPageName = stripTag(newPageTag, n.name).trim();
-          let linkToNewPage = toPageLink(newPageName);
-          let newPageTopNodeContent = stripTag(newPageTag, n.note).trim();
-          let newPageChildren = n.children;
-          // Insert this nodes content as a new first child on the new page
-          newPageChildren.unshift(
-            makeNode({
-              name: newPageTopNodeContent.split('\n')[0],
-              note: newPageTopNodeContent.split('\n').slice(1).join('\n')
-            })
-          );
-          state.addJob();
-          // Push the page link on the source page
-          pageBlocks.push(makeBlockNamePrefix(indentSpaces, indentLvl) + linkToNewPage);
-          // Recurse into the new page path
-          convertToMd({
-            state: state,
-            conf: conf,
-            pageName: newPageName.trim(),
-            nodes: newPageChildren,
-            nNodes: newPageChildren.length,
-            indentLvl: 0
-          });
-          nNodes--;
-          continue;
-        }
-        
         // Add creation/modified metadata
         if (conf.get('includeCreationMetadata') && n.hasOwnProperty('created')) {
           let creationDate =  pstSecondsToUnixTimestampMs(wfSecondsToPstSeconds(n.created));
@@ -503,7 +515,7 @@ const convertToMd = ({
         // Node collapsing.
         // TODO: including nodes with no children but have notes would be nice.
         //       Needs careful implementation though as it will break quote and code
-        //       block formatting.
+        //       block formatting as it's currently implemented.
         if (n.hasOwnProperty('children')) {
           const collapsedText = `\n${makeBlockNotePrefix(indentSpaces, indentLvl)}collapsed:: true`;
           switch (conf.get("collapseMode")) {
