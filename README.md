@@ -89,11 +89,13 @@ It contains the following:
   "dateFormat": "yyyy-MM-dd",
   "defaultPage": "Workflowy Imports",
   "destDir": "./output",
+  "includeCreationMetadata": false,
+  "includeModifiedMetadata": false,
   "indentSpaces": 2,
   "mirrorStyle": "embed",
-  "textColorMarkupMode": "default",
   "newPageTag": "#LS-Page",
-  "sourceFile": ""
+  "sourceFile": "",
+  "textColorMarkupMode": "default"
 }
 ```
 
@@ -127,6 +129,10 @@ this is also a bit of a roadmap for myself.
 **Anything suffixed with a __*__ indicates that the option/feature is not
 implemented yet.**
 
+### Performance on Large Maps
+
+My personal Workflowy graph contained over 100,000 nodes and this script worked
+through it in about 25 seconds. So it's probably fine for your graph.
 
 ### Complete/Incomplete and Visible/Hidden status of bullets and blocks
 
@@ -168,30 +174,44 @@ This seemed natural as most of my notes in Workflowy tended to be filled with
 metadata-like tags and information anyway and it'll be easier later on to simply
 convert these to LogSeq properties for the new page.
 
-### Dates (metadata)
+### Dates & Time (metadata)
 
-The script is aware of and can convert the internal Workflowy timestamps used
-for marking bullets as modified and completed. Right now, it only transfers the
-"completed" time to the LogSeq results. It uses the `completed-on::` property
-and adds the date in format specified in the `dateFormat` setting as a page link.
-Transferring the "last modified" time is currently skipped as it might clutter
-up the LogSeq notes and might not be that useful outside of `LOGBOOK` entries,
-where I could see potential use.
+The script is aware of and can convert the internal Workflowy timestamps. This
+includes bullet creation, last-modified, and completion (if present). By
+default, only completion times are transferred if the bullet is specifically a
+task. The script uses the `completed-on::` property and adds the date in format
+specified in the `dateFormat` setting as a page link.
 
-Luckily, LogSeq can still recognize a variety of formats, even if they
-aren't the users selected viewing preference.
+Creation and last-modified are a bit tricky as there are many ways to translate
+this data over and to use it in LogSeq. LogSeq can keep track of bullet creation
+and last-modified time internally (invisible to the user, in unix milliseconds
+time format) using the properties `created-at::` and `updated-at::` when the
+user has `:feature/enable-block-timestamps?` enabled. It seems for now that
+these properties do make their way into the database version of LogSeq and that
+they will be sticking around in the long run. So if either of those metadata
+options seem important to you to include in your graph, you can use the script
+options `includeCreationMetadata` and `includeModifiedMetadata`.
+ 
+There is a significant size penalty however to adding the metadata on every
+node. On my test case of 100,000+ nodes, there was an additional ~45% increase
+in size for the addition of just one property, and an additional ~90% for adding
+both pieces of metadata to every node. In the grand scheme of things, this is
+still just text, so my original ~10mb conversion became ~14mb and ~19mb
+respectively. But if size is an issue for you (loading on mobile?). It might be
+better to turn this on as needed. Precise toggling of these features per node is
+a [pending feature](#future-plans).
 
-Time zones are a whole different animal. View the comments in `date.js` for
+A note about time zones for the source data. View the comments in `date.js` for
 details, but in short, I'm not sure what time zone Workflowy stores it's dates
 in or if it takes into account daylight saving or not. Right now, the script
-assumes the timestamps are in Pacific time (where I'm located), and outputs them
+seems to assume the timestamps are in Pacific time (where I'm located), and outputs them
 to the same. This assumption works accurately for me down to the second. Time
 zones could easily be converted, but more sample data from other time zones is
 needed to know what Workflowy is doing internally.
 
 If you have sample data to contribute from non PST timezones, please share!
 
-### Dates (built-in tags)
+### Inline Date Tags
 
 Workflowy implements dates, times, and ranges as such:
 
@@ -489,6 +509,23 @@ with the file information and a dead link to where the file would be if it was
 correctly in assets, then create a new page with a list of missing files as a
 TODO list. One will be able to easily go through, download manually to assets,
 then the dead links will start to work normally.
+
+## Future Plans
+
+One of the last big features left to implement before 1.0.0 is a type of basic
+script language, to be including in the nodes themselves, to allow a limited set
+of actions to be carried out on nodes on the fly, rather than all nodes equally.
+
+This includes things like:
+
+- Converting tags to properties, adding new tags or deleting uneeded ones
+- Moving, or referencing nodes with certain tags or characteristics to
+  the journal or anywhere else
+- Page splitting
+- Deleting or skipping node conversion
+- Temporarily toggling of certain options (metadata, formatting, etc)
+- Precise handling of time/date conversions
+- It will also need to be aware of recursion or a number of occurrences.
 
 ## Credits
 
