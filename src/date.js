@@ -29,6 +29,22 @@ const weekday = {
 
 const year = (d) => { return d.getFullYear()}
 
+// Time formatting templates
+
+const hour = {
+  'H': (d) => { return new Intl.DateTimeFormat('en-GB', {hour: '2-digit', timeZone: 'America/Los_Angeles'}).format(d).replace(/^0/,'')},
+  'HH': (d) => { return new Intl.DateTimeFormat('en-GB', {hour: '2-digit', timeZone: 'America/Los_Angeles'}).format(d)},
+}
+
+const minutes = {
+  'mm': (d) => { return new Intl.DateTimeFormat('en-US', {minute: '2-digit', timeZone: 'America/Los_Angeles'}).format(d).toString().padStart(2,'0')},
+}
+
+const meridiem = {
+  'A': (d) => { return new Intl.DateTimeFormat(undefined, {timeStyle: 'short', timeZone: 'America/Los_Angeles'}).format(d)},
+  'a': (d) => { return new Intl.DateTimeFormat(undefined, {timeStyle: 'short', timeZone: 'America/Los_Angeles'}).format(d).toLowerCase()},
+}
+
 const dateFormats = {
   'E, MM/dd/yyyy': (d) => {
     return `${weekday['E'](d)}, ${month['MM'](d)}/${day['dd'](d)}/${year(d)}`
@@ -110,6 +126,27 @@ const dateFormats = {
   },
 }
 
+const timeFormats = {
+  'HH:mm': (d) => {
+    return `${hour['HH'](d)}:${minutes['mm'](d)}`
+  },
+  'H:mm': (d) => {
+    return `${hour['H'](d)}:${minutes['mm'](d)}`
+  },
+  'h:mm A': (d) => {
+    return `${meridiem['A'](d)}`
+  },
+  'h:mm a': (d) => {
+    return `${meridiem['a'](d)}`
+  },
+  'X': (d) => {
+    return `${Math.floor(d.getTime() / 1000)}`
+  },
+  'x': (d) => {
+    return `${d.getTime()}`
+  }
+}
+
 // Date Functions & Tooling
 const addDaySuffix = (day) => {
   if ([11, 12, 13].includes(day)) {
@@ -168,6 +205,19 @@ const formatDate = (date, dFormat) => {
 
   return dateFormats[dFormat](startDate);
 }
+
+const formatTime = (date, tFormat) => {
+  const startDate = new Date(
+    date.startYear,
+    date.startMonth - 1,
+    date.startDay,
+    date.startHour,
+    date.startMinute
+  )
+
+  return timeFormats[tFormat](startDate);
+}
+
 
 const getNowSecondsUTC = () => {
   const now = new Date();
@@ -241,6 +291,7 @@ const pstSecondsToUnixTimestampMs = (pstSeconds) => {
 export {
   addDaySuffix,
   formatDate,
+  formatTime,
   localSecondsToCustomDateObj,
   pstSecondsToUnixTimestampMs,
   wfSecondsToPstSeconds

@@ -21,6 +21,7 @@ class AppConfig {
     mirrorStyle: null,
     newPageTag: null,
     sourceFile: null,
+    timeFormat: null,
     turndownConfig: null,
     turndownCustomRules: null,
   };
@@ -40,6 +41,7 @@ class AppConfig {
     mirrorStyle: 'string',
     newPageTag: 'string',
     sourceFile: 'string',
+    timeFormat: 'string',
     turndownConfig: 'object',
     turndownCustomRules: 'object',
   };
@@ -80,7 +82,15 @@ class AppConfig {
       'yyyy年MM月dd日',
     ],
     mirrorStyle: ['embed', 'reference'],
-    textColorMarkupMode: ['default', 'plugin']
+    textColorMarkupMode: ['default', 'plugin'],
+    timeFormat: [
+      'HH:mm',
+      'H:mm',
+      'h:mm A',
+      'h:mm a',
+      'X',
+      'x',
+    ]
   };
 
   #updateTurndownCustomRules() {
@@ -147,6 +157,7 @@ class AppConfig {
         }
         switch (key) {
           case 'dateFormat':
+          case 'timeFormat':
           case 'textColorMarkupMode':
             this.#option_values[key] = value;
             this.#updateTurndownCustomRules();
@@ -179,6 +190,7 @@ const defaultConfig = {
   mirrorStyle: "embed",
   newPageTag: "#LS-Page",
   sourceFile: "",
+  timeFormat: 'HH:mm',
   turndownConfig: turndownDefaultConfig,
   turndownCustomRules: turndownDefaultCustomRules,
 };
@@ -207,6 +219,7 @@ const updateConfigFromFile = (appConf, rawConf) => {
   if (rawConf.mirrorStyle) appConf.set("mirrorStyle", rawConf.mirrorStyle);
   if (rawConf.newPageTag) appConf.set("newPageTag", rawConf.newPageTag);
   if (rawConf.sourceFile) appConf.set("sourceFile", rawConf.sourceFile);
+  if (rawConf.timeFormat) appConf.set("timeFormat", rawConf.timeFormat);
   if (rawConf.turndownConfig) appConf.set("turndownConfig", rawConf.turndownConfig);
   if (rawConf.turndownCustomRules) appConf.set("turndownCustomRules", rawConf.turndownCustomRules);
 }

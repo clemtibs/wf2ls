@@ -8,6 +8,7 @@ import { default as TurndownService } from 'turndown';
 
 import { 
   formatDate,
+  formatTime,
   localSecondsToCustomDateObj,
   pstSecondsToUnixTimestampMs,
   wfSecondsToPstSeconds
@@ -224,7 +225,7 @@ const turndownDefaultCustomRules = {
         node.nodeName === 'TIME'
       )
     },
-    replacement: function (content, node, options, dFormat) {
+    replacement: function (content, node, options, dFormat, tFormat) {
       const d = {
         startYear: node.getAttribute('startYear'),
         endYear: node.getAttribute('endYear'),
@@ -237,8 +238,11 @@ const turndownDefaultCustomRules = {
         startMinute: node.getAttribute('startMinute'),
         endMinute: node.getAttribute('endMinute'),
       }
-      
-      return `[[ ${formatDate(d, dFormat)} ]]`
+      if (d.startHour === null) {
+        return `[[ ${formatDate(d, dFormat)} ]]`
+      } else {
+        return `[[ ${formatDate(d, dFormat)} ]] at ${formatTime(d, tFormat)}`
+      }
     }
   },
   internalWfLinks: {
