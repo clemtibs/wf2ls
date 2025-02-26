@@ -206,22 +206,15 @@ const updateConfigFromFile = (appConf, rawConf) => {
   // from either defaultConfig, or a specific -c option on the CLI. No need to 
   // change this value AFTER the window has passed for loading config files, will
   // only mess up debugging.
-  if (rawConf.collapseMode) appConf.set("collapseMode", rawConf.collapseMode);
-  if (rawConf.collapseDepth) appConf.set("collapseDepth", rawConf.collapseDepth);
-  if (rawConf.compressBookmarks) appConf.set("compressBookmarks", rawConf.compressBookmarks);
-  if (rawConf.dateFormat) appConf.set("dateFormat", rawConf.dateFormat);
-  if (rawConf.defaultPage) appConf.set("defaultPage", rawConf.defaultPage);
-  if (rawConf.destDir) appConf.set("destDir", rawConf.destDir);
-  if (rawConf.textColorMarkupMode) appConf.set("textColorMarkupMode", rawConf.textColorMarkupMode);
-  if (rawConf.includeCreationMetadata) appConf.set("includeCreationMetadata", rawConf.includeCreationMetadata);
-  if (rawConf.includeModifiedMetadata) appConf.set("includeModifiedMetadata", rawConf.includeModifiedMetadata);
-  if (rawConf.indentSpaces) appConf.set("indentSpaces", rawConf.indentSpaces);
-  if (rawConf.mirrorStyle) appConf.set("mirrorStyle", rawConf.mirrorStyle);
-  if (rawConf.newPageTag) appConf.set("newPageTag", rawConf.newPageTag);
-  if (rawConf.sourceFile) appConf.set("sourceFile", rawConf.sourceFile);
-  if (rawConf.timeFormat) appConf.set("timeFormat", rawConf.timeFormat);
-  if (rawConf.turndownConfig) appConf.set("turndownConfig", rawConf.turndownConfig);
-  if (rawConf.turndownCustomRules) appConf.set("turndownCustomRules", rawConf.turndownCustomRules);
+  for (const [option, value] of Object.entries(rawConf)) {
+    if (option !== 'confFileLocation') {
+      try {
+        appConf.set(option, value);
+      } catch {
+        throw new Error(`"${option}" is an invalid configuration option.\nDouble check user config file.`);
+      }
+    }
+  }
 }
 
 export {
