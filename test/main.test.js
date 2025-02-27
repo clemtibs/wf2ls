@@ -259,8 +259,23 @@ describe('main.js', () => {
           runAcceptTest('dates_range');
           expect(testResults.getPage("default")).to.equal(file(successTestOutput));
         });
-        it.skip('Dates with time', () => {
-          runAcceptTest('dates_with_time');
+        it('Dates with time (12 hour)', () => {
+          let testName = 'dates_with_time';
+          const inputFileName = acceptTestDir + testName + '.json';
+          successTestOutput = acceptTestDir + testName + '_12' + '.md';
+
+          const testInputData = readJsonFile(inputFileName);
+          testConfig.set('timeFormat', 'h:mm a');
+          testResults = main(testState, testConfig, testInputData);      
+          expect(testResults.getPage("default")).to.equal(file(successTestOutput));
+        });
+        it('Dates with time (24 hour)', () => {
+          let testName = 'dates_with_time';
+          const inputFileName = acceptTestDir + testName + '.json';
+          successTestOutput = acceptTestDir + testName + '_24' + '.md';
+
+          const testInputData = readJsonFile(inputFileName);
+          testResults = main(testState, testConfig, testInputData);      
           expect(testResults.getPage("default")).to.equal(file(successTestOutput));
         });
         it.skip('Dates with time range', () => {

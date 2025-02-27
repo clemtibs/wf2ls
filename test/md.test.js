@@ -146,6 +146,18 @@ describe('md.js', () => {
         let testContentPassResult = `${fillerPre} [[ 2024-10-31 ]] ${fillerPost}`;
         expect(convertHtmlToMd(testConfig, testContentPass)).to.deep.equal(testContentPassResult);
       });
+      it('Single date and time', () => {
+        dateHtml = '<time startYear=\"2024\" startMonth=\"10\" startDay=\"31\" startHour=\"8\" startMinute=\"53\">Thu, Oct 31, 2024 at 08:53 am</time>';
+        let testContentPass = `${fillerPre} ${dateHtml} ${fillerPost}`;
+        let testContentPassResult = `${fillerPre} [[ 2024-10-31 ]] at 08:53 ${fillerPost}`;
+        expect(convertHtmlToMd(testConfig, testContentPass)).to.deep.equal(testContentPassResult);
+      });
+      it("Midnight isn't confused with having no time at all", () => {
+        dateHtml = '<time startYear=\"2024\" startMonth=\"10\" startDay=\"31\" startHour=\"0\" startMinute=\"00\">Thu, Oct 31, 2024 00:00 am</time>';
+        let testContentPass = `${fillerPre} ${dateHtml} ${fillerPost}`;
+        let testContentPassResult = `${fillerPre} [[ 2024-10-31 ]] at 00:00 ${fillerPost}`;
+        expect(convertHtmlToMd(testConfig, testContentPass)).to.deep.equal(testContentPassResult);
+      });
     });
     describe('Ampersat Tags', () => {
       let tagHtml;

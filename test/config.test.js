@@ -23,6 +23,7 @@ describe('config.js', () => {
     includeModifiedMetadata: false,
     indentSpaces: 1,
     sourceFile: "sourceFile",
+    timeFormat: "timeFormat",
     turndownConfig: {"turndown": "Config"},
     turndownCustomRules: {"turndown": "CustomRules"},
   };
@@ -102,6 +103,10 @@ describe('config.js', () => {
         expect(testConfig.set("sourceFile", "a string")).to.be.ok;
         expect(() => testConfig.set("sourceFile", 1)).to.throw(/property value type/);
       });
+      it('setting timeFormat as string', () => {
+        expect(testConfig.set("timeFormat", "HH:mm")).to.be.ok;
+        expect(() => testConfig.set("timeFormat", 1)).to.throw(/property value type/);
+      });
       it('setting turndownConfig as object', () => {
         expect(testConfig.set("turndownConfig", { "an": "object"})).to.be.ok;
         expect(() => testConfig.set("turndownConfig", 1)).to.throw(/property value type/);
@@ -160,6 +165,19 @@ describe('config.js', () => {
         });
         it('fails something else', () => {
           expect(() => testConfig.set("mirrorStyle", "something else")).to.throw(/Invalid option value/);
+        });
+      });
+      describe('timeFormat', () => {
+        it('passes supported options', () => {
+          expect(testConfig.set("timeFormat", "HH:mm")).to.be.ok;
+          expect(testConfig.set("timeFormat", "H:mm")).to.be.ok;
+          expect(testConfig.set("timeFormat", "h:mm A")).to.be.ok;
+          expect(testConfig.set("timeFormat", "h:mm a")).to.be.ok;
+          expect(testConfig.set("timeFormat", "X")).to.be.ok;
+          expect(testConfig.set("timeFormat", "x")).to.be.ok;
+        });
+        it('fails something else', () => {
+          expect(() => testConfig.set("timeFormat", "something else")).to.throw(/Invalid option value/);
         });
       });
       describe('textColorMarkupMode', () => {
@@ -224,6 +242,7 @@ describe('config.js', () => {
         includeModifiedMetadata: true,
         indentSpaces: 2,
         sourceFile: "sourceFile-changed",
+        timeFormat: "x", // enforced list of options
         turndownConfig: {"turndown": "Config-changed"},
         turndownCustomRules: {"turndown": "CustomRules-changed"},
       }

@@ -173,6 +173,56 @@ describe('date.js', () => {
       expect(formatDate(testDateTwo, 'yyyy年MM月dd日')).to.deep.equal('2024年10月30日')
     });
   });
+  describe('formatTime()', () => {
+    const testDateOne = {
+      startYear: 2024,
+      endYear: 2024,
+      startMonth: 9,
+      endMonth: 10,
+      startDay: 1,
+      endDay: 2,
+      startHour: 9,
+      endHour: 10,
+      startMinute: 0,
+      endMinute: 0,
+    }
+    const testDateTwo = {
+      startYear: 2024,
+      endYear: 2024,
+      startMonth: 10,
+      endMonth: 11,
+      startDay: 30,
+      endDay: 31,
+      startHour: 22,
+      endHour: 23,
+      startMinute: 0,
+      endMinute: 0,
+    }
+    it('Converts time to "HH:mm" format', () => {
+      expect(formatTime(testDateOne, 'HH:mm')).to.deep.equal('09:00')
+      expect(formatTime(testDateTwo, 'HH:mm')).to.deep.equal('22:00')
+    });
+    it('Converts time to "H:mm" format', () => {
+      expect(formatTime(testDateOne, 'H:mm')).to.deep.equal('9:00')
+      expect(formatTime(testDateTwo, 'H:mm')).to.deep.equal('22:00')
+    });
+    it('Converts time to "h:mm A" format', () => {
+      expect(formatTime(testDateOne, 'h:mm A')).to.deep.equal('9:00 AM')
+      expect(formatTime(testDateTwo, 'h:mm A')).to.deep.equal('10:00 PM')
+    });
+    it('Converts time to "h:mm a" format', () => {
+      expect(formatTime(testDateOne, 'h:mm a')).to.deep.equal('9:00 am')
+      expect(formatTime(testDateTwo, 'h:mm a')).to.deep.equal('10:00 pm')
+    });
+    it('Converts time to unix time in seconds', () => {
+      expect(formatTime(testDateOne, 'X')).to.deep.equal('1725206400')
+      expect(formatTime(testDateTwo, 'X')).to.deep.equal('1730350800')
+    });
+    it('Converts time to unix time in ms', () => {
+      expect(formatTime(testDateOne, 'x')).to.deep.equal('1725206400000')
+      expect(formatTime(testDateTwo, 'x')).to.deep.equal('1730350800000')
+    });
+  });
   describe('WF Timestamp Conversions', () => {
     // test WF timestamp of 376165087 is 2024-09-16T22:30:00 PDT
     let wfTimestamp = 376165087;
