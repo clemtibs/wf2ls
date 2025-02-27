@@ -116,12 +116,11 @@ class AppConfig {
         break;
       }
 
-      // Inject the date format into the plugin
+      // Inject the date and time format into the plugin
       if (this.#option_values.turndownCustomRules.hasOwnProperty('dates')) {
         const baseDateRule = this.#option_values.turndownCustomRules.dates.replacement;
-        this.#option_values.turndownCustomRules.dates.replacement = (content, node, options) => {
-          const dateFormatSetting = this.#option_values.dateFormat;
-          return baseDateRule(content, node, options, dateFormatSetting);
+        this.#option_values.turndownCustomRules.dates.replacement = (...args) => {
+          return baseDateRule( ...args, this.#option_values.dateFormat, this.#option_values.timeFormat);
         }
       }
     }
@@ -142,7 +141,7 @@ class AppConfig {
 
   get(prop) {
     if (this.#option_values.hasOwnProperty(prop)) {
-      return this.#option_values[prop]
+      return this.#option_values[prop];
     } else {
       throw new Error("Property not found");
     }
