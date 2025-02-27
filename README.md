@@ -15,7 +15,7 @@
 <div align="center">
 
 ![status-alpha](https://img.shields.io/badge/status-alpha-e89829)
-![version](https://img.shields.io/badge/version-v0.24.0-5895C9)
+![version](https://img.shields.io/badge/version-v0.26.0-5895C9)
 [![release](https://img.shields.io/github/v/release/clemtibs/wf2ls?color=5895C9)](https://github.com/clemtibs/wf2ls/releases)
 
 </div>
