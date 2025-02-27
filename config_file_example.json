@@ -11,5 +11,6 @@
   "mirrorStyle": "embed",
   "newPageTag": "#LS-Page",
   "sourceFile": "",
-  "textColorMarkupMode": "default"
+  "textColorMarkupMode": "default",
+  "timeFormat": "HH:mm"
 }
