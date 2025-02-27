@@ -8,7 +8,7 @@ import {
 
 
 describe('config.js', () => {
-  const conf = {
+  const initConf = {
     collapseMode: "collapseMode",
     collapseDepth: 1,
     compressBookmarks: "compressBookmarks",
@@ -27,10 +27,29 @@ describe('config.js', () => {
     turndownConfig: {"turndown": "Config"},
     turndownCustomRules: {"turndown": "CustomRules"},
   };
+  const userFileConf = {
+    collapseMode: "none", // enforced list of options
+    collapseDepth: 2, // enforced list of options
+    compressBookmarks: true,
+    confFileLocation: "confFileLocation-changed",
+    dateFormat: "MMMM do, yyyy", // enforced list of options
+    defaultPage: "defaultPage-changed",
+    destDir: "destDir-changed",
+    textColorMarkupMode: "default", // enforced list of options
+    mirrorStyle: "reference",
+    newPageTag: "newPageTag-changed",
+    includeCreationMetadata: true,
+    includeModifiedMetadata: true,
+    indentSpaces: 2,
+    sourceFile: "sourceFile-changed",
+    timeFormat: "x", // enforced list of options
+    turndownConfig: {"turndown": "Config-changed"},
+    turndownCustomRules: {"turndown": "CustomRules-changed"},
+  }
   describe('AppConfig instances', () => {
     describe('Have required properties', () => {
       const testConfig = new AppConfig();
-      Object.keys(conf).forEach((option) => {
+      Object.keys(initConf).forEach((option) => {
         it(option, () => {
           expect(testConfig.get(option)).to.deep.equal(null);
         });
@@ -191,15 +210,15 @@ describe('config.js', () => {
       });
     });
     describe('Import configuration object on creation', () => {
-      const testConfig = new AppConfig(conf);
-      Object.keys(conf).forEach((option) => {
+      const testConfig = new AppConfig(initConf);
+      Object.keys(initConf).forEach((option) => {
         it(`${option} not null`, () => {
           expect(testConfig.get(option)).to.not.deep.equal(null);
         });
       });
     });
     describe('Can be updated with updateConfigFromCliArgs()', () => {
-      const testConfig = new AppConfig(conf);
+      const testConfig = new AppConfig(initConf);
       const testCliArgs = {
         s: "sourceFile-changed",
         d: "destDir-changed",
@@ -213,7 +232,7 @@ describe('config.js', () => {
         expect(testConfig.get("confFileLocation")).to.deep.equal("confFileLocation-changed");
       });
       it('Only updates sourceFile, destDir, confFileLocation', () => {
-        Object.entries(conf).forEach(([option, setting]) => {
+        Object.entries(initConf).forEach(([option, setting]) => {
           switch (option) {
             case 'sourceFile':
             case 'destDir':
@@ -226,41 +245,26 @@ describe('config.js', () => {
       });
     });
     describe('Can be updated with updateConfigFromFile()', () => {
-      const testConfig = new AppConfig(conf);
-      const testConfFromFile = {
-        collapseMode: "none", // enforced list of options
-        collapseDepth: 2, // enforced list of options
-        compressBookmarks: true,
-        confFileLocation: "confFileLocation-changed",
-        dateFormat: "MMMM do, yyyy", // enforced list of options
-        defaultPage: "defaultPage-changed",
-        destDir: "destDir-changed",
-        textColorMarkupMode: "default", // enforced list of options
-        mirrorStyle: "reference",
-        newPageTag: "newPageTag-changed",
-        includeCreationMetadata: true,
-        includeModifiedMetadata: true,
-        indentSpaces: 2,
-        sourceFile: "sourceFile-changed",
-        timeFormat: "x", // enforced list of options
-        turndownConfig: {"turndown": "Config-changed"},
-        turndownCustomRules: {"turndown": "CustomRules-changed"},
-      }
-      updateConfigFromFile(testConfig, testConfFromFile)
+      const testConfig = new AppConfig(initConf);
+      updateConfigFromFile(testConfig, userFileConf)
 
       it('Does not update confFileLocation', () => {
         expect(testConfig.get("confFileLocation")).to.deep.equal("confFileLocation");
       });
 
-      Object.entries(testConfFromFile).forEach(([option, setting]) => {
+      Object.entries(userFileConf).forEach(([option, setting]) => {
         switch (option) {
           case 'confFileLocation':
             break;
           default:
-            it(`Updates ${option}`, () => {
+            it(`Updates ${option} to ${setting}`, () => {
               expect(testConfig.get(option)).to.deep.equal(setting);
             });
         }
+      });
+      it('Fails gracefully when given invalid config option', () => {
+        userFileConf.invalidOption = true;
+        expect(() => updateConfigFromFile(testConfig, userFileConf)).to.throw(/invalid configuration option/);
       });
     });
   });

@@ -575,6 +575,7 @@ const convertToMd = ({
           `\n${message}` + 
           `\nNode involved had name content of: ${n.name}`;
         console.error(fullError);
+        console.trace()
         // console.error('Quitting...');
         // process.exit(1);
       }

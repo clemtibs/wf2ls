@@ -3,6 +3,7 @@ import { expect } from 'chai';
 import {
   addDaySuffix,
   formatDate,
+  formatTime,
   localSecondsToCustomDateObj,
   wfSecondsToPstSeconds
 } from '../src/date.js';
@@ -68,107 +69,107 @@ describe('date.js', () => {
       startMinute: 0,
       endMinute: 0,
     }
-    it('Converts time to "E, MM/dd/yyyy" format', () => {
+    it('Converts date to "E, MM/dd/yyyy" format', () => {
       expect(formatDate(testDateOne, 'E, MM/dd/yyyy')).to.deep.equal('Sun, 09/01/2024')
       expect(formatDate(testDateTwo, 'E, MM/dd/yyyy')).to.deep.equal('Wed, 10/30/2024')
     });
-    it('Converts time to "E, MM-dd-yyyy" format', () => {
+    it('Converts date to "E, MM-dd-yyyy" format', () => {
       expect(formatDate(testDateOne, 'E, MM-dd-yyyy')).to.deep.equal('Sun, 09-01-2024')
       expect(formatDate(testDateTwo, 'E, MM-dd-yyyy')).to.deep.equal('Wed, 10-30-2024')
     });
-    it('Converts time to "E, MM.dd.yyyy" format', () => {
+    it('Converts date to "E, MM.dd.yyyy" format', () => {
       expect(formatDate(testDateOne, 'E, MM.dd.yyyy')).to.deep.equal('Sun, 09.01.2024')
       expect(formatDate(testDateTwo, 'E, MM.dd.yyyy')).to.deep.equal('Wed, 10.30.2024')
     });
-    it('Converts time to "E, yyyy/MM/dd" format', () => {
+    it('Converts date to "E, yyyy/MM/dd" format', () => {
       expect(formatDate(testDateOne, 'E, yyyy/MM/dd')).to.deep.equal('Sun, 2024/09/01')
       expect(formatDate(testDateTwo, 'E, yyyy/MM/dd')).to.deep.equal('Wed, 2024/10/30')
     });
-    it('Converts time to "EEE, MM/dd/yyyy" format', () => {
+    it('Converts date to "EEE, MM/dd/yyyy" format', () => {
       expect(formatDate(testDateOne, 'EEE, MM/dd/yyyy')).to.deep.equal('Sun, 09/01/2024')
       expect(formatDate(testDateTwo, 'EEE, MM/dd/yyyy')).to.deep.equal('Wed, 10/30/2024')
     });
-    it('Converts time to "EEE, MM-dd-yyyy" format', () => {
+    it('Converts date to "EEE, MM-dd-yyyy" format', () => {
       expect(formatDate(testDateOne, 'EEE, MM-dd-yyyy')).to.deep.equal('Sun, 09-01-2024')
       expect(formatDate(testDateTwo, 'EEE, MM-dd-yyyy')).to.deep.equal('Wed, 10-30-2024')
     });
-    it('Converts time to "EEE, MM.dd.yyyy" format', () => {
+    it('Converts date to "EEE, MM.dd.yyyy" format', () => {
       expect(formatDate(testDateOne, 'EEE, MM.dd.yyyy')).to.deep.equal('Sun, 09.01.2024')
       expect(formatDate(testDateTwo, 'EEE, MM.dd.yyyy')).to.deep.equal('Wed, 10.30.2024')
     });
-    it('Converts time to "EEE, yyyy/MM/dd" format', () => {
+    it('Converts date to "EEE, yyyy/MM/dd" format', () => {
       expect(formatDate(testDateOne, 'EEE, yyyy/MM/dd')).to.deep.equal('Sun, 2024/09/01')
       expect(formatDate(testDateTwo, 'EEE, yyyy/MM/dd')).to.deep.equal('Wed, 2024/10/30')
     });
-    it('Converts time to "EEEE, MM/dd/yyyy" format', () => {
+    it('Converts date to "EEEE, MM/dd/yyyy" format', () => {
       expect(formatDate(testDateOne, 'EEEE, MM/dd/yyyy')).to.deep.equal('Sunday, 09/01/2024')
       expect(formatDate(testDateTwo, 'EEEE, MM/dd/yyyy')).to.deep.equal('Wednesday, 10/30/2024')
     });
-    it('Converts time to "EEEE, MM-dd-yyyy" format', () => {
+    it('Converts date to "EEEE, MM-dd-yyyy" format', () => {
       expect(formatDate(testDateOne, 'EEEE, MM-dd-yyyy')).to.deep.equal('Sunday, 09-01-2024')
       expect(formatDate(testDateTwo, 'EEEE, MM-dd-yyyy')).to.deep.equal('Wednesday, 10-30-2024')
     });
-    it('Converts time to "EEEE, MM.dd.yyyy" format', () => {
+    it('Converts date to "EEEE, MM.dd.yyyy" format', () => {
       expect(formatDate(testDateOne, 'EEEE, MM.dd.yyyy')).to.deep.equal('Sunday, 09.01.2024')
       expect(formatDate(testDateTwo, 'EEEE, MM.dd.yyyy')).to.deep.equal('Wednesday, 10.30.2024')
     });
-    it('Converts time to "EEEE, yyyy/MM/dd" format', () => {
+    it('Converts date to "EEEE, yyyy/MM/dd" format', () => {
       expect(formatDate(testDateOne, 'EEEE, yyyy/MM/dd')).to.deep.equal('Sunday, 2024/09/01')
       expect(formatDate(testDateTwo, 'EEEE, yyyy/MM/dd')).to.deep.equal('Wednesday, 2024/10/30')
     });
-    it('Converts time to "MM-dd-yyyy" format', () => {
+    it('Converts date to "MM-dd-yyyy" format', () => {
       expect(formatDate(testDateOne, 'MM-dd-yyyy')).to.deep.equal('09-01-2024')
       expect(formatDate(testDateTwo, 'MM-dd-yyyy')).to.deep.equal('10-30-2024')
     });
-    it('Converts time to "MM/dd/yyyy" format', () => {
+    it('Converts date to "MM/dd/yyyy" format', () => {
       expect(formatDate(testDateOne, 'MM/dd/yyyy')).to.deep.equal('09/01/2024')
       expect(formatDate(testDateTwo, 'MM/dd/yyyy')).to.deep.equal('10/30/2024')
     });
-    it('Converts time to "MMM do, yyyy" format', () => {
+    it('Converts date to "MMM do, yyyy" format', () => {
       expect(formatDate(testDateOne, 'MMM do, yyyy')).to.deep.equal('Sep 1st, 2024')
       expect(formatDate(testDateTwo, 'MMM do, yyyy')).to.deep.equal('Oct 30th, 2024')
     });
-    it('Converts time to "MMMM do, yyyy" format', () => {
+    it('Converts date to "MMMM do, yyyy" format', () => {
       expect(formatDate(testDateOne, 'MMMM do, yyyy')).to.deep.equal('September 1st, 2024')
       expect(formatDate(testDateTwo, 'MMMM do, yyyy')).to.deep.equal('October 30th, 2024')
     });
-    it('Converts time to "MM_dd_yyyy" format', () => {
+    it('Converts date to "MM_dd_yyyy" format', () => {
       expect(formatDate(testDateOne, 'MM_dd_yyyy')).to.deep.equal('09_01_2024')
       expect(formatDate(testDateTwo, 'MM_dd_yyyy')).to.deep.equal('10_30_2024')
     });
-    it('Converts time to "dd-MM-yyyy" format', () => {
+    it('Converts date to "dd-MM-yyyy" format', () => {
       expect(formatDate(testDateOne, 'dd-MM-yyyy')).to.deep.equal('01-09-2024')
       expect(formatDate(testDateTwo, 'dd-MM-yyyy')).to.deep.equal('30-10-2024')
     });
-    it('Converts time to "do MMM yyyy" format', () => {
+    it('Converts date to "do MMM yyyy" format', () => {
       expect(formatDate(testDateOne, 'do MMM yyyy')).to.deep.equal('1st Sep 2024')
       expect(formatDate(testDateTwo, 'do MMM yyyy')).to.deep.equal('30th Oct 2024')
     });
-    it('Converts time to "do MMMM yyyy" format', () => {
+    it('Converts date to "do MMMM yyyy" format', () => {
       expect(formatDate(testDateOne, 'do MMMM yyyy')).to.deep.equal('1st September 2024')
       expect(formatDate(testDateTwo, 'do MMMM yyyy')).to.deep.equal('30th October 2024')
     });
-    it('Converts time to "yyyy-MM-dd" format', () => {
+    it('Converts date to "yyyy-MM-dd" format', () => {
       expect(formatDate(testDateOne, 'yyyy-MM-dd')).to.deep.equal('2024-09-01')
       expect(formatDate(testDateTwo, 'yyyy-MM-dd')).to.deep.equal('2024-10-30')
     });
-    it('Converts time to "yyyy-MM-dd EEEE" format', () => {
+    it('Converts date to "yyyy-MM-dd EEEE" format', () => {
       expect(formatDate(testDateOne, 'yyyy-MM-dd EEEE')).to.deep.equal('2024-09-01 Sunday')
       expect(formatDate(testDateTwo, 'yyyy-MM-dd EEEE')).to.deep.equal('2024-10-30 Wednesday')
     });
-    it('Converts time to "yyyy/MM/dd" format', () => {
+    it('Converts date to "yyyy/MM/dd" format', () => {
       expect(formatDate(testDateOne, 'yyyy/MM/dd')).to.deep.equal('2024/09/01')
       expect(formatDate(testDateTwo, 'yyyy/MM/dd')).to.deep.equal('2024/10/30')
     });
-    it('Converts time to "yyyyMMdd" format', () => {
+    it('Converts date to "yyyyMMdd" format', () => {
       expect(formatDate(testDateOne, 'yyyyMMdd')).to.deep.equal('20240901')
       expect(formatDate(testDateTwo, 'yyyyMMdd')).to.deep.equal('20241030')
     });
-    it('Converts time to "yyyy_MM_dd" format', () => {
+    it('Converts date to "yyyy_MM_dd" format', () => {
       expect(formatDate(testDateOne, 'yyyy_MM_dd')).to.deep.equal('2024_09_01')
       expect(formatDate(testDateTwo, 'yyyy_MM_dd')).to.deep.equal('2024_10_30')
     });
-    it('Converts time to "yyyy年MM月dd日" format', () => {
+    it('Converts date to "yyyy年MM月dd日" format', () => {
       expect(formatDate(testDateOne, 'yyyy年MM月dd日')).to.deep.equal('2024年09月01日')
       expect(formatDate(testDateTwo, 'yyyy年MM月dd日')).to.deep.equal('2024年10月30日')
     });

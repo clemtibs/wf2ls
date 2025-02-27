@@ -18,27 +18,32 @@ const acceptTestDir = "./test/acceptance/"
 
 
 describe('main.js', () => {
-    let testState;
-    let testConfig;
-    let testResults;
-    let successTestOutput;
+  let testState;
+  let testConfig;
+  let testResults;
+  let successTestOutput;
 
-    const runAcceptTest = (testName) => {
-      const inputFileName = acceptTestDir + testName + '.json';
-      successTestOutput = acceptTestDir + testName + '.md';
+  const runAcceptTest = (testName) => {
+    const inputFileName = acceptTestDir + testName + '.json';
+    successTestOutput = acceptTestDir + testName + '.md';
 
-      const testInputData = readJsonFile(inputFileName);
-      testResults = main(testState, testConfig, testInputData);      
-    }
+    const testInputData = readJsonFile(inputFileName);
+    testResults = main(testState, testConfig, testInputData);      
+  }
 
-    beforeEach(() => {
-      testState = new AppState(undefined, true);
-      testConfig = new AppConfig(defaultConfig)
-      testConfig.set("defaultPage", "default");
-      testConfig.set("collapseMode", "none");
-      testResults = undefined;
-      successTestOutput = undefined;
-    });
+  beforeEach(() => {
+    testState = new AppState(undefined, true);
+    testConfig = new AppConfig(defaultConfig)
+    testConfig.set("defaultPage", "default");
+    testConfig.set("collapseMode", "none");
+  });
+  
+  afterEach(() => {
+    testState = undefined;
+    testConfig = undefined;
+    testResults = undefined;
+    successTestOutput = undefined;
+  });
   describe('main()', () => {
     it('Returns state object when testing', () => {
       testConfig.set("sourceFile", largeSampleDataLoc )
