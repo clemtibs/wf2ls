@@ -44,7 +44,7 @@ const readJsonFile = (fPath) => {
 
 const removeDirAndContents = (dPath) => {
   try {
-    fs.rmdirSync(dPath, { recursive: true });
+    fs.rmSync(dPath, { recursive: true });
     return true;
   } catch (err) {
     let postMsg;
