@@ -1148,7 +1148,7 @@
                 "ch": [
                     {
                         "id": "7a59cced-4ac7-4712-af2a-fc44dd82289f",
-                        "nm": "Single time morning (12 hour)",
+                        "nm": "Single time morning",
                         "ct": 385896061,
                         "metadata": {},
                         "no": "<time startYear=\"2024\" startMonth=\"10\" startDay=\"31\" startHour=\"9\" startMinute=\"0\">Thu, Oct 31, 2024 at 09:00am</time>\n<time startYear=\"2024\" startMonth=\"10\" startDay=\"31\" startHour=\"10\" startMinute=\"0\">Thu, Oct 31, 2024 at 10:00am</time>",
@@ -1156,27 +1156,11 @@
                     },
                     {
                         "id": "b5e74735-b74d-485f-af36-843633cf14ee",
-                        "nm": "Single time evening (12 hour)",
+                        "nm": "Single time evening",
                         "ct": 385896061,
                         "metadata": {},
                         "no": "<time startYear=\"2024\" startMonth=\"10\" startDay=\"31\" startHour=\"21\" startMinute=\"0\">Thu, Oct 31, 2024 at 09:00pm</time>\n<time startYear=\"2024\" startMonth=\"10\" startDay=\"31\" startHour=\"22\" startMinute=\"0\">Thu, Oct 31, 2024 at 10:00pm</time>",
                         "lm": 385896409
-                    },
-                    {
-                        "id": "",
-                        "nm": "Single time morning (24 hour)",
-                        "ct": 385896122,
-                        "metadata": {},
-                        "no": "<time startYear=\"2024\" startMonth=\"10\" startDay=\"31\" startHour=\"9\" startMinute=\"0\">Thu, Oct 31, 2024 at 09:00am</time>\n<time startYear=\"2024\" startMonth=\"10\" startDay=\"31\" startHour=\"10\" startMinute=\"0\">Thu, Oct 31, 2024 at 10:00am</time>",
-                        "lm": 385896412
-                    },
-                    {
-                        "id": "1dcf9d03-e419-714e-e83e-71c5517829e0",
-                        "nm": "Single time evening (24 hour)",
-                        "ct": 385895262,
-                        "metadata": {},
-                        "no": "<time startYear=\"2024\" startMonth=\"10\" startDay=\"31\" startHour=\"21\" startMinute=\"0\">Thu, Oct 31, 2024 at 09:00pm</time>\n<time startYear=\"2024\" startMonth=\"10\" startDay=\"31\" startHour=\"22\" startMinute=\"0\">Thu, Oct 31, 2024 at 10:00pm</time>",
-                        "lm": 385896414
                     }
                 ]
             },
@@ -1189,7 +1173,7 @@
                 "ch": [
                     {
                         "id": "eee8aebc-6bf0-4c80-986d-eccfd275beb1",
-                        "nm": "Time range morning (12 hour)",
+                        "nm": "Time range morning",
                         "ct": 385896122,
                         "metadata": {},
                         "no": "<time startYear=\"2024\" endYear=\"2024\" startMonth=\"10\" endMonth=\"10\" startDay=\"31\" endDay=\"31\" startHour=\"9\" endHour=\"10\" startMinute=\"0\" endMinute=\"0\">Thu, Oct 31, 2024 at 09:00am - Thu, Oct 31, 2024 at 10:00am</time>",
@@ -1197,23 +1181,7 @@
                     },
                     {
                         "id": "1dcf9d03-e419-714e-e83e-71c5517829e0",
-                        "nm": "Time range evening (12 hour)",
-                        "ct": 385895262,
-                        "metadata": {},
-                        "no": "<time startYear=\"2024\" endYear=\"2024\" startMonth=\"10\" endMonth=\"10\" startDay=\"31\" endDay=\"31\" startHour=\"21\" endHour=\"22\" startMinute=\"0\" endMinute=\"0\">Thu, Oct 31, 2024 at 09:00pm - Thu, Oct 31, 2024 at 10:00pm</time>",
-                        "lm": 385896414
-                    },
-                    {
-                        "id": "eee8aebc-6bf0-4c80-986d-eccfd275beb1",
-                        "nm": "Time range morning (24 hour)",
-                        "ct": 385896122,
-                        "metadata": {},
-                        "no": "<time startYear=\"2024\" endYear=\"2024\" startMonth=\"10\" endMonth=\"10\" startDay=\"31\" endDay=\"31\" startHour=\"9\" endHour=\"10\" startMinute=\"0\" endMinute=\"0\">Thu, Oct 31, 2024 at 09:00am - Thu, Oct 31, 2024 at 10:00am</time>",
-                        "lm": 385896412
-                    },
-                    {
-                        "id": "1dcf9d03-e419-714e-e83e-71c5517829e0",
-                        "nm": "Time range evening (24 hour)",
+                        "nm": "Time range evening",
                         "ct": 385895262,
                         "metadata": {},
                         "no": "<time startYear=\"2024\" endYear=\"2024\" startMonth=\"10\" endMonth=\"10\" startDay=\"31\" endDay=\"31\" startHour=\"21\" endHour=\"22\" startMinute=\"0\" endMinute=\"0\">Thu, Oct 31, 2024 at 09:00pm - Thu, Oct 31, 2024 at 10:00pm</time>",
