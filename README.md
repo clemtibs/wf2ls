@@ -95,7 +95,8 @@ It contains the following:
   "mirrorStyle": "embed",
   "newPageTag": "#LS-Page",
   "sourceFile": "",
-  "textColorMarkupMode": "default"
+  "textColorMarkupMode": "default",
+  "timeFormat": "HH:mm"
 }
 ```
 
@@ -211,7 +212,7 @@ needed to know what Workflowy is doing internally.
 
 If you have sample data to contribute from non PST timezones, please share!
 
-### Inline Date Tags
+### Inline Date Tags*
 
 Workflowy implements dates, times, and ranges as such:
 
@@ -222,13 +223,23 @@ journal days (`[[ 2024-10-31 ]]` for example), but times are simply dropped in
 as text after a date tag. They are neither searchable or taggable (`[[
 2024-10-31 ]] at 10:00 am`).
 
-Currently, single dates are converted accordingly. Time support in 12 and 24 hour
-formats is pending*.
-
 Every date format that LogSeq supports is supported in the conversion. The
 options in the configuration are set with the `dateFormat` key in the options
 json file, and the values are exactly the format listed in `LogSeq Settings ->
 Editor -> Preferred date format` menu.
+
+LogSeq supports a couple of time formats, but I'm not quite sure where they are
+defined. This script supports the following formats:
+
+- `HH:mm`: 24 hour with leading zeros
+- `H:mm`: 24 hour with no leading zeros
+- `h:mm A`: 12 hour, with no leading zeros, and uppercase meridiem
+- `h:mm a`: 12 hour, with no leading zeros, and lowercase meridiem
+- `X`: unix time in seconds (meant for internal use)
+- `x`: unix time in milliseconds (meant for internal use)
+
+The time format options above are set in the configuration with the `timeFormat`
+key.
 
 LogSeq also doesn't really have support for date ranges in the same way that
 Workflowy does. In Workflowy, one can specify a date range tag, and that item
