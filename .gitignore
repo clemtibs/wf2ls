@@ -131,3 +131,7 @@ dist
 
 # script default output
 output
+
+# Test files. This only exists when the tests don't clean up after themselves
+# correctly
+test/.tmp
