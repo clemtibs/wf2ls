@@ -58,23 +58,57 @@ const removeDirAndContents = (dPath) => {
   }
 }
 
+// Doesn't touch filesystem, just manipulates the given path as a string.
+// Leaving directory checks write attempts to writeFile()
+const resolveGraphRootDir = (destDir) => {
+  let destDirClean = '';
+  let destDirCleanArr = [];
+  let lastChildDir = '';
+  let graphRoot = '';
+
+  if (destDir.endsWith("/")) {
+    destDirClean = destDir.slice(0, -1);
+  } else {
+    destDirClean = destDir;
+  }
+
+  destDirCleanArr = destDirClean.split('/');
+  lastChildDir = destDirCleanArr[destDirCleanArr.length - 1]
+
+  switch (lastChildDir) {
+    case 'assets':
+    case 'journals':
+    case 'logseq':
+    case 'pages':
+    case 'whiteboards':
+      graphRoot = destDirCleanArr.slice(0, -1).join('/');
+      break;
+    default:
+      graphRoot = destDirCleanArr.join('/');
+  }
+
+  return graphRoot;
+}
+
 const writeFile = (data, file, destDir) => {
   let filePath = ""
-  if (directoryExists(destDir)) {
-    if (destDir.endsWith("/")) {
-      filePath = destDir + file 
-    } else {
-      filePath = destDir + "/" + file
-    }
-    try {
-      fs.writeFileSync(filePath, data)
-      return true;
-    } catch (err) {
-      return err;
-    }
+
+  if (!directoryExists(destDir)) {
+    throw new Error(
+      "Could not write to \"" + destDir + "," + "\n\tdirectory doesn't exist.");
+  }
+
+  if (destDir.endsWith("/")) {
+    filePath = destDir + file 
   } else {
-  throw new Error(
-    "Could not write to \"" + destDir + "," + "\n\tdirectory doesn't exist.");
+    filePath = destDir + "/" + file
+  }
+
+  try {
+    fs.writeFileSync(filePath, data)
+    return true;
+  } catch (err) {
+    return err;
   }
 }
 
@@ -84,5 +118,6 @@ export {
   makeDir,
   readJsonFile,
   removeDirAndContents,
+  resolveGraphRootDir,
   writeFile
 };

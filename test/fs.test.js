@@ -12,6 +12,7 @@ import {
   readJsonFile,
   makeDir,
   removeDirAndContents,
+  resolveGraphRootDir,
   writeFile
 } from '../src/fs.js';
 
@@ -76,6 +77,25 @@ describe('fs.js', () => {
     });
     after(() => {
       removeDirAndContents(testFileDir);
+    });
+  });
+  describe('resolveGraphRootDir()', () => {
+    const testRootDir = '/one/two/three';
+    it('Always returns directory name without trailing slash regardless of input', () => {
+      expect(resolveGraphRootDir(testRootDir)).to.equal(testRootDir);
+      expect(resolveGraphRootDir(testRootDir + '/')).to.equal(testRootDir);
+    });
+    it('Returns parent dir when "assets","journals","logseq","pages", or "whiteboards" is given', () => {
+      const graphSubDirs = [
+        'assets',
+        'journals',
+        'logseq',
+        'pages',
+        'whiteboards'
+      ]
+      for (const d of graphSubDirs) {
+        expect(resolveGraphRootDir(`${testRootDir}/${d}`)).to.equal(testRootDir);
+      }
     });
   });
   describe('writeFile()', () => {
