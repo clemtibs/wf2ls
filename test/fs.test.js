@@ -9,74 +9,112 @@ let dir = chaiFiles.dir;
 import {
   directoryExists,
   fileExists,
-  readJsonFile,
   makeDir,
+  readJsonFile,
   removeDirAndContents,
   resolveGraphRootDir,
   writeFile
 } from '../src/fs.js';
 
 describe('fs.js', () => {
-  const CWD = import.meta.dirname; // src/test/
-  const testFileDir = CWD + "/tmp"; // src/test/tmp
-  const existingTestDir = testFileDir;
-  const nonExistingTestDir = CWD + "/notHere";
+  const testDirRoot = import.meta.dirname; // src/test/
+  const testDir = testDirRoot + "/.tmp"; // src/test/.tmp
+  const existingDir = testDir + "/here";
+  const nonExistingDir = testDir + "/notHere";
 
+  before(() => {
+    makeDir(testDir);
+  });
+  after(() => {
+    removeDirAndContents(testDir);
+  });
+  describe('directoryExists()', () => {
+    before(() => {
+      makeDir(existingDir);
+    });
+    after(() => {
+      removeDirAndContents(existingDir);
+    });
+    it('Returns true for existing directory', () => {
+      expect(directoryExists(existingDir)).to.be.true;
+    });
+    it('Returns false for non-existing directory', () => {
+      expect(directoryExists(nonExistingDir)).to.be.false;
+      expect(dir(nonExistingDir)).to.not.exist; // verify
+    });
+  });
+  describe('fileExists()', () => {
+    before(() => {
+      makeDir(existingDir);
+    });
+    after(() => {
+      removeDirAndContents(existingDir);
+    });
+    it('Returns true for existing file', () => {
+      const existingFilePath = existingDir + "/tmpFile";
+      expect(writeFile("data", "tmpFile", existingDir)).to.be.ok;
+      expect(fileExists(existingFilePath)).to.be.true;
+      expect(file(existingFilePath)).to.exist; // verify
+    });
+    it('Returns false for non-existing file', () => {
+      const nonExistingFilePath = nonExistingDir + "/tmpFile";
+      expect(fileExists(nonExistingFilePath)).to.be.false;
+      expect(file(nonExistingFilePath)).to.not.exist; // verify
+    });
+  });
   describe('makeDir()', () => {
+    after(() => {
+      removeDirAndContents(existingDir);
+    });
     it('Makes directory if it does not exist', () => {
-      expect(dir(existingTestDir)).to.not.exist;
-      expect(makeDir(existingTestDir)).to.be.ok;
-      expect(dir(existingTestDir)).to.exist;
+      expect(dir(existingDir)).to.not.exist;
+      expect(makeDir(existingDir)).to.be.ok;
+      expect(dir(existingDir)).to.exist;
     });
     it('Throws error if directory already exists', () => {
-      expect(dir(existingTestDir)).to.exist;
-      expect(() => makeDir(existingTestDir)).to.throw(/already exists/);
-      expect(dir(existingTestDir)).to.exist;
+      expect(dir(existingDir)).to.exist;
+      expect(() => makeDir(existingDir)).to.throw(/already exists/);
+      expect(dir(existingDir)).to.exist;
     });
     it('Throws error if destination is undefined', () => {
       expect(() => makeDir(undefined)).to.throw(/unknown error/);
     });
+  });
+  describe('readJsonFile()', () => {
+    before(() => {
+      makeDir(existingDir);
+      writeFile('[{"key":"value"}]', "sampleJson", existingDir);
+    });
     after(() => {
-      removeDirAndContents(existingTestDir);
+      removeDirAndContents(existingDir);
+    });
+    it('Reads and parses JSON file', () => {
+      const testJsonData = readJsonFile(existingDir + "/sampleJson")
+      expect(testJsonData[0].key).to.equal("value");
     });
   });
   describe('removeDirAndContents()', () => {
     it("Removes directory if it exists", () => {
-      expect(dir(existingTestDir)).to.not.exist;
-      expect(makeDir(existingTestDir)).to.be.ok;
-      expect(removeDirAndContents(existingTestDir)).to.be.ok;
-      expect(dir(existingTestDir)).to.not.exist;
+      expect(dir(existingDir)).to.not.exist;
+      expect(makeDir(existingDir)).to.be.ok;
+      expect(removeDirAndContents(existingDir)).to.be.ok;
+      expect(dir(existingDir)).to.not.exist;
     });
     it('Throws error if directory does not exist', () => {
-      expect(dir(nonExistingTestDir)).to.not.exist;
-      expect(() => removeDirAndContents(nonExistingTestDir)).to.throw(/doesn't exist/);
+      expect(dir(nonExistingDir)).to.not.exist;
+      expect(() => removeDirAndContents(nonExistingDir)).to.throw(/doesn't exist/);
     });
     // Can't quite figure out how to make a file that can't be deleted for testing.
     it.skip('Throws error if directory removal fails for some other reason', () => {
-      expect(dir(existingTestDir)).to.not.exist;
-      expect(makeDir(existingTestDir)).to.be.ok;
-      fs.chmod(existingTestDir, 0o000, (err) => { // this should do it...
+      expect(dir(existingDir)).to.not.exist;
+      expect(makeDir(existingDir)).to.be.ok;
+      fs.chmod(existingDir, 0o000, (err) => { // this should do it...
         if (err) {
           return err;
         }
       });
       // this still works for some reason even though permissions were completely removed...
-      expect(() => removeDirAndContents(existingTestDir)).to.throw(/unknown error/);
-    });
-  });
-  describe('directoryExists()', () => {
-    before(() => {
-      makeDir(testFileDir);
-    });
-    it('Returns true for existing directory', () => {
-      expect(directoryExists(existingTestDir)).to.be.true;
-    });
-    it('Returns false for non-existing directory', () => {
-      expect(directoryExists(nonExistingTestDir)).to.be.false;
-      expect(dir(nonExistingTestDir)).to.not.exist; // verify
-    });
-    after(() => {
-      removeDirAndContents(testFileDir);
+      expect(() => removeDirAndContents(existingDir)).to.throw(/unknown error/);
     });
   });
   describe('resolveGraphRootDir()', () => {
@@ -100,56 +138,24 @@ describe('fs.js', () => {
   });
   describe('writeFile()', () => {
     before(() => {
-      makeDir(testFileDir);
+      makeDir(existingDir);
+    });
+    after(() => {
+      removeDirAndContents(existingDir);
     });
     it('Successfully writes a file when destDir does not end with /', () => {
-      const testFileDir = CWD + "/tmp";
-      expect(writeFile("data", "tmpFile", testFileDir)).to.be.ok;
-      expect(file(testFileDir + "/tmpFile")).to.exist; // verify
+      const testDir = existingDir
+      expect(writeFile("data", "tmpFile", testDir)).to.be.ok;
+      expect(file(testDir + "/tmpFile")).to.exist; // verify
     });
     it('Successfully writes a file when destDir ends with /', () => {
-      const testFileDir = CWD + "/tmp/";
-      expect(writeFile("data", "tmpFile", testFileDir)).to.be.ok;
-      expect(file(testFileDir + "tmpFile")).to.exist; // verify
+      const testDir = existingDir + "/";
+      expect(writeFile("data", "tmpFile", testDir)).to.be.ok;
+      expect(file(testDir + "tmpFile")).to.exist; // verify
     });
-    it('Throws error when destination does not exist', () => {
-      expect(() => writeFile("data", "tmpFile", nonExistingTestDir)).to.throw(/doesn't exist/);
-      expect(dir(nonExistingTestDir)).to.not.exist; // verify
-    });
-    after(() => {
-      removeDirAndContents(testFileDir);
-    });
-  });
-  describe('fileExists()', () => {
-    before(() => {
-      makeDir(testFileDir);
-    });
-    it('Returns true for existing file', () => {
-      const existingFilePath = existingTestDir + "/tmpFile";
-      expect(writeFile("data", "tmpFile", testFileDir)).to.be.ok;
-      expect(fileExists(existingFilePath)).to.be.true;
-      expect(file(existingFilePath)).to.exist; // verify
-    });
-    it('Returns false for non-existing file', () => {
-      const nonExistingFilePath = nonExistingTestDir + "/tmpFile";
-      expect(fileExists(nonExistingFilePath)).to.be.false;
-      expect(file(nonExistingFilePath)).to.not.exist; // verify
-    });
-    after(() => {
-      removeDirAndContents(testFileDir);
-    });
-  });
-  describe('readJsonFile()', () => {
-    before(() => {
-      makeDir(testFileDir);
-      writeFile('[{"key":"value"}]', "sampleJson", testFileDir);
-    });
-    it('Reads and parses JSON file', () => {
-      const testJsonData = readJsonFile(testFileDir + "/sampleJson")
-      expect(testJsonData[0].key).to.equal("value");
-    });
-    after(() => {
-      removeDirAndContents(testFileDir);
+    it('Throws error when destination directory does not exist', () => {
+      expect(() => writeFile("data", "tmpFile", nonExistingDir)).to.throw(/doesn't exist/);
+      expect(dir(nonExistingDir)).to.not.exist; // verify
     });
   });
 });
