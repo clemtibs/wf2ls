@@ -6,7 +6,7 @@ import {
 } from './md.js';
 
 class AppConfig {
-  #option_values = {
+  #optionValues = {
     collapseMode: null,
     collapseDepth: null,
     compressBookmarks: null,
@@ -26,7 +26,7 @@ class AppConfig {
     turndownCustomRules: null,
   };
 
-  #option_types = {
+  #optionTypes = {
     collapseMode: "string",
     collapseDepth: "number",
     compressBookmarks: 'boolean',
@@ -46,7 +46,7 @@ class AppConfig {
     turndownCustomRules: 'object',
   };
 
-  #option_allowed_values = {
+  #optionAllowedValues = {
     collapseMode: [
       'top',
       'none',
@@ -94,76 +94,76 @@ class AppConfig {
   };
 
   #updateTurndownCustomRules() {
-    if (this.#option_values.turndownCustomRules !== null) {
+    if (this.#optionValues.turndownCustomRules !== null) {
       const plugRules = turndownSpanPluginRules;
       const defRules = turndownSpanDefaultRules;
-      switch (this.#option_values.textColorMarkupMode) {
+      switch (this.#optionValues.textColorMarkupMode) {
         case 'plugin':
-            if (this.#option_values.turndownCustomRules.hasOwnProperty('spanTextColor')) {
-              this.#option_values.turndownCustomRules.spanTextColor = plugRules.spanTextColorPlugin;
+            if (this.#optionValues.turndownCustomRules.hasOwnProperty('spanTextColor')) {
+              this.#optionValues.turndownCustomRules.spanTextColor = plugRules.spanTextColorPlugin;
             }
-            if (this.#option_values.turndownCustomRules.hasOwnProperty('spanHighlight')) {
-              this.#option_values.turndownCustomRules.spanHighlight = plugRules.spanHighlightPlugin;
+            if (this.#optionValues.turndownCustomRules.hasOwnProperty('spanHighlight')) {
+              this.#optionValues.turndownCustomRules.spanHighlight = plugRules.spanHighlightPlugin;
             }
         break;
         case 'default':
-            if (this.#option_values.turndownCustomRules.hasOwnProperty('spanTextColor')) {
-              this.#option_values.turndownCustomRules.spanTextColor = defRules.spanTextColorDefault;
+            if (this.#optionValues.turndownCustomRules.hasOwnProperty('spanTextColor')) {
+              this.#optionValues.turndownCustomRules.spanTextColor = defRules.spanTextColorDefault;
             }
-            if (this.#option_values.turndownCustomRules.hasOwnProperty('spanHighlight')) {
-              this.#option_values.turndownCustomRules.spanHighlight = defRules.spanHighlightDefault;
+            if (this.#optionValues.turndownCustomRules.hasOwnProperty('spanHighlight')) {
+              this.#optionValues.turndownCustomRules.spanHighlight = defRules.spanHighlightDefault;
             }
         break;
       }
 
       // Inject the date and time format into the plugin
-      if (this.#option_values.turndownCustomRules.hasOwnProperty('dates')) {
-        const baseDateRule = this.#option_values.turndownCustomRules.dates.replacement;
-        this.#option_values.turndownCustomRules.dates.replacement = (...args) => {
-          return baseDateRule( ...args, this.#option_values.dateFormat, this.#option_values.timeFormat);
+      if (this.#optionValues.turndownCustomRules.hasOwnProperty('dates')) {
+        const baseDateRule = this.#optionValues.turndownCustomRules.dates.replacement;
+        this.#optionValues.turndownCustomRules.dates.replacement = (...args) => {
+          return baseDateRule( ...args, this.#optionValues.dateFormat, this.#optionValues.timeFormat);
         }
       }
     }
   }
 
   constructor(config) {
-    if (config) this.#option_values = { ...this.#option_values, ...config };
+    if (config) this.#optionValues = { ...this.#optionValues, ...config };
     // This code for checking allowed values on instantiation works, but leaving
     // it alone until I really need it. Makes testing more difficult.
     //
-    // for (let key in this.#option_allowed_values) {
-      // if (!this.#option_allowed_values[key].includes(this.#option_values[key])) {
-            // throw new Error(`Invalid option value: "${this.#option_values[key]}" for "${key}"`);
+    // for (let key in this.#optionAllowedValues) {
+      // if (!this.#optionAllowedValues[key].includes(this.#optionValues[key])) {
+            // throw new Error(`Invalid option value: "${this.#optionValues[key]}" for "${key}"`);
       // }
     // }
     this.#updateTurndownCustomRules();
   }
 
   get(prop) {
-    if (this.#option_values.hasOwnProperty(prop)) {
-      return this.#option_values[prop];
+    if (this.#optionValues.hasOwnProperty(prop)) {
+      return this.#optionValues[prop];
     } else {
       throw new Error("Property not found");
     }
   }
 
   set(key, value) {
-    if (this.#option_values.hasOwnProperty(key)) {
-      if (typeof value === this.#option_types[key]) {
-        if (this.#option_allowed_values.hasOwnProperty(key) &&
-            !this.#option_allowed_values[key].includes(value)) {
+    if (this.#optionValues.hasOwnProperty(key)) {
+      if (typeof value === this.#optionTypes[key]) {
+        if (this.#optionAllowedValues.hasOwnProperty(key) &&
+            !this.#optionAllowedValues[key].includes(value)) {
               throw new Error(`Invalid option value: "${value}" for "${key}"`);
         }
         switch (key) {
           case 'dateFormat':
           case 'timeFormat':
           case 'textColorMarkupMode':
-            this.#option_values[key] = value;
+            this.#optionValues[key] = value;
             this.#updateTurndownCustomRules();
             return true;
             break;
           default:
-            return this.#option_values[key] = value;
+            return this.#optionValues[key] = value;
         }
       } else {
         throw new Error("Invalid property value type");
