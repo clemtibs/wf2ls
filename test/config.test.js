@@ -222,21 +222,18 @@ describe('config.js', () => {
       const testCliArgs = {
         s: "sourceFile-changed",
         d: "destDir-changed",
-        c: "confFileLocation-changed",
       }
       updateConfigFromCliArgs(testConfig, testCliArgs)
 
       it('Sucessfully updates', () => {
         expect(testConfig.get("sourceFile")).to.deep.equal("sourceFile-changed");
         expect(testConfig.get("destDir")).to.deep.equal("destDir-changed");
-        expect(testConfig.get("confFileLocation")).to.deep.equal("confFileLocation-changed");
       });
       it('Only updates sourceFile, destDir, confFileLocation', () => {
         Object.entries(initConf).forEach(([option, setting]) => {
           switch (option) {
             case 'sourceFile':
             case 'destDir':
-            case 'confFileLocation':
               break;
             default:
               expect(testConfig.get(option)).to.deep.equal(setting);
